@@ -38,6 +38,7 @@ public class CameraTouchDrag : MonoBehaviour
 
         InitializeZoom();
     }
+
     public void Update()
     {
         HandleDrag();
@@ -48,6 +49,8 @@ public class CameraTouchDrag : MonoBehaviour
         HandleMobileZoom();
         ApplyZoom();
     }
+
+    #region 摄像机移动
 
     //拖拽移动摄像机
     public void HandleDrag()
@@ -73,8 +76,6 @@ public class CameraTouchDrag : MonoBehaviour
         {
             ClampCameraPosition();
         }
-
-        
     }
 
     //确定摄像机位置
@@ -96,6 +97,10 @@ public class CameraTouchDrag : MonoBehaviour
         mousePos.z = 0;
         return mousePos;
     }
+
+    #endregion
+
+    #region 摄像机缩放
 
     //初始化缩放大小
     public void InitializeZoom()
@@ -180,5 +185,9 @@ public class CameraTouchDrag : MonoBehaviour
                 smoothTime);
         }
     }
+
+    #endregion
+
+
 }
 

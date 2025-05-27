@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1081194430194850816}
   - component: {fileID: 6385125078875304105}
   - component: {fileID: 220976100875933142}
-  - component: {fileID: 4425054408857976536}
+  - component: {fileID: 5321023124729201765}
   m_Layer: 0
   m_Name: CatPrefab
   m_TagString: Untagged
@@ -120,7 +120,7 @@ PolygonCollider2D:
       - {x: 0.099999994, y: -0.074999996}
       - {x: 0.099999994, y: 0.055}
       - {x: 0.049999997, y: 0.099999994}
---- !u!114 &4425054408857976536
+--- !u!114 &5321023124729201765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,6 +129,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1081194430194850817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 584c8700f579e0b46a368aa2374f7381, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f77c2b2505f8bb4fbf9f8339c186216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
+  isFound: 0
+  associatedObject: {fileID: 0}
+  foundSound: {fileID: 0}
