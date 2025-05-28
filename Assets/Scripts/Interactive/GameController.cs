@@ -7,34 +7,60 @@ using UnityEngine;
 /// </summary>
 public class GameController : MonoBehaviour
 {
-    public GameStateManager stateManager;  // 游戏状态管理器
-    public ItemClick visibleItem;              // 可见物品
-    public ItemClick hiddenItem;               // 隐藏物品
-    public GameObject interactableObject; // 可互动物体
-    public GameObject unlockableArea;     // 解锁区域
+    public static GameController instance;
 
-    void Start()
+    public GameStateManager stateManager;       // 游戏状态管理器
+    public SaveManagement saveManager;          //游戏保存管理器
+
+    [SerializeField]
+    private List<ItemClick> visibleItem;
+    [SerializeField]
+    private List<ItemClick> hiddenItem;
+    [SerializeField]
+    private List<ItemClick> unlockItem;
+
+
+    public ItemClick catItem;                   //点击物品
+
+    public static bool clickCompleted;
+
+    private void Awake()
     {
-        // 初始化状态
-        InteractionState visibleState = new VisibleState(visibleItem);
-        stateManager.SwitchState(visibleState);  // 设置初始状态为可见状态
+        if(instance == null)
+            instance = this;
     }
 
     void Update()
     {
-        // 游戏进程中根据条件切换状态
-        if (visibleItem.isFound)
-        {
-            // 如果可见物品找到，进入互动状态
-            InteractionState interactiveState = new VisibleState(visibleItem);
-            stateManager.SwitchState(interactiveState);
-        }
+        if (catItem == null) return;
 
-        if (hiddenItem.isFound)
+        if (catItem.isFound && !clickCompleted)
         {
-            // 如果隐藏物品找到，进入解锁状态
-            InteractionState unlockState = new HiddenState(hiddenItem, hiddenItem.associatedObject);
-            stateManager.SwitchState(unlockState);
+            clickCompleted = true;
+            JudgeItemState();
         }
+    }
+
+    public void JudgeItemState()
+    {
+        switch (catItem.itemState)
+        {
+            case ItemState.Visible:
+                // 如果可见物品找到，进入互动状态
+                InteractionState interactiveState = new VisibleState(catItem);
+                stateManager.SwitchState(interactiveState);
+                break;
+            case ItemState.Hidden:
+                //简单交互
+                InteractionState hiddenState = new HiddenState(catItem,catItem.hiddenObjects, catItem.interactingObjects);
+                stateManager.SwitchState(hiddenState);
+                break;
+            case ItemState.Locked:
+                //复杂
+                InteractionState unlockState = new UnlockState(catItem.hiddenObjects, catItem.interactingObjects);
+                stateManager.SwitchState(unlockState);
+                break;
+        }
+      
     }
 }

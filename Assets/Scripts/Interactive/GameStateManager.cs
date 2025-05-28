@@ -16,6 +16,8 @@ public class GameStateManager : MonoBehaviour
 
         currentState = newState;  // 设置新的状态
         currentState.EnterState();  // 进入新的状态
+
+        //UpdateCurrentState();
     }
 
     // 每帧更新当前状态

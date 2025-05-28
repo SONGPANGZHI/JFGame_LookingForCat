@@ -1,30 +1,36 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// »¥¶¯×´Ì¬£¨HiddenState£©ÔÚ»¥¶¯×´Ì¬ÖĞ£¬ÎïÆ·²»ÊÇÖ±½Ó¿É¼ûµÄ£¬¶øÊÇÒş²ØÔÚÆäËûÎïÆ·ÏÂ£¨Èçµã»÷Ê÷Ò¶»òÏä×Ó´ò¿ª£©¡£
+/// äº’åŠ¨çŠ¶æ€ï¼ˆHiddenStateï¼‰åœ¨äº’åŠ¨çŠ¶æ€ä¸­ï¼Œç‰©å“ä¸æ˜¯ç›´æ¥å¯è§çš„ï¼Œè€Œæ˜¯éšè—åœ¨å…¶ä»–ç‰©å“ä¸‹ï¼ˆå¦‚ç‚¹å‡»æ ‘å¶æˆ–ç®±å­æ‰“å¼€ï¼‰ã€‚
 /// </summary>
 public class HiddenState : InteractionState
 {
-    private ItemClick hiddenItem;  // ±»Òş²ØµÄÎïÆ·
-    private GameObject interactableObject;  // ¿É»¥¶¯µÄÎïÌå£¨ÀıÈçÊ÷Ò¶¡¢Ïä×ÓµÈ£©
+    private ItemClick animItem;
+    private ItemClick hiddenItem;  // è¢«éšè—çš„ç‰©å“
+    private GameObject interactableObject;  // å¯äº’åŠ¨çš„ç‰©ä½“ï¼ˆä¾‹å¦‚æ ‘å¶ã€ç®±å­ç­‰ï¼‰
 
-    public HiddenState(ItemClick item, GameObject interactable)
+    public HiddenState(ItemClick _animItem, ItemClick item, GameObject interactable)
     {
+        animItem = _animItem;
         hiddenItem = item;
         interactableObject = interactable;
     }
 
     public override void EnterState()
     {
-        Debug.Log("½øÈë»¥¶¯×´Ì¬");
-        // ¿ÉÒÔÉèÖÃ»¥¶¯ÎïÌåÎª¿Éµã»÷£¬»òÕßÏÔÊ¾½»»¥ÌáÊ¾
+        Debug.Log("è¿›å…¥äº’åŠ¨çŠ¶æ€");
+        // å¯ä»¥è®¾ç½®äº’åŠ¨ç‰©ä½“ä¸ºå¯ç‚¹å‡»ï¼Œæˆ–è€…æ˜¾ç¤ºäº¤äº’æç¤º
         interactableObject.SetActive(true);
+        //æ’­æ”¾åŠ¨ç”» 
+        animItem.AnimationCallback();
     }
+
+    
 
     public override void ExitState()
     {
-        Debug.Log("ÍË³ö»¥¶¯×´Ì¬");
-        // ÇåÀí»¥¶¯ÎïÌåµÄ×´Ì¬
+        Debug.Log("é€€å‡ºäº’åŠ¨çŠ¶æ€");
+        // æ¸…ç†äº’åŠ¨ç‰©ä½“çš„çŠ¶æ€
         interactableObject.SetActive(false);
     }
 
@@ -38,9 +44,9 @@ public class HiddenState : InteractionState
             {
                 if (hit.collider.gameObject == interactableObject)
                 {
-                    interactableObject.SetActive(false);  // ÒÆ³ı»¥¶¯ÎïÌå£¬ÏÔÊ¾Òş²ØÎïÆ·
-                    hiddenItem.gameObject.SetActive(true);  // ÏÔÊ¾Òş²ØµÄÎïÆ·
-                    hiddenItem.Found();  // ±ê¼ÇÎïÆ·ÎªÒÑÕÒµ½
+                    interactableObject.SetActive(false);  // ç§»é™¤äº’åŠ¨ç‰©ä½“ï¼Œæ˜¾ç¤ºéšè—ç‰©å“
+                    hiddenItem.gameObject.SetActive(true);  // æ˜¾ç¤ºéšè—çš„ç‰©å“
+                    hiddenItem.Found();  // æ ‡è®°ç‰©å“ä¸ºå·²æ‰¾åˆ°
                 }
             }
         }
