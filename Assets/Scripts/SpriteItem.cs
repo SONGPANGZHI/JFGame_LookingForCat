@@ -7,7 +7,7 @@ public class SpriteItem : MonoBehaviour
     public int itemLayerID;
     public Vector3 itemPos;
     public SkinsItem skinItem;
-    public InteractionState interactionState;
+    //public InteractionState interactionState;
     public int spriteID;
     public bool isClicked = false;      //是否是可点击
 
@@ -45,13 +45,13 @@ public class SpriteItem : MonoBehaviour
     }
 
     //得到Sprite位置
-    public void GetSpritePos()
-    {
-        itemPos = transform.position;
-        itemLayerID = transform.GetComponent<SpriteRenderer>().sortingOrder;
-        interactionState = GetComponent<SpriteItem>().interactionState;
-        spriteID = GetComponent<SpriteItem>().spriteID;
-    }
+    //public void GetSpritePos()
+    //{
+    //    itemPos = transform.position;
+    //    itemLayerID = transform.GetComponent<SpriteRenderer>().sortingOrder;
+    //    interactionState = GetComponent<SpriteItem>().interactionState;
+    //    spriteID = GetComponent<SpriteItem>().spriteID;
+    //}
 
 
 }
