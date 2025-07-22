@@ -7,6 +7,7 @@ public enum CatType
     Special             // 需要特殊条件触发的猫猫
 }
 
+
 public enum ConditionType
 {
     FindSpecificCat,  // 需要找到特定的猫
@@ -21,4 +22,20 @@ public class SaveData
 {
     public int[] foundCatIDs;
     public int itemCount;
+}
+
+// 颜色类型枚举
+public enum ColorType
+{
+    Red,
+    Orange,
+    Yellow,
+    Green,
+    Cyan,
+    Blue,
+    Purple,
+    Pink,
+    Black,
+    White,
+    Brown,
 }

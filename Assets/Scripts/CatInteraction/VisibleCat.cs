@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +9,10 @@ public class VisibleCat : CatBase
         Initialize();
     }
 
-    // ÓÉInputManager¼ì²â´¥Ãþ
+    // ç”±InputManageræ£€æµ‹è§¦æ‘¸
     public void OnTapped()
     {
         OnCatFound();
     }
 }
+

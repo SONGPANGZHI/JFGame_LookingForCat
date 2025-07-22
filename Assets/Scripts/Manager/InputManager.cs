@@ -29,6 +29,7 @@ public class InputManager : MonoBehaviour
 #endif
     }
 
+    //点击状态下的处理
     private void ProcessTouchInput()
     {
         if (Input.touchCount > 0)
@@ -76,6 +77,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    //检查点击是否在猫猫上
     private void CheckForCatTap(Vector2 screenPosition)
     {
         Vector2 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
@@ -92,6 +94,7 @@ public class InputManager : MonoBehaviour
         // 按优先级处理点击
         foreach (Collider2D hit in hits)
         {
+            // 检查交互式猫猫
             var interactiveCat = hit.GetComponent<InteractiveCat>();
             if (interactiveCat != null && interactiveCat.isRevealed)
             {
@@ -124,14 +127,6 @@ public class InputManager : MonoBehaviour
                 conditionalCat.OnTapped();
                 return;
             }
-
-            //// 4. 检查是否是收集物品
-            //var collectableItem = hit.GetComponent<CollectableItem>();
-            //if (collectableItem != null)
-            //{
-            //    collectableItem.Collect();
-            //    return;
-            //}
         }
     }
 }
