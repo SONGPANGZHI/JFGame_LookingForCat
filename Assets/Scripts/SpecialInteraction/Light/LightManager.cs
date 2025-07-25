@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,17 +9,17 @@ public class LightManager : MonoBehaviour
 
     public List<LightController> lights;
 
-    public Text feedbackText; // ÓÃÓÚÏÔÊ¾·´À¡ĞÅÏ¢
+    public Text feedbackText; // ç”¨äºæ˜¾ç¤ºåé¦ˆä¿¡æ¯
 
     public Color[] correctColors = new Color[]
     {
         Color.red,
-        new Color(1f, 0.5f, 0f), // ³ÈÉ«
+        new Color(1f, 0.5f, 0f), // æ©™è‰²
         Color.yellow,
         Color.green,
         Color.cyan,
         Color.blue,
-        new Color(0.5f, 0f, 0.5f) // ×ÏÉ«
+        new Color(0.5f, 0f, 0.5f) // ç´«è‰²
     };
 
     public static bool isPuzzleSolved = false;
@@ -47,15 +47,15 @@ public class LightManager : MonoBehaviour
         }
     }
 
-    // ³õÊ¼»¯ÃÕÌâ
+    // åˆå§‹åŒ–è°œé¢˜
     public void InitializePuzzle()
     {
         isPuzzleSolved = false;
 
-        // Ëæ»úÉèÖÃÒ»Ğ©µÆµÄ³õÊ¼×´Ì¬£¨°üÀ¨¸ÉÈÅÉ«£©
+        // éšæœºè®¾ç½®ä¸€äº›ç¯çš„åˆå§‹çŠ¶æ€ï¼ˆåŒ…æ‹¬å¹²æ‰°è‰²ï¼‰
         foreach (LightController light in lights)
         {
-            // 30%¸ÅÂÊÉèÖÃËæ»úÑÕÉ«£¬70%¸ÅÂÊ±£³ÖºÚÉ«
+            // 30%æ¦‚ç‡è®¾ç½®éšæœºé¢œè‰²ï¼Œ70%æ¦‚ç‡ä¿æŒé»‘è‰²
             if (Random.Range(0f, 1f) < 0.3f)
             {
                 light.SetRandomColor();
@@ -66,16 +66,16 @@ public class LightManager : MonoBehaviour
             }
         }
 
-        //UpdateFeedback("³¢ÊÔµãÁÁËùÓĞÕıÈ·µÄÑÕÉ«£¡");
+        //UpdateFeedback("å°è¯•ç‚¹äº®æ‰€æœ‰æ­£ç¡®çš„é¢œè‰²ï¼");
     }
 
-    // ÖØÖÃÃÕÌâ
+    // é‡ç½®è°œé¢˜
     public void ResetPuzzle()
     {
         InitializePuzzle();
     }
 
-    // ¼ì²é½â¾ö·½°¸
+    // æ£€æŸ¥è§£å†³æ–¹æ¡ˆ
     private bool CheckSolution()
     {
         for (int i = 0; i < lights.Count; i++)
@@ -88,17 +88,17 @@ public class LightManager : MonoBehaviour
         return true;
     }
 
-    // ½âÃÕ³É¹¦
+    // è§£è°œæˆåŠŸ
     public void PuzzleSolved()
     {
         isPuzzleSolved = true;
-        //UpdateFeedback("¹§Ï²£¡½âÃÕ³É¹¦£¡");
-        Debug.Log("¹§Ï²£¡½âÃÕ³É¹¦£¡");
-        // ËùÓĞµÆÉÁË¸Çì×£
+        //UpdateFeedback("æ­å–œï¼è§£è°œæˆåŠŸï¼");
+        Debug.Log("æ­å–œï¼è§£è°œæˆåŠŸï¼");
+        // æ‰€æœ‰ç¯é—ªçƒåº†ç¥
         StartCoroutine(CelebrationEffect());
     }
 
-    // Çì×£Ğ§¹û - µÆÉÁË¸
+    // åº†ç¥æ•ˆæœ - ç¯é—ªçƒ
     private IEnumerator CelebrationEffect()
     {
         float duration = 3f;
@@ -114,7 +114,7 @@ public class LightManager : MonoBehaviour
             yield return new WaitForSeconds(interval);
             elapsed += interval;
 
-            // »Ö¸´ÕıÈ·ÑÕÉ«
+            // æ¢å¤æ­£ç¡®é¢œè‰²
             for (int i = 0; i < lights.Count; i++)
             {
                 lights[i].SetColor(correctColors[i]);
@@ -123,10 +123,10 @@ public class LightManager : MonoBehaviour
             elapsed += interval;
         }
 
-        Debug.Log("Çì×£Ğ§¹û½áÊø£¬ËùÓĞµÆ»Ö¸´ÕıÈ·ÑÕÉ«¡£");
+        Debug.Log("åº†ç¥æ•ˆæœç»“æŸï¼Œæ‰€æœ‰ç¯æ¢å¤æ­£ç¡®é¢œè‰²ã€‚");
     }
 
-    // ¸üĞÂ·´À¡ÎÄ±¾
+    // æ›´æ–°åé¦ˆæ–‡æœ¬
     private void UpdateFeedback(string message)
     {
         if (feedbackText != null)

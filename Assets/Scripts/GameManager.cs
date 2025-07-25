@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("��ϵͳ")]
+    [Header("子系统")]
     public CatDatabase catDatabase;
     public ProgressManager progressManager;
     public InputManager inputManager;

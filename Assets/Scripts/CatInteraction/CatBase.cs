@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class CatBase : MonoBehaviour
     public bool isFound;
     public Sprite foundSprite;
 
-    [Header("Í¨ÓÃÅäÖÃ")]
+    [Header("é€šç”¨é…ç½®")]
     public Animation foundEffect;
 
     public virtual void Initialize()
@@ -27,13 +27,13 @@ public class CatBase : MonoBehaviour
         //foundEffect.Play();
         //AudioSource.PlayClipAtPoint(foundSound, transform.position);
 
-        // ¸üĞÂUI
+        // æ›´æ–°UI
         UIManager.Instance.ShowCatFoundPopup(this);
 
-        // ±£´æ½ø¶È
+        // ä¿å­˜è¿›åº¦
         GameManager.Instance.progressManager.CatFound(catID);
 
-        // ¼ì²éÌØÊâÌõ¼ş
+        // æ£€æŸ¥ç‰¹æ®Šæ¡ä»¶
         GameManager.Instance.conditionChecker.CheckConditions();
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,7 +50,6 @@ public class PuzzleManager : MonoBehaviour
     void MoveLeft() => activePiece?.Move(Vector2.left * moveStep);
     void MoveRight() => activePiece?.Move(Vector2.right * moveStep);
     void RotateClockwise() => activePiece?.Rotate(-rotateStep);
-    void RotateCounterClockwise() => activePiece?.Rotate(rotateStep);
 
     void CheckPiecePosition()
     {

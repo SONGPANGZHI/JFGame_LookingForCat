@@ -24,18 +24,3 @@ public class SaveData
     public int itemCount;
 }
 
-// 颜色类型枚举
-public enum ColorType
-{
-    Red,
-    Orange,
-    Yellow,
-    Green,
-    Cyan,
-    Blue,
-    Purple,
-    Pink,
-    Black,
-    White,
-    Brown,
-}
