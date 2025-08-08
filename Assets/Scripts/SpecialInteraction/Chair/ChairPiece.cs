@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
+// 拼图碎片
 public class ChairPiece : MonoBehaviour
 {
     public Transform targetPosition; // 对应的目标位置

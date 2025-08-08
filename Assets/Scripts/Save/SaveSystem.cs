@@ -29,9 +29,12 @@ public class SaveSystem : MonoBehaviour
             string jsonData = PlayerPrefs.GetString(SAVE_KEY);
             SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
 
+            Debug.Log(jsonData);
+
             // 恢复进度
             GameManager.Instance.progressManager.LoadProgress(data.foundCatIDs, data.itemCount);
 
+            Debug.Log(data.foundCatIDs.Length);
             // 恢复猫猫状态
             foreach (int catID in data.foundCatIDs)
             {

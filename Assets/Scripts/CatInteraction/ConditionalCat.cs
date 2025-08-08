@@ -18,6 +18,7 @@ public class ConditionalCat : CatBase
         SetHiddenState(true);
     }
 
+    //判断条件是否满足
     public void CheckCondition()
     {
         if (isFound) return;
@@ -26,15 +27,16 @@ public class ConditionalCat : CatBase
 
         switch (conditionType)
         {
-            case ConditionType.FindSpecificCat:
+            
+            case ConditionType.FindSpecificCat:         //找到特定小猫
                 conditionMet = GameManager.Instance.progressManager.IsCatFound(requiredCatID);
                 break;
 
-            case ConditionType.CollectItems:
+            case ConditionType.CollectItems:            //收集物品
                 conditionMet = GameManager.Instance.progressManager.GetItemCount() >= requiredItemCount;
                 break;
 
-            case ConditionType.Combination:
+            case ConditionType.Combination:             //组合条件
                 conditionMet = GameManager.Instance.progressManager.IsCatFound(requiredCatID) &&
                               GameManager.Instance.progressManager.GetItemCount() >= requiredItemCount;
                 break;

@@ -9,10 +9,6 @@ public class UIManager : MonoBehaviour
 
     [Header("UI元素")]
     public TMP_Text foundCountText;
-    public TMP_Text itemCountText;
-    public GameObject foundPopup;
-    public Image foundCatImage;
-    public Text foundCatName;
 
     private void Awake()
     {
@@ -23,7 +19,6 @@ public class UIManager : MonoBehaviour
     public void UpdateProgressUI()
     {
         foundCountText.text = $"{GameManager.Instance.progressManager.FoundCatCount}/{GameManager.Instance.progressManager.TotalCatCount}";
-        itemCountText.text = GameManager.Instance.progressManager.ItemCount.ToString();
     }
 
     public void ShowCatFoundPopup(CatBase cat)
@@ -40,7 +35,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator HidePopupAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        foundPopup.SetActive(false);
+        //foundPopup.SetActive(false);
     }
 
     public void OnCollectibleButtonClick()

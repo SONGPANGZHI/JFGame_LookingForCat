@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//拼图管理
 public class ChairManager : MonoBehaviour
 {
     public ChairPiece[] allPieces;

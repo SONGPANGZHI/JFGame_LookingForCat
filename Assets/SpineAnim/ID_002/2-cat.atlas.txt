@@ -1,0 +1,34 @@
+
+2-cat.png
+size: 419,116
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2-Cat
+  rotate: true
+  xy: 359, 50
+  size: 64, 58
+  orig: 64, 72
+  offset: 0, 9
+  index: -1
+2-ChuZi
+  rotate: false
+  xy: 2, 10
+  size: 156, 104
+  orig: 156, 104
+  offset: 0, 0
+  index: -1
+2-Dong
+  rotate: true
+  xy: 297, 2
+  size: 112, 60
+  orig: 112, 60
+  offset: 0, 0
+  index: -1
+2-Mouse
+  rotate: false
+  xy: 160, 13
+  size: 135, 101
+  orig: 136, 120
+  offset: 0, 11
+  index: -1

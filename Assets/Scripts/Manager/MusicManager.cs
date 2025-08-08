@@ -13,7 +13,7 @@ public class MusicManager : MonoBehaviour
     public AudioClip[] catClips;        // 猫猫叫声列表
 
 
-    public static string BGMKey = "BGMVolume";      // 背景音乐音量键
+    public static string BGMKey = "BGMVolume";      // 背景音乐音量键 0为打开 1为关闭
     public static string SFXKey = "SFXVolume";      // 音效音量键
     public static string ClickKey = "ClickVolume";  // 点击音效音量键
     private void Awake()
@@ -24,31 +24,47 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        // 初始化音频源
-        BGM = gameObject.AddComponent<AudioSource>();
-        Click = gameObject.AddComponent<AudioSource>();
-        SFX = gameObject.AddComponent<AudioSource>();
-        // 设置音频源属性
-        BGM.loop = true;
-        Click.playOnAwake = false;
-        SFX.playOnAwake = false;
         // 播放背景音乐
         PlayBGM(0);
+    }
+
+    //初始化
+    public void Initialize()
+    {
+        // 设置音量
+        if(!PlayerPrefs.HasKey(BGMKey))
+            PlayerPrefs.SetInt(BGMKey, 0); // 默认打开背景音乐
+
+        if (!PlayerPrefs.HasKey(SFXKey))
+            PlayerPrefs.SetInt(SFXKey, 0); // 默认打开音效
+
+        if (!PlayerPrefs.HasKey(ClickKey))
+            PlayerPrefs.SetInt(ClickKey, 0); // 默认打开点击音效
     }
 
     // 播放背景音乐
     public void PlayBGM(int index)
     {
-        if (index < 0 || index >= audioClips.Length) return;
-        BGM.clip = audioClips[index];
-        BGM.Play();
+        if (PlayerPrefs.GetInt(BGMKey) == 0)
+        {
+            if (BGM.isPlaying) return; // 如果正在播放则不重复播放
+
+            BGM.Play();
+        }
+        else
+        {
+            BGM.Stop(); // 停止播放
+            return; // 如果关闭了背景音乐则不播放
+        }
     }
 
     // 播放点击音效
     public void PlayClickSound()
     {
-        if (Click.isPlaying) return; // 如果正在播放则不重复播放
-        Click.PlayOneShot(Click.clip);
+        if (PlayerPrefs.GetInt(ClickKey) == 0)
+        {
+            Click.Play(); // 播放点击音效
+        }
     }
 
     // 播放音效

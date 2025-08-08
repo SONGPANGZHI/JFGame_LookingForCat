@@ -17,19 +17,23 @@ public class CatDatabase : MonoBehaviour
         }
     }
 
+    //检查猫猫 添加到字典
     public void RegisterCat(CatBase cat)
     {
         if (!allCats.ContainsKey(cat.catID))
         {
             allCats.Add(cat.catID, cat);
         }
+
     }
 
+    //根据ID获得猫猫
     public CatBase GetCat(int catID)
     {
         return allCats.ContainsKey(catID) ? allCats[catID] : null;
     }
 
+    //
     public List<CatBase> GetAllCats()
     {
         return new List<CatBase>(allCats.Values);

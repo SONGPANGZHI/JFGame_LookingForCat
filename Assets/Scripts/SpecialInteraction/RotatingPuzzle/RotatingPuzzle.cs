@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//轮胎拼图游戏
 public class RotatingPuzzle : MonoBehaviour
 {
     //点击切换图片

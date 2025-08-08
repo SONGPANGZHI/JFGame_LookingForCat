@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Spine;
+using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 //打地鼠游戏
 public class WhackAMole : MonoBehaviour
@@ -10,12 +11,26 @@ public class WhackAMole : MonoBehaviour
     public List<Transform> jerryPos;        // 地鼠出现的点
     public GameObject jerryOBJ;             // 地鼠预制体
     public GameObject catOBJ;               // 猫猫预制体
+    public GameObject hammerOBJ;            // 锤子预制体
 
+    public static bool isPlaying = false;   // 是否正在玩打地鼠游戏
 
     private void Awake()
     {
         jerryOBJ.transform.SetParent(GetJerryPos(), false);
         catOBJ.transform.SetParent(GetJerryPos(), false);
+    }
+
+    private void Update()
+    {
+        if (isPlaying)
+        {
+
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10f; // 设置一个合适的Z轴距离
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            hammerOBJ.transform.position = worldPos;
+        }
     }
 
     // 随机位置
@@ -29,8 +44,30 @@ public class WhackAMole : MonoBehaviour
     // 点击老鼠
     public void OnPointerClick()
     {
+        if (recordCount > 5)
+            return;
+
+        if (isPlaying)
+        {
+            hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "2-ChuiZi", false);
+            hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.Complete += AnimationState_Complete;
+        }
+    }
+
+    //点击锤子
+    public void ClickHammer()
+    {
+        isPlaying = true;
+        Debug.Log("获得锤子"); 
+    }
+
+    private void AnimationState_Complete(TrackEntry trackEntry)
+    {
+        // 移除监听器，避免重复调用
+        hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.Complete -= AnimationState_Complete;
+
         // 处理点击事件
-        if (recordCount >= 5)
+        if (recordCount == 5)
         {
             jerryOBJ.SetActive(false);
             catOBJ.SetActive(true);
@@ -44,8 +81,5 @@ public class WhackAMole : MonoBehaviour
         }
 
         Debug.Log($"点击了老鼠，当前次数: {recordCount}");
-        // 这里可以添加更多的逻辑，比如更新UI，播放音效等
-        // 例如：UIManager.Instance.UpdateProgressUI();
     }
-
 }

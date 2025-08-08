@@ -12,20 +12,42 @@ public class LoadConfig : MonoBehaviour
     public List<SkinsItem> skinsItemList = new List<SkinsItem>();
     public Dictionary<string, List<SkinsItem>> marketDic = new Dictionary<string, List<SkinsItem>>();
 
-    private void Start()
+    public GameObject itemChild;
+    public GameObject itemParent;
+
+
+    void InitializeHome()
+    {
+        for (int i = 0; i < skinsItemList.Count; i++)
+        {
+            GameObject skinItem = Instantiate(itemChild, itemParent.transform, false);
+            skinItem.name = skinsItemList[i].skinName;
+            skinItem.GetComponent<SpriteItem>().InitData(skinsItemList[i]);
+            Debug.LogError(skinItem.name);
+        }
+
+    }
+
+    private void Awake()
     {
         LoadJson();
     }
 
+    private void Start()
+    {
+        
+        InitializeHome();
+    }
+
     void LoadJson()
     {
-        StartLoadFurniturePostion("Xiaowu");
+        StartLoadFurniturePostion("zuoxia");
     }
 
     public void StartLoadFurniturePostion(string furniturePostion)
     {
         //数据解析方法
-        string jsonContent = Resources.Load<TextAsset>("CatPosConfig/" + furniturePostion + "/" + furniturePostion).text;
+        string jsonContent = Resources.Load<TextAsset>("LeftLower/" + furniturePostion ).text;
         LoadJsonConfig(jsonContent, furniturePostion);
     }
 
@@ -90,8 +112,8 @@ public class SkinsItem
         canClick = (bool)(data.ContainsKey("canClick") ? data["canClick"] : false);
         isDefault = (bool)(data.ContainsKey("canClick") ? true : false);
         Vector3 configVect = new Vector3(pos_x, pos_y, 0);
-        //Vector3 resultVect = BaseTools.Instance.MainSceneCamera.ScreenToWorldPoint(configVect);
-        //localPostion = new Vector3(resultVect.x, resultVect.y, 0);
+        Vector3 resultVect = BaseTools.Instance.MainSceneCamera.ScreenToWorldPoint(configVect);
+        localPostion = new Vector3(resultVect.x, resultVect.y, 0);
 
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-//
+// 类型
 public enum CatType
 {
     Visible,            // 直接可见的猫猫
@@ -7,7 +7,7 @@ public enum CatType
     Special             // 需要特殊条件触发的猫猫
 }
 
-
+// 条件类型
 public enum ConditionType
 {
     FindSpecificCat,  // 需要找到特定的猫
@@ -16,7 +16,7 @@ public enum ConditionType
     CollectItems,    // 需要收集物品
 }
 
-
+// 保存数据结构
 [System.Serializable]
 public class SaveData
 {

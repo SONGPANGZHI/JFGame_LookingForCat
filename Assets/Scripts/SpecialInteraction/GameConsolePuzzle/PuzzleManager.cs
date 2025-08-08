@@ -6,6 +6,8 @@ public class PuzzleManager : MonoBehaviour
 {
     public List<PuzzlePiece> puzzlePieces;
     public List<Transform> targetPositions;
+
+
     public float moveStep = 0.5f;
     public float rotateStep = 15f;
     public float snapDistance = 0.5f;
@@ -14,32 +16,37 @@ public class PuzzleManager : MonoBehaviour
     private int currentPieceIndex = 0;
     private PuzzlePiece activePiece;
 
+    private GameObject puzzleOBJ;           // 拼图对象引用
+
+    // UI 按钮引用
     public Button upButton, downButton, leftButton, rightButton;
     public Button rotateCWButton;
-    public Button confirmButton;
 
-    void Start()
+    private void Awake()
     {
-        // 初始化第一个拼图块
-        if (puzzlePieces.Count > 0)
-        {
-            activePiece = puzzlePieces[0];
-            activePiece.SetActive(true);
-        }
-
         // 按钮事件绑定
         upButton.onClick.AddListener(MoveUp);
         downButton.onClick.AddListener(MoveDown);
         leftButton.onClick.AddListener(MoveLeft);
         rightButton.onClick.AddListener(MoveRight);
         rotateCWButton.onClick.AddListener(RotateClockwise);
-        //rotateCCWButton.onClick.AddListener(RotateCounterClockwise);
+    }
+
+    void Start()
+    {
+        // 初始化第一个拼图块
+        if(puzzlePieces.Count > 0)
+        {
+            activePiece = puzzlePieces[0];
+            activePiece.SetActive(true);
+        }
+
     }
 
     void Update()
     {
         // 实时检测当前拼图块是否在正确位置
-        if (activePiece != null && !activePiece.isPlaced)
+        if(activePiece != null && !activePiece.isPlaced)
         {
             CheckPiecePosition();
         }
@@ -51,6 +58,7 @@ public class PuzzleManager : MonoBehaviour
     void MoveRight() => activePiece?.Move(Vector2.right * moveStep);
     void RotateClockwise() => activePiece?.Rotate(-rotateStep);
 
+    // 检查当前拼图块位置
     void CheckPiecePosition()
     {
         Transform target = targetPositions[currentPieceIndex];

@@ -13,6 +13,7 @@ public class ProgressManager : MonoBehaviour
     public int FoundCatCount => foundCatIDs.Count;
     public int ItemCount => itemCount;
 
+
     public void Initialize()
     {
         foundCatIDs.Clear();
