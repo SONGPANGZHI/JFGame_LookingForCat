@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-// 拼图碎片
-public class ChairPiece : MonoBehaviour
+// 组装拼图碎片
+public class AssemblePuzzlePiece : MonoBehaviour
 {
     public Transform targetPosition; // 对应的目标位置
-    public float moveSpeed = 5f;     // 移动速度
-    public float rotationSpeed = 5f; // 旋转速度
 
+    private float moveSpeed = 5f;     // 移动速度
+    private float rotationSpeed = 5f;
     private bool isMoving = false;
     private Vector3 startPosition;
     private Quaternion startRotation;
@@ -19,6 +19,14 @@ public class ChairPiece : MonoBehaviour
         startRotation = transform.rotation;
     }
 
+    // 拼图碎片已完成
+    public void OnPuzzlePieceCompleted()
+    {
+        transform.position = targetPosition.position;
+        transform.rotation = targetPosition.rotation;
+    }
+
+    // 当点击
     public void OnPointerClick()
     {
         if (!isMoving)
@@ -27,6 +35,7 @@ public class ChairPiece : MonoBehaviour
         }
     }
 
+    // 碎片移动到目标位置
     IEnumerator MoveToTarget()
     {
         isMoving = true;
@@ -49,6 +58,7 @@ public class ChairPiece : MonoBehaviour
         // 确保最终位置和旋转完全匹配
         transform.position = targetPosition.position;
         transform.rotation = targetPosition.rotation;
+        AssemblePuzzleManager.Instance.PieceAssembled(99);
 
         isMoving = false;
     }

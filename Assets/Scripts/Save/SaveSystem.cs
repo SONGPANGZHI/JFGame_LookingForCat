@@ -44,7 +44,9 @@ public class SaveSystem : MonoBehaviour
                     cat.isFound = true;
                     if (cat.foundSprite != null)
                     {
-                        cat.GetComponent<SpriteRenderer>().sprite = cat.foundSprite;
+                        cat.GetComponent<SpriteRenderer>().sprite = cat.foundSprite.sprite;
+                        cat.GetComponent<SpriteRenderer>().color = Color.gray;
+                        cat.SpawnEffect();
                     }
                 }
             }
@@ -54,6 +56,8 @@ public class SaveSystem : MonoBehaviour
 
             // 更新UI
             UIManager.Instance.UpdateProgressUI();
+
+            Debug.Log("游戏进度已加载");
         }
     }
 

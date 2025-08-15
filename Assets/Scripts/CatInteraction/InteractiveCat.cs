@@ -34,19 +34,10 @@ public class InteractiveCat : CatBase
         SetupInteractiveObject();
 
         //判断是否解锁猫猫
-        if (GameManager.Instance.progressManager.IsCatFound(catID))
-        {
-            isFound = true;
+        if (isFound)
             SetCatVisible(true); // 如果已找到，直接显示猫猫
-        }
         else
-        {
             HideCat(); // 如果未找到，隐藏猫猫
-        }
-
-
-        // 初始状态
-        //SetCatVisible(false); // 初始隐藏猫猫
     }
 
     private void SetupInteractiveObject()

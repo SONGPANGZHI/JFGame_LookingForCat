@@ -1,6 +1,4 @@
 ﻿using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -12,14 +10,24 @@ public class CatBase : MonoBehaviour
     public SkeletonAnimation catAnim;
 
 
-    public Sprite foundSprite;
+    public SpriteRenderer foundSprite;
 
     [Header("通用配置")]
-    public Animation foundEffect;
+    public ParticleSystem foundEffect;
+    public int layerIndex = 0; // 用于控制渲染顺序
 
     public virtual void Initialize()
     {
-        isFound = false;
+        //判断是否解锁猫猫
+        if (GameManager.Instance.progressManager.IsCatFound(catID))
+        {
+            isFound = true;
+        }
+        else
+        {
+            isFound = false;
+        }
+        
         GameManager.Instance.catDatabase.RegisterCat(this);
     }
 
@@ -37,9 +45,11 @@ public class CatBase : MonoBehaviour
         if (isFound) return;
 
         isFound = true;
-        if(catAnim != null)
-            PlayAnim(0,"2-Cat",false);
-        //foundEffect.Play();
+        if (catAnim != null)
+            PlayAnim(0, "Sports", false);
+
+        foundSprite.color = Color.gray;
+        SpawnEffect();
         //AudioSource.PlayClipAtPoint(foundSound, transform.position);
 
         // 更新UI
@@ -50,5 +60,17 @@ public class CatBase : MonoBehaviour
 
         // 检查特殊条件
         GameManager.Instance.conditionChecker.CheckConditions();
+    }
+
+    // 生成粒子特效
+    public void SpawnEffect()
+    {
+        if (foundEffect != null)
+        {
+            ParticleSystem effect = Instantiate(foundEffect, transform);
+            
+            //effect.layer = layerIndex
+            effect.Play();
+        }
     }
 }

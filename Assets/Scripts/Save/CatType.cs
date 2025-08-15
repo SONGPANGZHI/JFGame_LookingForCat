@@ -1,5 +1,7 @@
 ﻿
 // 类型
+using UnityEngine;
+
 public enum CatType
 {
     Visible,            // 直接可见的猫猫
@@ -24,3 +26,15 @@ public class SaveData
     public int itemCount;
 }
 
+[System.Serializable]
+
+public class PuzzleSet
+{
+    public int puzzleID;
+    public bool isCompleted;
+    public GameObject catOBJ; // 对应的猫猫对象
+    public AssemblePuzzlePiece[] pieces;
+
+    [HideInInspector]
+    public int assembledCount;
+}

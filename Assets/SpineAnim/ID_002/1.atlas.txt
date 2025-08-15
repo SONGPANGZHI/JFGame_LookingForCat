@@ -1,0 +1,41 @@
+
+1.png
+size: 290,166
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Cat
+  rotate: false
+  xy: 2, 11
+  size: 112, 99
+  orig: 134, 118
+  offset: 11, 10
+  index: -1
+Chuizi
+  rotate: false
+  xy: 116, 2
+  size: 152, 101
+  orig: 154, 104
+  offset: 1, 2
+  index: -1
+Dong
+  rotate: false
+  xy: 118, 108
+  size: 109, 56
+  orig: 111, 58
+  offset: 1, 1
+  index: -1
+Duang
+  rotate: false
+  xy: 2, 112
+  size: 114, 52
+  orig: 116, 54
+  offset: 1, 1
+  index: -1
+Mouse
+  rotate: false
+  xy: 229, 105
+  size: 59, 59
+  orig: 61, 72
+  offset: 0, 8
+  index: -1

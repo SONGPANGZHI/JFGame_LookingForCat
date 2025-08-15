@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+
+       
     }
 
     public void UpdateProgressUI()

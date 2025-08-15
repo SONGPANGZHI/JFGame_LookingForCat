@@ -49,7 +49,7 @@ public class WhackAMole : MonoBehaviour
 
         if (isPlaying)
         {
-            hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "2-ChuiZi", false);
+            hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "ChuiziAd", false);
             hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.Complete += AnimationState_Complete;
         }
     }

@@ -24,11 +24,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        saveSystem.SaveGame();
+        Initialize();
     }
 
     private void Start()
     {
-        Initialize();
+        //Initialize();
     }
 
     private void Initialize()
