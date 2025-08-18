@@ -24,7 +24,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        saveSystem.SaveGame();
+
+        if(!PlayerPrefs.HasKey(SaveSystem.SAVE_KEY))
+            saveSystem.SaveGame();
+
         Initialize();
     }
 

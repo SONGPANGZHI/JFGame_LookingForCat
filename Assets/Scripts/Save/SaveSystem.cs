@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-    private const string SAVE_KEY = "CatGameSaveData";
+    public static string SAVE_KEY = "CatGameSaveData";
 
     // 保存数据结构
     public void SaveGame()

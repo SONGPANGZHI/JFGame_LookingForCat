@@ -21,7 +21,7 @@ public class SpriteItem : MonoBehaviour
             skinItem = _skinItem;
 
         //1.加载图片资源
-        Sprite itemSprite = Resources.Load("LeftLower" + "/" + defaultItemName, typeof(Sprite)) as Sprite;
+        Sprite itemSprite = Resources.Load("RightLower" + "/" + defaultItemName, typeof(Sprite)) as Sprite;
         //Sprite itemSprite = Resources.Load(skinItem.imagePath + "/" + defaultItemName, typeof(Sprite)) as Sprite;
         Debug.LogError(skinItem.imagePath + "/" + defaultItemName);
         SetFurniture(itemSprite);

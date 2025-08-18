@@ -33,7 +33,7 @@ public class CatBase : MonoBehaviour
 
 
     //封装的播放动画函数
-    void PlayAnim(int index, string name, bool b)
+    public void PlayAnim(int index, string name, bool b)
     {
         catAnim.state.SetAnimation(index, name, b);
     }
@@ -48,7 +48,8 @@ public class CatBase : MonoBehaviour
         if (catAnim != null)
             PlayAnim(0, "Sports", false);
 
-        foundSprite.color = Color.gray;
+        if(foundSprite != null)
+            foundSprite.color = Color.gray;
         SpawnEffect();
         //AudioSource.PlayClipAtPoint(foundSound, transform.position);
 

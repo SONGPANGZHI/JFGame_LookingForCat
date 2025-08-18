@@ -10,22 +10,44 @@ public class WhackAMole : MonoBehaviour
 
     public List<Transform> jerryPos;        // 地鼠出现的点
     public GameObject jerryOBJ;             // 地鼠预制体
-    public GameObject catOBJ;               // 猫猫预制体
+    public VisibleCat catOBJ;               // 猫猫预制体
     public GameObject hammerOBJ;            // 锤子预制体
 
     public static bool isPlaying = false;   // 是否正在玩打地鼠游戏
 
-    private void Awake()
+   
+    private void Start()
     {
-        jerryOBJ.transform.SetParent(GetJerryPos(), false);
-        catOBJ.transform.SetParent(GetJerryPos(), false);
+        CheckIDCat();
     }
+
+    // 判断是否存在ID
+    public void CheckIDCat()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(catOBJ.catID);
+
+        if (isCompleted)
+        {
+            isPlaying = false;
+            jerryOBJ.SetActive(false);
+            hammerOBJ.SetActive(false);
+            catOBJ.gameObject.SetActive(true);
+            catOBJ.PlayAnim(0, "Sports", true);
+
+        }
+        else
+        {
+            jerryOBJ.transform.SetParent(GetJerryPos(), false);
+            catOBJ.transform.SetParent(GetJerryPos(), false);
+        }
+
+    }
+
 
     private void Update()
     {
         if (isPlaying)
         {
-
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 10f; // 设置一个合适的Z轴距离
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -67,11 +89,12 @@ public class WhackAMole : MonoBehaviour
         hammerOBJ.GetComponent<SkeletonAnimation>().AnimationState.Complete -= AnimationState_Complete;
 
         // 处理点击事件
-        if (recordCount == 5)
+        if (recordCount == 4)
         {
             jerryOBJ.SetActive(false);
-            catOBJ.SetActive(true);
+            catOBJ.gameObject.SetActive(true);
             Debug.Log("已达到打地鼠次数上限");
+            hammerOBJ.SetActive(false);
             return;
         }
         else

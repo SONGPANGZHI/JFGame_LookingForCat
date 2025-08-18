@@ -38,3 +38,15 @@ public class PuzzleSet
     [HideInInspector]
     public int assembledCount;
 }
+
+
+[System.Serializable]
+
+public class NumderType
+{
+    public int IDCat;
+    public int itemCount;       // 收集物品数量
+    public int itemAllCount;    // 物品总数量
+    public VisibleCat catOBJ;   // 对应的猫猫对象
+
+}

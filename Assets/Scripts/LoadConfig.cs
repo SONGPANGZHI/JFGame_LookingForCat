@@ -30,24 +30,25 @@ public class LoadConfig : MonoBehaviour
 
     private void Awake()
     {
-        LoadJson();
+        
     }
 
     private void Start()
     {
-        
+        LoadJson();
+
         InitializeHome();
     }
 
     void LoadJson()
     {
-        StartLoadFurniturePostion("zuoxia");
+        StartLoadFurniturePostion("youxia");
     }
 
     public void StartLoadFurniturePostion(string furniturePostion)
     {
         //数据解析方法
-        string jsonContent = Resources.Load<TextAsset>("LeftLower/" + furniturePostion ).text;
+        string jsonContent = Resources.Load<TextAsset>("RightLower/" + furniturePostion ).text;
         LoadJsonConfig(jsonContent, furniturePostion);
     }
 
