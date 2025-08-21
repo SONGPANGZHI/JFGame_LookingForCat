@@ -9,6 +9,15 @@ public enum CatType
     Special             // 需要特殊条件触发的猫猫
 }
 
+// 交互模式枚举
+public enum InteractionMode
+{
+    None,
+    ReplaceSprite,   // 替换精灵
+    EnableCollider,  // 启用碰撞体
+    Both             // 两者都执行
+}
+
 // 条件类型
 public enum ConditionType
 {

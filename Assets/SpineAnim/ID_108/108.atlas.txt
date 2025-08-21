@@ -1,0 +1,20 @@
+
+108.png
+size: 492,290
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+108
+  rotate: false
+  xy: 325, 117
+  size: 165, 171
+  orig: 168, 176
+  offset: 2, 4
+  index: -1
+Jiazi
+  rotate: false
+  xy: 2, 2
+  size: 321, 286
+  orig: 324, 288
+  offset: 2, 1
+  index: -1

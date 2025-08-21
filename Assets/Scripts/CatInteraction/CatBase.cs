@@ -5,12 +5,11 @@ using UnityEngine;
 public class CatBase : MonoBehaviour
 {
     public int catID;
+    public bool loopAnim = false;
     public CatType catType;
     public bool isFound;
     public SkeletonAnimation catAnim;
 
-
-    public SpriteRenderer foundSprite;
 
     [Header("通用配置")]
     public ParticleSystem foundEffect;
@@ -45,11 +44,17 @@ public class CatBase : MonoBehaviour
         if (isFound) return;
 
         isFound = true;
-        if (catAnim != null)
-            PlayAnim(0, "Sports", false);
 
-        if(foundSprite != null)
-            foundSprite.color = Color.gray;
+        if (catAnim != null)
+        {
+            catAnim.Skeleton.SetColor(Color.gray);
+
+            PlayAnim(0, "Sports", loopAnim);
+        }
+
+        if(GetComponent<SpriteRenderer>() != null)
+            GetComponent<SpriteRenderer>().color = Color.gray;
+
         SpawnEffect();
         //AudioSource.PlayClipAtPoint(foundSound, transform.position);
 
@@ -74,4 +79,6 @@ public class CatBase : MonoBehaviour
             effect.Play();
         }
     }
+
+  
 }

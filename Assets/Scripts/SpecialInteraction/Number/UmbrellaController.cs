@@ -5,6 +5,7 @@ using UnityEngine;
 public class UmbrellaController : MonoBehaviour
 {
     public int umbrellaID;              // 雨伞的唯一标识符
+    public Sprite openUmbrella;
     public bool isOpen = false;         // 雨伞当前状态
 
     // 引用全局管理器
@@ -32,6 +33,7 @@ public class UmbrellaController : MonoBehaviour
         if (!isOpen)
         {
             isOpen = true;
+            this.GetComponent<BoxCollider2D>().enabled = false;
             PlayerPrefs.SetString(umbrellaTag + umbrellaID, umbrellaID.ToString());
             Debug.Log(umbrellaTag + umbrellaID);
             UpdateVisuals();
@@ -42,12 +44,7 @@ public class UmbrellaController : MonoBehaviour
     // 更新雨伞视觉表现
     private void UpdateVisuals()
     {
-        // 根据雨伞ID更换图片 
-        //if(umbrellaID == 0)
-        //    this.GetComponent<SpriteRenderer>().sprite = manager.openUmbrella_0; // 更换图片
-        //else
-        //    this.GetComponent<SpriteRenderer>().sprite = manager.openUmbrella_1; // 更换图片
-
-        this.GetComponent<SpriteRenderer>().color = Color.yellow; // 更改颜色为黄色表示已打开
+        this.GetComponent<BoxCollider2D>().enabled = false;
+        this.GetComponent<SpriteRenderer>().sprite = openUmbrella;
     }
 }

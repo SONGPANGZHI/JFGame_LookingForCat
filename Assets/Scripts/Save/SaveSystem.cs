@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using Spine;
+using Spine.Unity;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
@@ -42,12 +45,17 @@ public class SaveSystem : MonoBehaviour
                 if (cat != null)
                 {
                     cat.isFound = true;
-                    if (cat.foundSprite != null)
+                    if (cat.GetComponent<SpriteRenderer>() == null)
                     {
-                        cat.GetComponent<SpriteRenderer>().sprite = cat.foundSprite.sprite;
-                        cat.GetComponent<SpriteRenderer>().color = Color.gray;
-                        cat.SpawnEffect();
+                        cat.catAnim.Skeleton.SetColor(Color.gray);
+                        cat.PlayAnim(0, "Sports", cat.loopAnim);
                     }
+                    else
+                    {
+                        cat.GetComponent<SpriteRenderer>().color = Color.gray;
+                    }
+                    
+                    cat.SpawnEffect();
                 }
             }
 
