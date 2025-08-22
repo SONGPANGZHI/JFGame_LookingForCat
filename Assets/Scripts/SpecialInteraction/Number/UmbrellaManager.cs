@@ -23,6 +23,7 @@ public class UmbrellaManager : MonoBehaviour
         if (isCompleted)
         {
             hiddenCat.gameObject.SetActive(true); // 显示目标物体
+            hiddenCat.GetComponent<SpriteRenderer>().color = Color.gray;
         }
 
 

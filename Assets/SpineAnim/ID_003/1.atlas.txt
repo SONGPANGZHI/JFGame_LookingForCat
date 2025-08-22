@@ -1,0 +1,41 @@
+
+1.png
+size: 417,92
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Cat
+  rotate: false
+  xy: 111, 3
+  size: 105, 87
+  orig: 164, 120
+  offset: 0, 0
+  index: -1
+Fire1
+  rotate: false
+  xy: 2, 2
+  size: 107, 88
+  orig: 108, 88
+  offset: 0, 0
+  index: -1
+Fire2
+  rotate: true
+  xy: 218, 4
+  size: 86, 96
+  orig: 92, 124
+  offset: 2, 27
+  index: -1
+Til
+  rotate: false
+  xy: 368, 33
+  size: 47, 57
+  orig: 48, 64
+  offset: 0, 1
+  index: -1
+Wood
+  rotate: true
+  xy: 316, 14
+  size: 76, 50
+  orig: 80, 52
+  offset: 1, 1
+  index: -1

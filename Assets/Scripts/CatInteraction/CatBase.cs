@@ -58,6 +58,11 @@ public class CatBase : MonoBehaviour
         SpawnEffect();
         //AudioSource.PlayClipAtPoint(foundSound, transform.position);
 
+        if (catID == 12)
+        {
+            SevenSeasDeluxe.Instance.StartMove();
+        }
+
         // 更新UI
         UIManager.Instance.ShowCatFoundPopup(this);
 
@@ -80,5 +85,20 @@ public class CatBase : MonoBehaviour
         }
     }
 
+    public void ResLoadColor()
+    {
+        if (isFound)
+        {
+            if (catAnim != null)
+            {
+                catAnim.Skeleton.SetColor(Color.gray);
+
+                PlayAnim(0, "Sports", loopAnim);
+            }
+
+            if (GetComponent<SpriteRenderer>() != null)
+                GetComponent<SpriteRenderer>().color = Color.gray;
+        }
+    }
   
 }

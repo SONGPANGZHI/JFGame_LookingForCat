@@ -1,0 +1,41 @@
+
+001.png
+size: 202,227
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+001
+  rotate: false
+  xy: 2, 8
+  size: 133, 93
+  orig: 140, 136
+  offset: 6, 19
+  index: -1
+Bu
+  rotate: false
+  xy: 2, 103
+  size: 158, 122
+  orig: 160, 124
+  offset: 1, 1
+  index: -1
+Dong
+  rotate: true
+  xy: 162, 95
+  size: 130, 38
+  orig: 132, 40
+  offset: 1, 1
+  index: -1
+Xian
+  rotate: false
+  xy: 137, 47
+  size: 15, 54
+  orig: 28, 68
+  offset: 11, 12
+  index: -1
+Yu
+  rotate: true
+  xy: 137, 2
+  size: 43, 63
+  orig: 44, 96
+  offset: 0, 0
+  index: -1

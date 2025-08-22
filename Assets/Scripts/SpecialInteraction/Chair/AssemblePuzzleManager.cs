@@ -44,7 +44,7 @@ public class AssemblePuzzleManager : MonoBehaviour
             if (isCompleted) 
                 TriggerPuzzleCompletion(set.puzzleID);
             else
-                set.catOBJ?.SetActive(false); // 如果未完成则隐藏猫猫对象
+                set.catOBJ.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
 
@@ -99,7 +99,9 @@ public class AssemblePuzzleManager : MonoBehaviour
 
                 // 触发完成事件
                 set.isCompleted = true;
-                set.catOBJ.SetActive(true); // 激活对应的猫猫对象
+
+                set.catOBJ.GetComponent<InteractiveCat>().OnObjectInteracted();
+
             }
             else
             {
