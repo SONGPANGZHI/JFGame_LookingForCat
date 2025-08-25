@@ -1,0 +1,27 @@
+
+050.png
+size: 482,358
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+50
+  rotate: false
+  xy: 234, 262
+  size: 131, 94
+  orig: 132, 96
+  offset: 0, 0
+  index: -1
+Hua
+  rotate: false
+  xy: 2, 266
+  size: 230, 90
+  orig: 232, 92
+  offset: 1, 1
+  index: -1
+Pubu
+  rotate: true
+  xy: 2, 2
+  size: 258, 478
+  orig: 280, 480
+  offset: 20, 1
+  index: -1

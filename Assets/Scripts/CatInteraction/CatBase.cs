@@ -1,19 +1,35 @@
 ﻿using Spine.Unity;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class CatBase : MonoBehaviour
 {
-    public int catID;
-    public bool loopAnim = false;
-    public CatType catType;
-    public bool isFound;
-    public SkeletonAnimation catAnim;
 
+    public bool isFound = false;
+    public int catID;
+    public SkeletonAnimation catAnim;
+    public bool loopAnim = true;
 
     [Header("通用配置")]
     public ParticleSystem foundEffect;
-    public int layerIndex = 0; // 用于控制渲染顺序
+    // 猫找到后的特殊行为字典
+    private static Dictionary<int, Action> catSpecialActions;
+
+    [RuntimeInitializeOnLoadMethod]
+    private static void InitializeCatActions()
+    {
+        catSpecialActions = new Dictionary<int, Action>
+        {
+            // 可以继续添加其他猫的特殊行为
+            { 12, () => SevenSeasDeluxe.Instance.StartMove() },
+            { 43, ()=> CatBus.Instance.BusMove() },
+            
+        };
+    }
+
 
     public virtual void Initialize()
     {
@@ -26,79 +42,76 @@ public class CatBase : MonoBehaviour
         {
             isFound = false;
         }
-        
+
         GameManager.Instance.catDatabase.RegisterCat(this);
     }
 
-
-    //封装的播放动画函数
-    public void PlayAnim(int index, string name, bool b)
-    {
-        catAnim.state.SetAnimation(index, name, b);
-    }
-
-
-    //
     public virtual void OnCatFound()
     {
         if (isFound) return;
 
         isFound = true;
-
-        if (catAnim != null)
-        {
-            catAnim.Skeleton.SetColor(Color.gray);
-
-            PlayAnim(0, "Sports", loopAnim);
-        }
-
-        if(GetComponent<SpriteRenderer>() != null)
-            GetComponent<SpriteRenderer>().color = Color.gray;
+        SetCatAppearance();
 
         SpawnEffect();
         //AudioSource.PlayClipAtPoint(foundSound, transform.position);
 
-        if (catID == 12)
+        ExecuteSpecialAction();
+        UpdateUI();
+        SaveProgress();
+        CheckConditions();
+    }
+
+    private void SetCatAppearance()
+    {
+        if (catAnim != null)
         {
-            SevenSeasDeluxe.Instance.StartMove();
+            catAnim.Skeleton.SetColor(Color.gray);
+            PlayAnim(0, "Sports", loopAnim);
         }
 
-        // 更新UI
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.gray;
+    }
+
+    private void ExecuteSpecialAction()
+    {
+        // 执行特殊行为（如果存在）
+        if (catSpecialActions.TryGetValue(catID, out Action action))
+        {
+            action?.Invoke();
+        }
+    }
+
+    private void UpdateUI()
+    {
         UIManager.Instance.ShowCatFoundPopup(this);
+    }
 
-        // 保存进度
+    private void SaveProgress()
+    {
         GameManager.Instance.progressManager.CatFound(catID);
+    }
 
-        // 检查特殊条件
+    private void CheckConditions()
+    {
         GameManager.Instance.conditionChecker.CheckConditions();
     }
 
-    // 生成粒子特效
+    public void PlayAnim(int layer, string animName, bool loop)
+    {
+        catAnim.state.SetAnimation(layer, name, loop);
+    }
+
     public void SpawnEffect()
     {
         if (foundEffect != null)
         {
             ParticleSystem effect = Instantiate(foundEffect, transform);
-            
             //effect.layer = layerIndex
             effect.Play();
         }
     }
 
-    public void ResLoadColor()
-    {
-        if (isFound)
-        {
-            if (catAnim != null)
-            {
-                catAnim.Skeleton.SetColor(Color.gray);
-
-                PlayAnim(0, "Sports", loopAnim);
-            }
-
-            if (GetComponent<SpriteRenderer>() != null)
-                GetComponent<SpriteRenderer>().color = Color.gray;
-        }
-    }
-  
 }
