@@ -1,15 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Spine.Unity;
 using UnityEngine;
 
+/// <summary>
+/// ID_96 伞
+/// </summary>
 public class UmbrellaManager : MonoBehaviour
 {
     [Header("ID_096")]
     public int totalUmbrellas;                  // 总雨伞数量
-    private int openedUmbrellas;            // 已打开的雨伞数量
+    private int openedUmbrellas;                // 已打开的雨伞数量
     public VisibleCat hiddenCat;                // 显示猫猫
+    public Transform targetPos;                 // 目标位置
     public bool isCatVisible = false;           // 是否显示猫猫
 
+    public UniversalMovementController universalMovementController;
 
     private void Start()
     {
@@ -22,10 +26,13 @@ public class UmbrellaManager : MonoBehaviour
 
         if (isCompleted)
         {
-            hiddenCat.gameObject.SetActive(true); // 显示目标物体
-            hiddenCat.GetComponent<SpriteRenderer>().color = Color.gray;
+            hiddenCat.transform.position = targetPos.position;
+            hiddenCat.GetComponent<MeshRenderer>().enabled = true;
+            hiddenCat.PlayAnim(0, "Sports", true);
+            hiddenCat.catAnim.skeleton.SetColor(Color.gray);
         }
 
+        CheckAllUmbrellasOpened();
 
     }
 
@@ -42,7 +49,13 @@ public class UmbrellaManager : MonoBehaviour
     {
         if (openedUmbrellas >= totalUmbrellas)
         {
-            hiddenCat.gameObject.SetActive(true); // 显示目标物体
+            hiddenCat.GetComponent<MeshRenderer>().enabled = true;
+            universalMovementController.StartMove(hiddenCat.transform, targetPos, () => 
+            {
+                hiddenCat.GetComponent<Collider2D>().enabled = true;
+                hiddenCat.PlayAnim(0, "Sports", true);
+            });
+
         }
     }
 

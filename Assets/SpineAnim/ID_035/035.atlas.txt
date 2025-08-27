@@ -1,0 +1,13 @@
+
+035.png
+size: 136,132
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+035Cat
+  rotate: false
+  xy: 2, 2
+  size: 132, 128
+  orig: 132, 128
+  offset: 0, 0
+  index: -1

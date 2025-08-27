@@ -17,6 +17,7 @@ public class AmusementPark : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.5f; // 渐显持续时间
     [SerializeField] private float delayBetweenCats = 2f; // 猫之间的显示延迟
 
+
     /// <summary>
     /// 判断是否打开阀门
     /// </summary>

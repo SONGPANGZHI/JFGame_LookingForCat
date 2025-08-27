@@ -1,7 +1,7 @@
-﻿
-// 类型
-using UnityEngine;
-
+﻿using UnityEngine;
+/// <summary>
+/// 枚举类型
+/// </summary>
 public enum CatType
 {
     Visible,            // 直接可见的猫猫
@@ -9,7 +9,9 @@ public enum CatType
     Special             // 需要特殊条件触发的猫猫
 }
 
-// 交互模式枚举
+/// <summary>
+/// 交互模式枚举
+/// </summary>
 public enum InteractionMode
 {
     None,
@@ -18,7 +20,23 @@ public enum InteractionMode
     Both             // 两者都执行
 }
 
-// 条件类型
+/// <summary>
+/// 交互物体动画类型
+/// </summary>
+public enum InteractiveObjectAnimationType
+{
+    None,               // 无动画
+    PositionMove,       // 位置移动
+    CatPosMove,         // 猫猫位置动画
+    CatAndObstacleMove, // 猫猫和交互物一起移动
+    CustomAnimation,    // 自定义动画
+    Both                // 同时有移动和动画
+
+}
+
+/// <summary>
+/// 条件类型
+/// </summary>
 public enum ConditionType
 {
     FindSpecificCat,  // 需要找到特定的猫
@@ -27,7 +45,9 @@ public enum ConditionType
     CollectItems,    // 需要收集物品
 }
 
-// 保存数据结构
+/// <summary>
+/// 保存数据结构
+/// </summary>
 [System.Serializable]
 public class SaveData
 {

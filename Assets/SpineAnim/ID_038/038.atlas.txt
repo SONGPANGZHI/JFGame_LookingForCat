@@ -1,0 +1,13 @@
+
+038.png
+size: 167,244
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+038
+  rotate: false
+  xy: 2, 2
+  size: 163, 240
+  orig: 164, 240
+  offset: 0, 0
+  index: -1

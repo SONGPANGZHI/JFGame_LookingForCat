@@ -31,8 +31,9 @@ public class WhackAMole : MonoBehaviour
             isPlaying = false;
             jerryOBJ.SetActive(false);
             hammerOBJ.SetActive(false);
-            catOBJ.gameObject.SetActive(true);
-            catOBJ.PlayAnim(0, "Sports", true);
+            catOBJ.GetComponent<MeshRenderer>().enabled = true;
+            catOBJ.GetComponent<SkeletonAnimation>().enabled = true;
+            catOBJ.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "Sports", true);
 
         }
         else
@@ -92,7 +93,10 @@ public class WhackAMole : MonoBehaviour
         if (recordCount == 4)
         {
             jerryOBJ.SetActive(false);
-            catOBJ.gameObject.SetActive(true);
+            catOBJ.GetComponent<MeshRenderer>().enabled = true;
+            catOBJ.GetComponent<SkeletonAnimation>().enabled = true;
+            catOBJ.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "Sports", true);
+            catOBJ.GetComponent<PolygonCollider2D>().enabled = true;
             Debug.Log("已达到打地鼠次数上限");
             hammerOBJ.SetActive(false);
             return;

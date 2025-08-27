@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Spine;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 // 交互式猫猫
@@ -7,9 +9,6 @@ public class InteractiveCat : CatBase
 {
     [Header("交互设置")]
     public GameObject interactiveObject;  // 触发猫猫出现的物体（如尾巴、草丛等）
-    public Animator revealAnimator;      // 控制猫猫出现的动画器
-    public string appearAnimation = "CatAppear";
-    public string hideAnimation = "CatHide";
 
     [Header("点击设置")]
     public float clickCooldown = 0.5f;   // 防止连续误点击
@@ -24,11 +23,36 @@ public class InteractiveCat : CatBase
     [Header("交互模式设置")]
     public InteractionMode interactionMode = InteractionMode.None;
 
+    [Header("交互物体动画设置")]
+    public InteractiveObjectAnimationType objectAnimationType = InteractiveObjectAnimationType.None;
 
-    // 交互物体上的组件
+    public bool IsObstructionDisplayed = false;
+    public Transform objectMoveOffset;                  // 物体移动偏移量
+    public float objectMoveDuration = 0.5f;             // 物体移动持续时间
+    public string objectAnimationName = "Interact";     // 物体动画名称
+    public bool disableAfterInteraction = true;         // 交互后是否禁用物体
+
+    private bool isMoving = false;
+    private float moveSpeed = 0.5f; // 根据持续时间计算速度
+    private Vector3 startPosition;
+    private Vector3 catStartPosition;
+    private Quaternion startRotation;
+
+    // 缓存组件引用
+    private SpriteRenderer catSpriteRenderer;
+    private Collider2D catCollider;
+    private SpriteRenderer interactiveObjectSpriteRenderer;
+    private Collider2D interactiveObjectCollider;
+    private Animator interactiveObjectAnimator;
+
+
+    /// <summary>
+    /// 交互物体上的组件
+    /// </summary>
     public class InteractivePart : MonoBehaviour
     {
         public InteractiveCat parentCat;
+
 
         public void OnInteracted()
         {
@@ -41,8 +65,21 @@ public class InteractiveCat : CatBase
 
     private void Start()
     {
-        Initialize();
-        SetupInteractiveObject();
+        // 缓存组件引用
+        catSpriteRenderer = GetComponent<SpriteRenderer>();
+        catCollider = GetComponent<Collider2D>();
+
+        if (interactiveObject != null)
+        {
+            interactiveObjectSpriteRenderer = interactiveObject.GetComponent<SpriteRenderer>();
+            interactiveObjectCollider = interactiveObject.GetComponent<Collider2D>();
+            interactiveObjectAnimator = interactiveObject.GetComponent<Animator>();
+
+            startPosition = interactiveObject.transform.position;
+            startRotation = interactiveObject.transform.rotation;
+        }
+
+        catStartPosition = transform.position;
 
         // 保存原始精灵
         if (GetComponent<SpriteRenderer>() != null)
@@ -50,49 +87,79 @@ public class InteractiveCat : CatBase
             originalSprite = GetComponent<SpriteRenderer>().sprite;
         }
 
+        Initialize();
+        SetupInteractiveObject();
+
+
         // 判断是否解锁猫猫
         if (isFound)
         {
-            SetCatVisible(true); // 如果已找到，直接显示猫猫
-            interactiveObject.SetActive(false);
-            switch (interactionMode)
-            {
-                case InteractionMode.ReplaceSprite:
-                    ReplaceCatSprite(replacementSprite);
-                    break;
-                case InteractionMode.Both:
-                    break;
-            }
-
+            HandleAlreadyFoundState();
         }
         else
-            HideCat(); // 如果未找到，隐藏猫猫
-    }
-
-    // 设置交互物体激活状态
-    private void SetInteractiveObjectActive(bool active)
-    {
-        if (interactiveObject != null)
         {
-            Collider2D collider = interactiveObject.GetComponent<Collider2D>();
-            if (collider != null) collider.enabled = active;
-
-            SpriteRenderer spriteRenderer = interactiveObject.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null) spriteRenderer.enabled = active;
+            HideCat(); // 如果未找到，隐藏猫猫
         }
 
-       
     }
 
+    /// <summary>
+    /// 处理已找到状态
+    /// </summary>
+    private void HandleAlreadyFoundState()
+    {
+        SetCatVisible(true);
+
+        if (interactiveObject != null)
+        {
+            interactiveObject.SetActive(false);
+        }
+
+        switch (interactionMode)
+        {
+            case InteractionMode.ReplaceSprite:
+                ReplaceCatSprite(replacementSprite);
+                break;
+        }
+
+        switch (objectAnimationType)
+        {
+            case InteractiveObjectAnimationType.PositionMove:
+                UnlockObjectPosShow();
+                break;
+            case InteractiveObjectAnimationType.CatPosMove:
+                UnlockCatPosShow();
+                break;
+            case InteractiveObjectAnimationType.CatAndObstacleMove:
+                UnlockCatAndObstaclePosShow();
+                break;
+        }
+    }
+
+
+    /// <summary>
+    /// 设置交互物体激活状态
+    /// </summary>
+    /// <param name="active"></param>
+    private void SetInteractiveObjectActive(bool active)
+    {
+        if (interactiveObjectCollider != null)
+            interactiveObjectCollider.enabled = active;
+
+        if (interactiveObjectSpriteRenderer != null)
+            interactiveObjectSpriteRenderer.enabled = active;
+    }
+
+    /// <summary>
+    /// 交互物体添加碰撞体
+    /// </summary>
     private void SetupInteractiveObject()
     {
         if (interactiveObject == null) return;
 
         // 确保交互物体有碰撞体
-        if (interactiveObject.GetComponent<Collider2D>() == null)
-        {
-            interactiveObject.AddComponent<BoxCollider2D>();
-        }
+        if (interactiveObject == null)
+            interactiveObjectCollider = interactiveObject.AddComponent<Collider2D>();
 
         // 添加交互脚本
         var interactScript = interactiveObject.AddComponent<InteractivePart>();
@@ -102,51 +169,260 @@ public class InteractiveCat : CatBase
         SetInteractiveObjectActive(true);
     }
 
-  
-    // 替换猫猫精灵（如果可用）
-    private void ReplaceCatSpriteIfAvailable()
+    /// <summary>
+    /// 执行交互物体动画
+    /// </summary>
+    private void PlayInteractiveObjectAnimation()
     {
-        if (replacementSprite != null)
+        if (interactiveObject == null) return;
+
+        switch (objectAnimationType)
         {
-            ReplaceCatSprite(replacementSprite);
+            case InteractiveObjectAnimationType.None:
+                HandleNoneAnimation();
+                break;
+            case InteractiveObjectAnimationType.PositionMove:
+                StartCoroutine(MoveObjectAnimation());
+                break;
+            case InteractiveObjectAnimationType.CatPosMove:
+                StartCoroutine(MoveCatAnimation());
+                break;
+            case InteractiveObjectAnimationType.CatAndObstacleMove:
+                StartCoroutine(MoveCatAndObstacleAnimation());
+                break;
+            case InteractiveObjectAnimationType.CustomAnimation:
+                PlayCustomAnimation();
+                break;
+            case InteractiveObjectAnimationType.Both:
+                StartCoroutine(PlayBothAnimations());
+                break;
         }
     }
 
-  
-
-    // 启用猫猫碰撞体
-    private void EnableCatCollider()
+    /// <summary>
+    /// 处理无动画情况
+    /// </summary>
+    private void HandleNoneAnimation()
     {
-        Collider2D collider = GetComponent<Collider2D>();
-        if (collider != null)
+        if (disableAfterInteraction)
         {
-            collider.enabled = true;
+            SetInteractiveObjectActive(false);
         }
     }
 
-    // 点击交互物体时调用
+    /// <summary>
+    /// 播放自定义动画
+    /// </summary>
+    private void PlayCustomAnimation()
+    {
+        if (interactiveObjectAnimator != null)
+        {
+            interactiveObjectAnimator.Play(objectAnimationName);
+            if (disableAfterInteraction)
+            {
+                StartCoroutine(DisableAfterAnimation(interactiveObjectAnimator));
+            }
+        }
+        else if (disableAfterInteraction)
+        {
+            SetInteractiveObjectActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 同时播放移动和动画
+    /// </summary>
+    private IEnumerator PlayBothAnimations()
+    {
+        // 启动移动动画
+        var moveCoroutine = StartCoroutine(MoveObjectAnimation());
+
+        // 播放自定义动画
+        if (interactiveObjectAnimator != null)
+        {
+            interactiveObjectAnimator.Play(objectAnimationName);
+        }
+
+        // 等待移动完成
+        yield return moveCoroutine;
+    }
+
+    /// <summary>
+    /// 移动交互物体动画协程
+    /// </summary>
+    private IEnumerator MoveObjectAnimation()
+    {
+        isMoving = true;
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * moveSpeed;
+
+            // 移动位置
+            interactiveObject.transform.SetPositionAndRotation(
+                Vector3.Lerp(startPosition, objectMoveOffset.position, progress),
+                Quaternion.Lerp(startRotation, objectMoveOffset.rotation, progress)
+            );
+
+            yield return null;
+        }
+
+        // 确保最终位置和旋转完全匹配
+        interactiveObject.transform.SetPositionAndRotation(objectMoveOffset.position, objectMoveOffset.rotation);
+        isMoving = false;
+
+        // 移动完成后禁用
+        if (disableAfterInteraction)
+        {
+            if (interactiveObjectSpriteRenderer != null)
+                interactiveObjectSpriteRenderer.enabled = true;
+
+            if (interactiveObjectCollider != null)
+                interactiveObjectCollider.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// 解锁交互物位置显示
+    /// </summary>
+    public void UnlockObjectPosShow()
+    {
+        if (interactiveObject != null)
+        {
+            interactiveObject.SetActive(true);
+            interactiveObject.transform.SetPositionAndRotation(objectMoveOffset.position, objectMoveOffset.rotation);
+        }
+    }
+
+
+    /// <summary>
+    /// 猫猫位移动画
+    /// </summary>
+    private IEnumerator MoveCatAnimation()
+    {
+        isMoving = true;
+        float progress = 0f;
+        Vector3 initialPosition = transform.position;
+
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * moveSpeed;
+            transform.position = Vector3.Lerp(initialPosition, objectMoveOffset.position, progress);
+            yield return null;
+        }
+
+        transform.position = objectMoveOffset.position;
+        isMoving = false;
+
+        // 移动完成后禁用交互物体碰撞体
+        if (disableAfterInteraction && interactiveObjectCollider != null)
+        {
+            interactiveObjectCollider.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// 解锁猫位置显示
+    /// </summary>
+    public void UnlockCatPosShow()
+    {
+        transform.SetPositionAndRotation(objectMoveOffset.position, objectMoveOffset.rotation);
+    }
+
+   
+
+    /// <summary>
+    /// 猫猫和交互物位移动画
+    /// </summary>
+    private IEnumerator MoveCatAndObstacleAnimation()
+    {
+        isMoving = true;
+        float progress = 0f;
+        Vector3 initialCatPosition = transform.position;
+        Vector3 initialObjectPosition = interactiveObject.transform.position;
+
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * moveSpeed;
+
+            transform.position = Vector3.Lerp(initialCatPosition, objectMoveOffset.position, progress);
+            interactiveObject.transform.position = Vector3.Lerp(initialObjectPosition, objectMoveOffset.position, progress);
+
+            yield return null;
+        }
+
+        transform.position = objectMoveOffset.position;
+        interactiveObject.transform.position = objectMoveOffset.position;
+        isMoving = false;
+
+        // 移动完成后处理
+        if (disableAfterInteraction)
+        {
+            if (catAnim != null)
+            {
+                catAnim.skeleton.SetToSetupPose();
+                catAnim.AnimationState.ClearTracks();
+                PlayAnim(0, "Sports", true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 解锁猫和障碍物位置显示
+    /// </summary>
+    public void UnlockCatAndObstaclePosShow()
+    {
+        transform.position = objectMoveOffset.position;
+        if (interactiveObject != null)
+        {
+            interactiveObject.transform.position = objectMoveOffset.position;
+        }
+    }
+
+    /// <summary>
+    /// 等待动画完成后禁用物体
+    /// </summary>
+    private IEnumerator DisableAfterAnimation(Animator animator)
+    {
+        // 等待动画开始
+        yield return null;
+
+        // 等待动画完成
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+
+        SetInteractiveObjectActive(false);
+    }
+
+
+    /// <summary>
+    /// 点击交互物体时调用
+    /// </summary>
     public void OnObjectInteracted()
     {
         if (!isRevealed && !isFound)
         {
-            //关闭显示
+            // 先执行交互物体动画
+            PlayInteractiveObjectAnimation();
+
+            // 然后显示猫猫
 
             RevealCat();
         }
     }
 
-    // 显示猫猫
+    /// <summary>
+    /// 显示猫猫
+    /// </summary>
     private void RevealCat()
     {
         isRevealed = true;
 
-        interactiveObject.SetActive(false);
-
-        // 播放出现动画
-        if (revealAnimator != null)
-        {
-            revealAnimator.Play(appearAnimation);
-        }
+        if (!IsObstructionDisplayed && interactiveObject != null) 
+            interactiveObject.SetActive(false);
 
         // 直接设置可见
         SetCatVisible(true);
@@ -168,28 +444,49 @@ public class InteractiveCat : CatBase
         }
     }
 
-    // 隐藏猫猫
+    /// <summary>
+    /// 替换猫猫精灵
+    /// </summary>
+    private void ReplaceCatSpriteIfAvailable()
+    {
+        if (replacementSprite != null)
+        {
+            ReplaceCatSprite(replacementSprite);
+        }
+    }
+
+    /// <summary>
+    /// 启用猫猫碰撞体
+    /// </summary>
+    private void EnableCatCollider()
+    {
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// 隐藏猫猫
+    /// </summary>
     private void HideCat()
     {
         if (!isFound) // 如果还没被找到才隐藏
         {
             isRevealed = false;
 
-            if (revealAnimator != null)
-            {
-                revealAnimator.Play(hideAnimation);
-            }
-            else
-            {
-                SetCatVisible(false);
-            }
+            SetCatVisible(false);
 
             // 确保交互物体是激活的
             SetInteractiveObjectActive(true);
         }
     }
 
-    // 直接设置猫猫显示/隐藏
+    /// <summary>
+    /// 直接设置猫猫显示/隐藏
+    /// </summary>
+    /// <param name="visible"></param>
     private void SetCatVisible(bool visible)
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -200,12 +497,16 @@ public class InteractiveCat : CatBase
 
         if (interactionMode == InteractionMode.EnableCollider)
         {
-            GetComponent<SpriteRenderer>().enabled = true;
+            if(GetComponent<SpriteRenderer>() != null)
+                GetComponent<SpriteRenderer>().enabled = true;
         }
 
     }
 
-    // 替换猫猫精灵
+    /// <summary>
+    /// 替换猫猫精灵
+    /// </summary>
+    /// <param name="newSprite"> 新图 </param>
     private void ReplaceCatSprite(Sprite newSprite)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();

@@ -1,0 +1,13 @@
+
+098.png
+size: 136,124
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ID_098
+  rotate: false
+  xy: 2, 2
+  size: 132, 120
+  orig: 132, 120
+  offset: 0, 0
+  index: -1

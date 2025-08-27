@@ -42,13 +42,13 @@ public class LoadConfig : MonoBehaviour
 
     void LoadJson()
     {
-        StartLoadFurniturePostion("youxia");
+        StartLoadFurniturePostion("zuoshang");
     }
 
     public void StartLoadFurniturePostion(string furniturePostion)
     {
         //数据解析方法
-        string jsonContent = Resources.Load<TextAsset>("RightLower/" + furniturePostion ).text;
+        string jsonContent = Resources.Load<TextAsset>("LeftTop/" + furniturePostion ).text;
         LoadJsonConfig(jsonContent, furniturePostion);
     }
 
