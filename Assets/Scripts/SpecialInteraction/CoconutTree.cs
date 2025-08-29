@@ -29,6 +29,11 @@ public class CoconutTree : MonoBehaviour
     { 
         this.transform.GetComponent<BoxCollider2D>().enabled = false;
         interactiveCat_004.PlayAnim(0, "Sports", false);
+        Invoke("ShowClick",1f);
+    }
+
+    public void ShowClick()
+    {
         interactiveCat_004.OnObjectInteracted();
     }
 

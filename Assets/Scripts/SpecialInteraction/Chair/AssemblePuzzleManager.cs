@@ -41,10 +41,8 @@ public class AssemblePuzzleManager : MonoBehaviour
         {
             bool isCompleted = GameManager.Instance.progressManager.IsCatFound(set.puzzleID);
             set.isCompleted = isCompleted;
-            if (isCompleted) 
+            if (isCompleted)
                 TriggerPuzzleCompletion(set.puzzleID);
-            else
-                set.catOBJ.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
 
@@ -60,8 +58,12 @@ public class AssemblePuzzleManager : MonoBehaviour
         {
             piece.OnPuzzlePieceCompleted();
         }
-        set.catOBJ?.SetActive(true);
-        Debug.Log("加载99号");
+
+        foreach (var cat in set.catOBJ)
+        {
+            cat.GetComponent<SpriteRenderer>().enabled = true;
+            cat.GetComponent<Collider2D>().enabled = true;
+        }
     }
 
     /// <summary>
@@ -91,7 +93,7 @@ public class AssemblePuzzleManager : MonoBehaviour
     {
         if (puzzleDict.TryGetValue(puzzleID, out PuzzleSet set))
         {
-            set.assembledCount++;
+            set.assembledCount += 1; 
 
             if (set.assembledCount >= set.pieces.Length)
             {
@@ -100,7 +102,11 @@ public class AssemblePuzzleManager : MonoBehaviour
                 // 触发完成事件
                 set.isCompleted = true;
 
-                set.catOBJ.GetComponent<InteractiveCat>().OnObjectInteracted();
+                foreach (var cat in set.catOBJ)
+                {
+                    cat.GetComponent<SpriteRenderer>().enabled = true;
+                    cat.GetComponent<Collider2D>().enabled = true;
+                }
 
             }
             else

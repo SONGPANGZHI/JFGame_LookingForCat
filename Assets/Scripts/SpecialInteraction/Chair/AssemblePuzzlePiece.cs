@@ -4,12 +4,15 @@ using UnityEngine;
 // 组装拼图碎片
 public class AssemblePuzzlePiece : MonoBehaviour
 {
+    public int Cat_ID;
     public Transform targetPosition; // 对应的目标位置
+
 
     private float moveSpeed = 5f;     // 移动速度
     private float rotationSpeed = 5f;
     private bool isMoving = false;
     private Vector3 startPosition;
+    private Vector3 startScale;
     private Quaternion startRotation;
 
     void Start()
@@ -17,6 +20,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
         // 记录初始位置和旋转
         startPosition = transform.position;
         startRotation = transform.rotation;
+        startScale = transform.localScale;
     }
 
     // 拼图碎片已完成
@@ -51,6 +55,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
 
             // 旋转到目标方向
             transform.rotation = Quaternion.Lerp(startRotation, targetPosition.rotation, progress);
+            transform.localScale = Vector3.Lerp(startScale, Vector3.one, progress);
 
             yield return null;
         }
@@ -58,7 +63,8 @@ public class AssemblePuzzlePiece : MonoBehaviour
         // 确保最终位置和旋转完全匹配
         transform.position = targetPosition.position;
         transform.rotation = targetPosition.rotation;
-        AssemblePuzzleManager.Instance.PieceAssembled(99);
+        transform.localScale = Vector3.one;
+        AssemblePuzzleManager.Instance.PieceAssembled(Cat_ID);
 
         isMoving = false;
     }

@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class CatBase : MonoBehaviour
 {
-
     public bool isFound = false;
     public int catID;
     public SkeletonAnimation catAnim;
@@ -101,7 +100,7 @@ public class CatBase : MonoBehaviour
 
     public void PlayAnim(int layer, string animName, bool loop)
     {
-        catAnim.state.SetAnimation(layer, name, loop);
+        catAnim.state.SetAnimation(layer, animName, loop);
     }
 
     public void SpawnEffect()

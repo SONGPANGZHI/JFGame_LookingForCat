@@ -1,14 +1,14 @@
-using Spine.Unity;
-using System.Collections;
+Ôªøusing Spine.Unity;
 using UnityEngine;
 
 /// <summary>
-///  001 ª∞—√®
+///  003 ÁÅ´ÊääÁå´ 001
 /// </summary>
 public class TorchCat : MonoBehaviour
 {
     public SkeletonAnimation tailAnim;
     public SkeletonAnimation catAnim;
+
     public GameObject woodOBJ;
     public SpriteRenderer fireOBJ;
     public Sprite fireSprite;
@@ -16,8 +16,13 @@ public class TorchCat : MonoBehaviour
     public Transform targetPosition;
     private Vector3 startPosition;
 
-    private float moveSpeed = 5f; // “∆∂ØÀŸ∂»
+    private float moveSpeed = 5f; // ÁßªÂä®ÈÄüÂ∫¶
     private bool isMoving = false;
+
+    public UniversalMovementController universalMovement;
+
+    public SkeletonAnimation fishAnim;
+    public GameObject obstacle;
 
     private void Start()
     {
@@ -36,42 +41,34 @@ public class TorchCat : MonoBehaviour
             catAnim.gameObject.SetActive(false);
         }
 
-    }
+        if (GameManager.Instance.progressManager.IsCatFound(1))
+        {
+            obstacle.SetActive(false);
+            fishAnim.GetComponent<MeshRenderer>().enabled = true;
+            fishAnim.state.SetAnimation(0, "Sports", false);
+        }
 
+    }
+     
+    /// <summary>
+    /// ÁÇπÂáªÊ†ë
+    /// </summary>
     public void ClickWood()
     {
         if (!isMoving)
         {
-            StartCoroutine(MoveToTarget());
-        }
 
-        CloseTail();
+            universalMovement.StartMoveWithSpeed(woodOBJ.transform, targetPosition,3, () => 
+            {
+                woodOBJ.SetActive(false);
+            });
+
+            CloseTail();
+        }
     }
 
-    // ÀÈ∆¨“∆∂ØµΩƒø±ÍŒª÷√
-    IEnumerator MoveToTarget()
-    {
-        isMoving = true;
-
-        float progress = 0f;
-
-        while (progress < 1f)
-        {
-            progress += Time.deltaTime * moveSpeed;
-
-            // “∆∂ØŒª÷√
-            woodOBJ.transform.position = Vector3.Lerp(startPosition, targetPosition.position, progress);
-            yield return null;
-        }
-
-        // »∑±£◊Ó÷’Œª÷√∫Õ–˝◊™ÕÍ»´∆•≈‰
-        woodOBJ.transform.position = targetPosition.position;
-        woodOBJ.SetActive(false);
-        isMoving = false;
-    }
-    
     /// <summary>
-    /// πÿ±’√®Œ≤∞Õ
+    /// ÂÖ≥Èó≠Áå´Â∞æÂ∑¥
     /// </summary>
     public void CloseTail()
     {
@@ -79,5 +76,22 @@ public class TorchCat : MonoBehaviour
         tailAnim.gameObject.SetActive(false);
         fireOBJ.sprite = fireSprite;
         catAnim.GetComponent<InteractiveCat>().OnObjectInteracted();
+    }
+
+    /// <summary>
+    /// ÁÇπÂáªÈ±º
+    /// </summary>
+    public void FishClick()
+    {
+        obstacle.transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
+        obstacle.SetActive(false);
+        fishAnim.GetComponent<MeshRenderer>().enabled = true;
+        fishAnim.state.SetAnimation(0, "Cat_up", false);
+        Invoke("OpenColider",1f);
+    }
+
+    public void OpenColider()
+    {
+        fishAnim.GetComponent<Collider2D>().enabled = true;
     }
 }

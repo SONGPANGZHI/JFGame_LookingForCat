@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 /// <summary>
 /// 枚举类型
 /// </summary>
@@ -61,7 +62,7 @@ public class PuzzleSet
 {
     public int puzzleID;
     public bool isCompleted;
-    public GameObject catOBJ; // 对应的猫猫对象
+    public List<GameObject> catOBJ; // 对应的猫猫对象
     public AssemblePuzzlePiece[] pieces;
 
     [HideInInspector]

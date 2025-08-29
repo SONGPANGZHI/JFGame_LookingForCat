@@ -1,4 +1,5 @@
 ﻿using Spine;
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,7 +30,7 @@ public class InteractiveCat : CatBase
     public bool IsObstructionDisplayed = false;
     public Transform objectMoveOffset;                  // 物体移动偏移量
     public float objectMoveDuration = 0.5f;             // 物体移动持续时间
-    public string objectAnimationName = "Interact";     // 物体动画名称
+    public string objectAnimationName;     // 物体动画名称
     public bool disableAfterInteraction = true;         // 交互后是否禁用物体
 
     private bool isMoving = false;
@@ -43,7 +44,7 @@ public class InteractiveCat : CatBase
     private Collider2D catCollider;
     private SpriteRenderer interactiveObjectSpriteRenderer;
     private Collider2D interactiveObjectCollider;
-    private Animator interactiveObjectAnimator;
+    private SkeletonAnimation interactiveObjectAnimator;
 
 
     /// <summary>
@@ -73,7 +74,7 @@ public class InteractiveCat : CatBase
         {
             interactiveObjectSpriteRenderer = interactiveObject.GetComponent<SpriteRenderer>();
             interactiveObjectCollider = interactiveObject.GetComponent<Collider2D>();
-            interactiveObjectAnimator = interactiveObject.GetComponent<Animator>();
+            interactiveObjectAnimator = interactiveObject.GetComponent<SkeletonAnimation>();
 
             startPosition = interactiveObject.transform.position;
             startRotation = interactiveObject.transform.rotation;
@@ -215,18 +216,18 @@ public class InteractiveCat : CatBase
     /// </summary>
     private void PlayCustomAnimation()
     {
-        if (interactiveObjectAnimator != null)
-        {
-            interactiveObjectAnimator.Play(objectAnimationName);
-            if (disableAfterInteraction)
-            {
-                StartCoroutine(DisableAfterAnimation(interactiveObjectAnimator));
-            }
-        }
-        else if (disableAfterInteraction)
-        {
-            SetInteractiveObjectActive(false);
-        }
+        //if (interactiveObjectAnimator != null)
+        //{
+        //    interactiveObjectAnimator.Play(objectAnimationName);
+        //    if (disableAfterInteraction)
+        //    {
+        //        StartCoroutine(DisableAfterAnimation(interactiveObjectAnimator));
+        //    }
+        //}
+        //else if (disableAfterInteraction)
+        //{
+        //    SetInteractiveObjectActive(false);
+        //}
     }
 
     /// <summary>
@@ -238,10 +239,10 @@ public class InteractiveCat : CatBase
         var moveCoroutine = StartCoroutine(MoveObjectAnimation());
 
         // 播放自定义动画
-        if (interactiveObjectAnimator != null)
-        {
-            interactiveObjectAnimator.Play(objectAnimationName);
-        }
+        //if (interactiveObjectAnimator != null)
+        //{
+        //    //interactiveObjectAnimator.Play(objectAnimationName);
+        //}
 
         // 等待移动完成
         yield return moveCoroutine;
@@ -513,6 +514,7 @@ public class InteractiveCat : CatBase
         if (spriteRenderer != null)
         {
             spriteRenderer.sprite = newSprite;
+            //spriteRenderer.color = Color.gray;
         }
     }
 
