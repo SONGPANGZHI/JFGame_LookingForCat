@@ -4,23 +4,31 @@ using UnityEngine.UI;
 
 public class PuzzleManager : MonoBehaviour
 {
+    [SerializeField]
+    private InputManager inputManager;
+    [SerializeField]
+    private GameObject cat_087;
+
     public List<PuzzlePiece> puzzlePieces;
     public List<Transform> targetPositions;
 
 
-    public float moveStep = 0.5f;
-    public float rotateStep = 15f;
-    public float snapDistance = 0.5f;
-    public float rotationThreshold = 15f;
+    private float moveStep = 50;
+    private float rotateStep = 90f;
+    private float snapDistance = 0.5f;
+    private float rotationThreshold = 15f;
 
     private int currentPieceIndex = 0;
     private PuzzlePiece activePiece;
+
 
     private GameObject puzzleOBJ;           // 拼图对象引用
 
     // UI 按钮引用
     public Button upButton, downButton, leftButton, rightButton;
     public Button rotateCWButton;
+
+    public GameObject tipOBJ;       // 通关提醒
 
     private void Awake()
     {
@@ -30,17 +38,6 @@ public class PuzzleManager : MonoBehaviour
         leftButton.onClick.AddListener(MoveLeft);
         rightButton.onClick.AddListener(MoveRight);
         rotateCWButton.onClick.AddListener(RotateClockwise);
-    }
-
-    void Start()
-    {
-        // 初始化第一个拼图块
-        if(puzzlePieces.Count > 0)
-        {
-            activePiece = puzzlePieces[0];
-            activePiece.SetActive(true);
-        }
-
     }
 
     void Update()
@@ -57,6 +54,41 @@ public class PuzzleManager : MonoBehaviour
     void MoveLeft() => activePiece?.Move(Vector2.left * moveStep);
     void MoveRight() => activePiece?.Move(Vector2.right * moveStep);
     void RotateClockwise() => activePiece?.Rotate(-rotateStep);
+
+
+    //打开积木拼图界面
+    public void OpenPuzzle()
+    {
+        inputManager.SetUIOpenState(true);
+        this.transform.GetChild(0).gameObject.SetActive(true);
+
+        // 初始化第一个拼图块
+        if (puzzlePieces.Count > 0)
+        {
+            activePiece = puzzlePieces[0];
+            activePiece.SetActive(true);
+        }
+    }
+
+    //拼图完成
+    public void ClosePuzzle()
+    {
+        inputManager.SetUIOpenState(false);
+        this.transform.GetChild(0).gameObject.SetActive(true);
+
+        cat_087.GetComponent<SpriteRenderer>().enabled = true;
+        cat_087.GetComponent<Collider2D>().enabled = true;
+
+        //播放特效、关闭界面
+
+    }
+
+
+    // 显示提醒框
+    public void OpenTip()
+    {
+        tipOBJ.SetActive(true);
+    }
 
     // 检查当前拼图块位置
     void CheckPiecePosition()
@@ -83,9 +115,10 @@ public class PuzzleManager : MonoBehaviour
             }
             else
             {
+                // 触发拼图完成事件
                 activePiece = null;
                 Debug.Log("拼图完成！");
-                // 这里可以触发拼图完成事件
+                ClosePuzzle();
             }
         }
     }

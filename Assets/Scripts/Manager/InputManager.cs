@@ -14,6 +14,8 @@ public class InputManager : MonoBehaviour
     private bool isDragging = false;
     private const float dragThreshold = 20f; // 拖拽判定的像素阈值
 
+    // UI状态控制
+    private bool isUIOpen = false;
     public void Initialize()
     {
         mainCamera = Camera.main;
@@ -21,12 +23,22 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        // 如果UI打开，不处理任何输入
+        if (isUIOpen) return;
+
         ProcessTouchInput();
 
         // 编辑器测试
 #if UNITY_EDITOR
         ProcessMouseInput();
 #endif
+    }
+
+    // 设置UI状态
+    public void SetUIOpenState(bool isOpen)
+    {
+        isUIOpen = isOpen;
+        Debug.Log($"UI状态: {(isOpen ? "打开" : "关闭")}");
     }
 
     //点击状态下的处理

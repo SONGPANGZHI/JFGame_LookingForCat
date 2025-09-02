@@ -7,6 +7,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [SerializeField]
+    private PuzzleManager puzzleGame;          // 拼图
+    [SerializeField]
+    private CameraTouchDrag cameraTouch;
+
     [Header("UI元素")]
     public TMP_Text foundCountText;
 
@@ -20,6 +25,16 @@ public class UIManager : MonoBehaviour
     {
         foundCountText.text = $"{GameManager.Instance.progressManager.FoundCatCount}/{GameManager.Instance.progressManager.TotalCatCount}";
     }
+
+    // ID_87 开始拼图
+    public void StartPuzzle()
+    {
+        puzzleGame.OpenPuzzle();
+    }
+    
+
+    // ID_77_78 网球
+
 
     public void ShowCatFoundPopup(CatBase cat)
     {
