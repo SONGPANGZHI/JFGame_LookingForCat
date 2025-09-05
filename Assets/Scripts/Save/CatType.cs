@@ -80,3 +80,14 @@ public class NumderType
     public VisibleCat catOBJ;   // 对应的猫猫对象
 
 }
+
+//当前格子类型
+public enum ColorType
+{
+    Red,
+    Green, 
+    Blue,
+    White
+}
+
+

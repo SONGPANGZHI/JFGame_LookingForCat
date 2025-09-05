@@ -7,6 +7,8 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField]
     private InputManager inputManager;
     [SerializeField]
+    private GameObject cameraTouch;
+    [SerializeField]
     private GameObject cat_087;
 
     public List<PuzzlePiece> puzzlePieces;
@@ -61,6 +63,7 @@ public class PuzzleManager : MonoBehaviour
     {
         inputManager.SetUIOpenState(true);
         this.transform.GetChild(0).gameObject.SetActive(true);
+        cameraTouch.GetComponent<CameraTouchDrag>().enabled = false;
 
         // 初始化第一个拼图块
         if (puzzlePieces.Count > 0)
@@ -73,13 +76,14 @@ public class PuzzleManager : MonoBehaviour
     //拼图完成
     public void ClosePuzzle()
     {
+        tipOBJ.SetActive(false);
+        this.transform.GetChild(0).gameObject.SetActive(false);
+        cameraTouch.GetComponent<CameraTouchDrag>().enabled = true;
         inputManager.SetUIOpenState(false);
-        this.transform.GetChild(0).gameObject.SetActive(true);
 
         cat_087.GetComponent<SpriteRenderer>().enabled = true;
         cat_087.GetComponent<Collider2D>().enabled = true;
 
-        //播放特效、关闭界面
 
     }
 
@@ -88,6 +92,7 @@ public class PuzzleManager : MonoBehaviour
     public void OpenTip()
     {
         tipOBJ.SetActive(true);
+        Invoke("ClosePuzzle",2f);
     }
 
     // 检查当前拼图块位置
@@ -118,7 +123,7 @@ public class PuzzleManager : MonoBehaviour
                 // 触发拼图完成事件
                 activePiece = null;
                 Debug.Log("拼图完成！");
-                ClosePuzzle();
+                OpenTip();
             }
         }
     }

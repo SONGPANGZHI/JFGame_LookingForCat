@@ -9,8 +9,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private PuzzleManager puzzleGame;          // 拼图
-    [SerializeField]
-    private CameraTouchDrag cameraTouch;
 
     [Header("UI元素")]
     public TMP_Text foundCountText;
@@ -29,11 +27,22 @@ public class UIManager : MonoBehaviour
     // ID_87 开始拼图
     public void StartPuzzle()
     {
-        puzzleGame.OpenPuzzle();
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(87);
+
+        if (isCompleted) return;
+        else puzzleGame.OpenPuzzle();
     }
     
 
-    // ID_77_78 网球
+    // ID_77_78 网球游戏
+    public void StartGrid()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(77);
+        bool Completed = GameManager.Instance.progressManager.IsCatFound(78);
+
+        if(isCompleted|| Completed) return;
+        else GridManager.Instance.StartPlay();
+    }
 
 
     public void ShowCatFoundPopup(CatBase cat)
