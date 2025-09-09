@@ -101,7 +101,7 @@ public class AssemblePuzzleManager : MonoBehaviour
 
                 // 触发完成事件
                 set.isCompleted = true;
-
+                
                 foreach (var cat in set.catOBJ)
                 {
                     cat.GetComponent<SpriteRenderer>().enabled = true;

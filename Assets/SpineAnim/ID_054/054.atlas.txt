@@ -1,0 +1,13 @@
+
+054.png
+size: 136,146
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+54_1
+  rotate: false
+  xy: 2, 2
+  size: 132, 142
+  orig: 132, 148
+  offset: 0, 0
+  index: -1

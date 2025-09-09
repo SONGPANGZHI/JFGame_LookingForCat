@@ -14,6 +14,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 startScale;
     private Quaternion startRotation;
+    private bool compele = false;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
     // 拼图碎片已完成
     public void OnPuzzlePieceCompleted()
     {
+        compele = true;
         transform.position = targetPosition.position;
         transform.rotation = targetPosition.rotation;
     }
@@ -33,7 +35,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
     // 当点击
     public void OnPointerClick()
     {
-        if (!isMoving)
+        if (!isMoving && !compele)
         {
             StartCoroutine(MoveToTarget());
         }
@@ -65,7 +67,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
         transform.rotation = targetPosition.rotation;
         transform.localScale = Vector3.one;
         AssemblePuzzleManager.Instance.PieceAssembled(Cat_ID);
-
+        compele = true;
         isMoving = false;
     }
 }

@@ -1,0 +1,13 @@
+
+055.png
+size: 135,139
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+055
+  rotate: false
+  xy: 2, 2
+  size: 131, 135
+  orig: 132, 136
+  offset: 0, 1
+  index: -1

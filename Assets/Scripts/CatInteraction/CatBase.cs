@@ -1,7 +1,6 @@
 ﻿using Spine.Unity;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -53,7 +52,9 @@ public class CatBase : MonoBehaviour
         SetCatAppearance();
 
         SpawnEffect();
-        //AudioSource.PlayClipAtPoint(foundSound, transform.position);
+        int randomIndex = UnityEngine.Random.Range(0,14);
+        MusicManager.Instance.PlaySFX(randomIndex);
+
 
         ExecuteSpecialAction();
         UpdateUI();

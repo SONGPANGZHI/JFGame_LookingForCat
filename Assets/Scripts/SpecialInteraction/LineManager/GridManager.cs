@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GridManager: MonoBehaviour
 {
     public static GridManager Instance;
+
+    [SerializeField]
+    private InputManager inputManager;
+    [SerializeField]
+    private GameObject cameraTouch;
 
     [Header("Grid Settings")]
     public int gridSize = 7;
@@ -19,6 +25,7 @@ public class GridManager: MonoBehaviour
 
     [Header("UI References")]
     public Transform gridContainer;
+    public Button switchPoint;
 
     [Header("Mobile Settings")]
     public float touchSensitivity = 15f;
@@ -60,6 +67,8 @@ public class GridManager: MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+
+        switchPoint.onClick.AddListener(ResetGame);
     }
 
     private void Start()
@@ -84,7 +93,11 @@ public class GridManager: MonoBehaviour
         cat_Id_077.GetComponent<SpriteRenderer>().enabled = true;
         cat_Id_077.GetComponent<Collider2D>().enabled = true;
         SpriteRenderer.sprite = newSprite;
+
+        inputManager.SetUIOpenState(false);
+        cameraTouch.GetComponent<CameraTouchDrag>().enabled = true;
         this.gameObject.SetActive(false);
+
     }
 
     /// <summary>
@@ -93,6 +106,8 @@ public class GridManager: MonoBehaviour
     public void StartPlay()
     {
         startPaly = true;
+        inputManager.SetUIOpenState(true);
+        cameraTouch.GetComponent<CameraTouchDrag>().enabled = false;
         transform.GetChild(0).gameObject.SetActive(true);
         InitializeGrid();
         PlacePoints();
@@ -351,6 +366,7 @@ public class GridManager: MonoBehaviour
 
         if (completedPairs >= pointColorTypes.Length)
         {
+            OpenTips();
             Debug.Log("游戏完成！");
         }
 

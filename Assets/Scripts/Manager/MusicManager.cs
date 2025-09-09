@@ -70,8 +70,12 @@ public class MusicManager : MonoBehaviour
     // 播放音效
     public void PlaySFX(int index)
     {
-        if (index < 0 || index >= audioClips.Length) return;
-        SFX.PlayOneShot(audioClips[index]);
+        if (PlayerPrefs.GetInt(SFXKey) == 0)
+        {
+            SFX.clip = catClips[index];
+            SFX.Play();
+        }
+            
     }
 
     // 播放猫叫声
