@@ -23,7 +23,8 @@ public class CatBase : MonoBehaviour
         {
             // 可以继续添加其他猫的特殊行为
             { 12, () => SevenSeasDeluxe.Instance.StartMove() },
-            { 43, ()=> CatBus.Instance.BusMove() },
+            { 43, ( )=> CatBus.Instance.BusMove() },
+            { 82, () => SevenSeasDeluxe.Instance.PlayCatAnim_082()},        // 082 找到后播放彩灯
             
         };
     }
@@ -52,7 +53,7 @@ public class CatBase : MonoBehaviour
         SetCatAppearance();
 
         SpawnEffect();
-        int randomIndex = UnityEngine.Random.Range(0,14);
+        int randomIndex = UnityEngine.Random.Range(0,13);
         MusicManager.Instance.PlaySFX(randomIndex);
 
 

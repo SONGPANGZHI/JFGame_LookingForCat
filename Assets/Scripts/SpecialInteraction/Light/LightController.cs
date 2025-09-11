@@ -5,7 +5,13 @@ using UnityEngine;
 public class LightController : MonoBehaviour
 {
     public Color currentColor;
-    private SpriteRenderer lightRend;
+
+    public SpriteRenderer lightSprite;         // 灯
+    public SpriteRenderer lightBeam;           // 光束
+
+    //private SpriteRenderer lightRend;
+
+    private bool openLightBeam = false;
 
     // 定义所有可能颜色（包括干扰色）
     public Color[] colorOptions = new Color[]
@@ -24,22 +30,25 @@ public class LightController : MonoBehaviour
         new Color(0f, 0.5f, 0f)      // 干扰色4 - 深绿色
     };
 
-    void Awake()
-    {
-        lightRend = GetComponent<SpriteRenderer>();
-        lightRend.color = currentColor;
-    }
-
     public void SetColor(Color newColor)
     {
+        if(openLightBeam)
+        {
+            lightBeam.gameObject.SetActive(true);
+            openLightBeam = false;
+        }
+
         currentColor = newColor;
-        lightRend.color = currentColor;
+        lightSprite.color = currentColor;
+        lightBeam.color = currentColor;
     }
 
     public void PointClick()
     {
+        openLightBeam = true;
+
         if (LightManager.isPuzzleSolved)
-            LightManager.Instance.PuzzleSolved();
+            return;
         else
             CycleColor();
 

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class GridManager: MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class GridManager: MonoBehaviour
             Instance = this;
 
         switchPoint.onClick.AddListener(ResetGame);
+        LoadGridMap();
     }
 
     private void Start()
@@ -122,7 +124,26 @@ public class GridManager: MonoBehaviour
         Invoke("ShowCat",1f);
     }
 
-    
+    #region 读取格子表
+
+    private List<SpointMapConfig> allMaps = new List<SpointMapConfig>();
+
+    /// <summary>
+    /// 加载格子地图
+    /// </summary>
+    public void LoadGridMap()
+    {
+        string gridMapLoad = Resources.Load<TextAsset>("SpointMap").text;
+        string wrappedJson = "{\"items\":" + gridMapLoad + "}";
+        SpointMapArrayWrapper wrapper = JsonUtility.FromJson<SpointMapArrayWrapper>(wrappedJson);
+        for (int i = 0; i < wrapper.items.Length; i++)
+        {
+            allMaps.Add(wrapper.items[i]);
+        }
+    }
+
+    #endregion
+
     void InitializeGrid()
     {
         gridCells = new GridCell[gridSize, gridSize];
@@ -143,26 +164,30 @@ public class GridManager: MonoBehaviour
 
     void PlacePoints()
     {
-        List<Vector2Int> occupiedPositions = new List<Vector2Int>();
+        List<Vector2> occupiedPositions = new List<Vector2>();
+        int randomID = Random.Range(0, allMaps.Count);
 
-        // 每种颜色放置两个点
-        for (int i = 0; i < pointColorTypes.Length; i++)
+        foreach (var cell in allMaps[randomID].specialCells)
         {
-            for (int j = 0; j < 2; j++)
-            {
-                Vector2Int randomPos;
-                do
-                {
-                    randomPos = new Vector2Int(Random.Range(0, gridSize), Random.Range(0, gridSize));
-                } while (occupiedPositions.Contains(randomPos));
+            Vector2 pos = new Vector2(cell.x, cell.y);
+            occupiedPositions.Add(pos);
 
-                occupiedPositions.Add(randomPos);
-                gridCells[randomPos.x, randomPos.y].SetColorType(pointColorTypes[i]);
-            }
+            ColorType _colorType = StringToColorType(cell.colorType);
+
+            gridCells[cell.x, cell.y].SetColorType(_colorType);
+        }
+    }
+    private ColorType StringToColorType(string colorString)
+    {
+        switch (colorString.ToLower())
+        {
+            case "red": return ColorType.Red;
+            case "green": return ColorType.Green;
+            case "blue": return ColorType.Blue;
+            default: return ColorType.White;
         }
     }
 
-   
 
     void Update()
     {
@@ -576,4 +601,7 @@ public class GridManager: MonoBehaviour
             BacktrackToIndex(targetIndex);
         }
     }
+
+
+    
 }

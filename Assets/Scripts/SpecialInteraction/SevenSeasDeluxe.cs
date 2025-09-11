@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ID_10_12_11_116 猫猫 海盗船逻辑
+/// ID_10_12_11_116 猫猫 海盗船逻辑  082
 /// </summary>
 public class SevenSeasDeluxe : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class SevenSeasDeluxe : MonoBehaviour
     private float moveSpeed = 0.5f; // 移动速度
     private bool isMoving = false;
 
+    [Header("ID_082")]
+    public SkeletonAnimation lightAnim;
+
     private void Awake()
     {
         if(Instance == null)
@@ -38,6 +42,8 @@ public class SevenSeasDeluxe : MonoBehaviour
         startPosition = ship.transform.position;
 
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(12);
+        bool isCompleted_082 = GameManager.Instance.progressManager.IsCatFound(82);
+
         if (isCompleted)
         {
             for (int i = 0; i < sailList.Count; i++) { sailList[i].gameObject.SetActive(true); }
@@ -47,6 +53,9 @@ public class SevenSeasDeluxe : MonoBehaviour
             OpenCatShow();
             sprayOBJ.SetActive(true);
         }
+
+        if (isCompleted_082)
+            PlayCatAnim_082();
     }
 
     /// <summary>
@@ -146,5 +155,15 @@ public class SevenSeasDeluxe : MonoBehaviour
         ID_010_Cat.GetComponent<BoxCollider2D>().enabled = true;
         ID_011_Cat.GetComponent<SpriteRenderer>().enabled = true;
         ID_011_Cat.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+
+    /// <summary>
+    /// 播放082猫猫 动画
+    /// </summary>
+    public void PlayCatAnim_082()
+    {
+        lightAnim.gameObject.SetActive(true);
+        lightAnim.state.SetAnimation(0,"",true);
     }
 }

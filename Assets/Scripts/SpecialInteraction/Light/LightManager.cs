@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +22,11 @@ public class LightManager : MonoBehaviour
     };
 
     public static bool isPuzzleSolved = false;
+
+    public List<SpriteRenderer> catList;
+
+    public SkeletonAnimation celebrationAnim;
+
 
     private void Awake()
     {
@@ -84,64 +89,39 @@ public class LightManager : MonoBehaviour
     public void PuzzleSolved()
     {
         isPuzzleSolved = true;
-        //UpdateFeedback("恭喜！解谜成功！");
-        Debug.Log("恭喜！解谜成功！");
-        // 所有灯闪烁庆祝
-        StartCoroutine(CelebrationEffect());
+
+        // 打开所以猫猫
+        OpenCat();
+
+        // 所有灯闪烁庆祝 播放 spine 动画
+        PlayCelebrationAnim();
     }
 
-    // 庆祝效果 - 灯闪烁
-    private IEnumerator CelebrationEffect()
+    
+    // 打开猫猫
+    public void OpenCat()
     {
-        float duration = 3f;
-        float interval = 0.2f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        foreach (var item in catList)
         {
-            foreach (LightController light in lights)
-            {
-                light.SetColor(Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f));
-            }
-            yield return new WaitForSeconds(interval);
-            elapsed += interval;
-
-            // 恢复正确颜色
-            for (int i = 0; i < lights.Count; i++)
-            {
-                lights[i].SetColor(correctColors[i]);
-            }
-            yield return new WaitForSeconds(interval);
-            elapsed += interval;
+            item.enabled = true;
+            item.GetComponent<Collider2D>().enabled = true;
         }
 
-        Debug.Log("庆祝效果结束，所有灯恢复正确颜色。");
+    }
+
+    // 播放庆祝动画
+    public void PlayCelebrationAnim()
+    {
+        celebrationAnim.state.SetAnimation(0,"",true);
     }
 
     #endregion
 
 
-    #region 打地鼠事件
-
-    #endregion
-
-    #region 游戏拼图事件
-
-    #endregion
-
-    #region 家具组装事件
-
-    #endregion
-
-    #region 数字顺序事件
-
-    #endregion
 
 
 
 
 
-   
 
- 
 }

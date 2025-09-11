@@ -90,4 +90,32 @@ public enum ColorType
     White
 }
 
+/// <summary>
+/// 格子
+/// </summary>
+
+[System.Serializable]
+public class SpointMapConfig
+{
+    public int MapID;
+    public List<SpecialCellData> specialCells;
+}
+
+/// <summary>
+/// 特殊格子
+/// </summary>
+[System.Serializable]
+public class SpecialCellData
+{
+    public int x;
+    public int y;
+    public string colorType;
+    public bool isOccupied;
+}
+
+[System.Serializable]
+public class SpointMapArrayWrapper
+{
+    public SpointMapConfig[] items;
+}
 

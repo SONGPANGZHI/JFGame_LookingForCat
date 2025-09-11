@@ -1,0 +1,284 @@
+[
+    {
+        "MapID": 0,
+        "specialCells": [
+            {
+                "x": 3,
+                "y": 0,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 2,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 2,
+                "y": 2,
+                "colorType": "Green",
+                "isOccupied": true
+            }, {
+                "x": 6,
+                "y": 5,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 5,
+                "y": 2,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 2,
+                "y": 3,
+                "colorType": "Blue",
+                "isOccupied": true
+            }
+        ]
+    },
+   {
+        "MapID": 1,
+        "specialCells": [
+            {
+                "x": 0,
+                "y": 1,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 4,
+                "y": 1,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 2,
+                "colorType": "Green",
+                "isOccupied": true
+            }, {
+                "x": 2,
+                "y": 5,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 2,
+                "y": 6,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 5,
+                "y": 5,
+                "colorType": "Blue",
+                "isOccupied": true
+            }
+        ]
+    },
+   {
+        "MapID": 2,
+        "specialCells": [
+            {
+                "x": 3,
+                "y": 0,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 1,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 6,
+                "y": 2,
+                "colorType": "Green",
+                "isOccupied": true
+            }, 
+            {
+                "x": 5,
+                "y": 3,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 3,
+                "y": 5,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 5,
+                "y": 5,
+                "colorType": "Blue",
+                "isOccupied": true
+            }
+        ]
+    },
+   {
+        "MapID": 3,
+        "specialCells": [
+            {
+                "x": 1,
+                "y": 0,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 2,
+                "y": 1,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 5,
+                "y": 1,
+                "colorType": "Red",
+                "isOccupied": true
+            }, 
+            {
+                "x": 0,
+                "y": 2,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 2,
+                "y": 4,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 6,
+                "y": 2,
+                "colorType": "Green",
+                "isOccupied": true
+            }
+        ]
+    },
+    {
+        "MapID": 4,
+        "specialCells": [
+            {
+                "x": 0,
+                "y": 0,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 3,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 2,
+                "colorType": "Green",
+                "isOccupied": true
+            }, {
+                "x": 0,
+                "y": 6,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 4,
+                "y": 0,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 2,
+                "y": 1,
+                "colorType": "Blue",
+                "isOccupied": true
+            }
+        ]
+    },
+    {
+        "MapID": 5,
+        "specialCells": [
+            {
+                "x": 6,
+                "y": 5,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 4,
+                "y": 6,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 0,
+                "colorType": "Green",
+                "isOccupied": true
+            }, {
+                "x": 6,
+                "y": 0,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 4,
+                "y": 0,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 5,
+                "colorType": "Blue",
+                "isOccupied": true
+            }
+        ]
+    },
+    {
+        "MapID": 6,
+        "specialCells": [
+            {
+                "x": 5,
+                "y": 1,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 1,
+                "y": 6,
+                "colorType": "Red",
+                "isOccupied": true
+            },
+            {
+                "x": 6,
+                "y": 0,
+                "colorType": "Green",
+                "isOccupied": true
+            }, {
+                "x": 2,
+                "y": 4,
+                "colorType": "Green",
+                "isOccupied": true
+            },
+            {
+                "x": 6,
+                "y": 1,
+                "colorType": "Blue",
+                "isOccupied": true
+            },
+            {
+                "x": 5,
+                "y": 2,
+                "colorType": "Blue",
+                "isOccupied": true
+            }
+        ]
+    }
+]
