@@ -11,10 +11,13 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private PuzzleManager puzzleGame;          // 拼图
+    [SerializeField]
+    private NineSquareGridPuzzle NineSquareGridPuzzle;      // 九宫格 拼图
 
-    [Header("UI元素")]
+
     public TMP_Text foundCountText;
 
+    [Header("设置UI参数")]
     public Image setBG;
     public Button SFX_BTN;
     public Button BGM_BTN;
@@ -23,14 +26,22 @@ public class UIManager : MonoBehaviour
     public Transform moveTrans;
     public Transform targetPosition;
 
+    [Header("提醒界面")]
+    public CameraTouchDrag cameraOBJ;
+    public GameObject tipPlane;
+    public TMP_Text tip_TMP;
+
     private Vector3 startPosition;
     private bool setOpen = false;
+    private InputManager inputManager;
+     
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
 
+        inputManager = GetComponent<InputManager>();
         startPosition = moveTrans.position;
 
         SFX_BTN.onClick.AddListener(SFXSwitchClick);
@@ -39,6 +50,8 @@ public class UIManager : MonoBehaviour
 
         InitStates();
     }
+
+    #region 主界面设置功能逻辑
 
     /// <summary>
     /// 初始化 按钮状态
@@ -100,7 +113,7 @@ public class UIManager : MonoBehaviour
     private void SettingSwitchClick()
     {
         //设置背景显示 找猫猫标题移动 打开两个按钮
-        if(setOpen)
+        if (setOpen)
         {
             //关闭 设置
             setOpen = false;
@@ -109,13 +122,16 @@ public class UIManager : MonoBehaviour
         else
         {
             //打开 设置
-            setOpen = true; 
+            setOpen = true;
             StartCoroutine(FillProgressBar());
         }
         Set_BTN.interactable = false;
     }
 
-
+    /// <summary>
+    /// 标签向右移动
+    /// </summary>
+    /// <returns></returns>
     IEnumerator FillProgressBar()
     {
         float duration = 1f; // 1秒钟
@@ -135,6 +151,10 @@ public class UIManager : MonoBehaviour
         Set_BTN.interactable = true;
     }
 
+    /// <summary>
+    /// 标签向左移动
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CloseFillProgressBar()
     {
         OpenBtton(false);
@@ -164,6 +184,47 @@ public class UIManager : MonoBehaviour
         BGM_BTN.gameObject.SetActive(active);
     }
 
+    #endregion
+
+    #region 小游戏界面 提醒通关 摄像机参数
+
+    /// <summary>
+    /// 打开提醒界面
+    /// </summary>
+    public void OpenTipPlane(int catID = 0)
+    {
+        tipPlane.SetActive(true);
+
+        if (catID == 0)
+            tip_TMP.text = "网球网修复成功~";
+        else
+            tip_TMP.text = "恭喜解锁" + catID + "猫猫~";
+
+        // 2s 关闭界面
+        Invoke("CloseTipPlane", 2f);
+    }
+
+    /// <summary>
+    /// 关闭
+    /// </summary>
+    public void CloseTipPlane()
+    {
+        tipPlane.SetActive(false);
+
+    }
+
+    /// <summary>
+    /// 其他参数 摄像机 可以点击
+    /// </summary>
+    public void OtherParameters(bool _active)
+    {
+        cameraOBJ.enabled = _active;
+        inputManager.SetUIOpenState(!_active);
+    } 
+
+
+    #endregion
+
 
     /// <summary>
     /// 更新猫猫数量 UI
@@ -189,31 +250,25 @@ public class UIManager : MonoBehaviour
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(77);
         bool Completed = GameManager.Instance.progressManager.IsCatFound(78);
 
-        if(isCompleted|| Completed) return;
+        if(isCompleted || Completed) return;
         else GridManager.Instance.StartPlay();
+    }
+
+    /// <summary>
+    /// 九宫格拼图
+    /// </summary>
+    public void Nine_SquareGridPuzzle()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(112);
+        if (isCompleted) return;
+        else NineSquareGridPuzzle.StartPlayPuzzle();
     }
 
 
     public void ShowCatFoundPopup(CatBase cat)
     {
-        //foundCatImage.sprite = cat.foundSprite;
-        //foundCatName.text = $"猫猫 #{cat.catID}";
-        //foundPopup.SetActive(true);
-
-        //// 3秒后自动关闭
-        //StartCoroutine(HidePopupAfterDelay(3f));
         Debug.Log($"猫猫 #{cat.catID} 被找到");
     }
 
-    private IEnumerator HidePopupAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        //foundPopup.SetActive(false);
-    }
 
-    public void OnCollectibleButtonClick()
-    {
-        // 打开收集品图鉴
-        // 实现图鉴逻辑
-    }
 }

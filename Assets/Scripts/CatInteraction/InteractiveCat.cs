@@ -1,8 +1,5 @@
-﻿using Spine;
-using Spine.Unity;
+﻿using Spine.Unity;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 // 交互式猫猫
@@ -10,6 +7,7 @@ public class InteractiveCat : CatBase
 {
     [Header("交互设置")]
     public GameObject interactiveObject;  // 触发猫猫出现的物体（如尾巴、草丛等）
+    public bool catAnimatorShow = false;            //特殊情况
 
     [Header("点击设置")]
     public float clickCooldown = 0.5f;   // 防止连续误点击
@@ -45,7 +43,6 @@ public class InteractiveCat : CatBase
     private SpriteRenderer interactiveObjectSpriteRenderer;
     private Collider2D interactiveObjectCollider;
     private SkeletonAnimation interactiveObjectAnimator;
-
 
     /// <summary>
     /// 交互物体上的组件
@@ -100,6 +97,7 @@ public class InteractiveCat : CatBase
         else
         {
             HideCat(); // 如果未找到，隐藏猫猫
+        
         }
 
     }
@@ -149,6 +147,7 @@ public class InteractiveCat : CatBase
 
         if (interactiveObjectSpriteRenderer != null)
             interactiveObjectSpriteRenderer.enabled = active;
+
     }
 
     /// <summary>
@@ -500,6 +499,12 @@ public class InteractiveCat : CatBase
         {
             if(GetComponent<SpriteRenderer>() != null)
                 GetComponent<SpriteRenderer>().enabled = true;
+        }
+
+        if (catAnimatorShow)
+        {
+            transform.GetComponent<MeshRenderer>().enabled = visible;
+            transform.GetComponent<SkeletonAnimation>().enabled = visible;
         }
 
     }

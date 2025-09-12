@@ -1,0 +1,13 @@
+
+052.png
+size: 450,376
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shuzhuang
+  rotate: false
+  xy: 2, 2
+  size: 446, 372
+  orig: 448, 372
+  offset: 0, 0
+  index: -1
