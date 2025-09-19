@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class NineSquareGridPuzzle : MonoBehaviour
 {
@@ -114,7 +113,6 @@ public class NineSquareGridPuzzle : MonoBehaviour
         tiles[index1].transform.SetSiblingIndex(siblingIndex2);
         tiles[index2].transform.SetSiblingIndex(siblingIndex1);
 
-        Debug.Log($"交换了格子 {index1} 和 {index2}");
     }
 
     /// <summary>
@@ -168,8 +166,15 @@ public class NineSquareGridPuzzle : MonoBehaviour
 
         // 保存找到的猫猫 并刷新UI
         catID_112.OnTapped();
-        //GameManager.Instance.progressManager.CatFound(112);
-        //UIManager.Instance.UpdateProgressUI();
+    }
+
+    /// <summary>
+    /// 关闭界面
+    /// </summary>
+    public void CloseNinePuzzle()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+        UIManager.Instance.OtherParameters(true);
     }
   
 }

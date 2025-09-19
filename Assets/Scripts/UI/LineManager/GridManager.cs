@@ -2,16 +2,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class GridManager: MonoBehaviour
 {
     public static GridManager Instance;
-
-    [SerializeField]
-    private InputManager inputManager;
-    [SerializeField]
-    private GameObject cameraTouch;
 
     [Header("Grid Settings")]
     public int gridSize = 7;
@@ -27,6 +21,7 @@ public class GridManager: MonoBehaviour
     [Header("UI References")]
     public Transform gridContainer;
     public Button switchPoint;
+    public List<Sprite> iconSprite;
 
     [Header("Mobile Settings")]
     public float touchSensitivity = 15f;
@@ -95,9 +90,7 @@ public class GridManager: MonoBehaviour
         cat_Id_077.GetComponent<SpriteRenderer>().enabled = true;
         cat_Id_077.GetComponent<Collider2D>().enabled = true;
         SpriteRenderer.sprite = newSprite;
-
-        inputManager.SetUIOpenState(false);
-        cameraTouch.GetComponent<CameraTouchDrag>().enabled = true;
+        UIManager.Instance.OtherParameters(true);
         this.gameObject.SetActive(false);
 
     }
@@ -108,11 +101,16 @@ public class GridManager: MonoBehaviour
     public void StartPlay()
     {
         startPaly = true;
-        inputManager.SetUIOpenState(true);
-        cameraTouch.GetComponent<CameraTouchDrag>().enabled = false;
+        UIManager.Instance.OtherParameters(false);
         transform.GetChild(0).gameObject.SetActive(true);
-        InitializeGrid();
-        PlacePoints();
+        if (gridContainer.childCount > 0) return;
+        else
+        {
+            InitializeGrid();
+            PlacePoints();
+        }
+
+        
     }
 
     /// <summary>
@@ -120,8 +118,18 @@ public class GridManager: MonoBehaviour
     /// </summary>
     public void OpenTips()
     {
-        transform.GetChild(1).gameObject.SetActive(true);
+        UIManager.Instance.OpenTipPlane(112);
         Invoke("ShowCat",1f);
+    }
+
+    /// <summary>
+    /// 关闭界面
+    /// </summary>
+    public void ClosePlane()
+    {
+        UIManager.Instance.OtherParameters(true);
+        transform.GetChild(0).gameObject.SetActive(false);
+        ResetGame();
     }
 
     #region 读取格子表
@@ -172,11 +180,24 @@ public class GridManager: MonoBehaviour
             Vector2 pos = new Vector2(cell.x, cell.y);
             occupiedPositions.Add(pos);
 
-            ColorType _colorType = StringToColorType(cell.colorType);
-
-            gridCells[cell.x, cell.y].SetColorType(_colorType);
+            Sprite _SpriteType = StringToSpriteType(cell.SpritType);
+            gridCells[cell.x, cell.y].InitSprite(_SpriteType, cell.SpritType);
+            
         }
     }
+
+    private Sprite StringToSpriteType(string colorString)
+    {
+        switch (colorString)
+        {
+            case "CowCat": return iconSprite[0];
+            case "Cat": return iconSprite[1];
+            case "Ball": return iconSprite[2];
+        }
+
+        return null;
+    }
+
     private ColorType StringToColorType(string colorString)
     {
         switch (colorString.ToLower())

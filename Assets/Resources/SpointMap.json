@@ -5,36 +5,36 @@
             {
                 "x": 3,
                 "y": 0,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 2,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 2,
                 "y": 2,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }, {
                 "x": 6,
                 "y": 5,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 5,
                 "y": 2,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 2,
                 "y": 3,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             }
         ]
@@ -45,36 +45,36 @@
             {
                 "x": 0,
                 "y": 1,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 4,
                 "y": 1,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 2,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }, {
                 "x": 2,
                 "y": 5,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 2,
                 "y": 6,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 5,
                 "y": 5,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             }
         ]
@@ -85,37 +85,37 @@
             {
                 "x": 3,
                 "y": 0,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 1,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 6,
                 "y": 2,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }, 
             {
                 "x": 5,
                 "y": 3,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 3,
                 "y": 5,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 5,
                 "y": 5,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             }
         ]
@@ -126,37 +126,37 @@
             {
                 "x": 1,
                 "y": 0,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 2,
                 "y": 1,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 5,
                 "y": 1,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             }, 
             {
                 "x": 0,
                 "y": 2,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 2,
                 "y": 4,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 6,
                 "y": 2,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }
         ]
@@ -167,36 +167,36 @@
             {
                 "x": 0,
                 "y": 0,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 3,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 2,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }, {
                 "x": 0,
                 "y": 6,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 4,
                 "y": 0,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 2,
                 "y": 1,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             }
         ]
@@ -207,36 +207,36 @@
             {
                 "x": 6,
                 "y": 5,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 4,
                 "y": 6,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 0,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }, {
                 "x": 6,
                 "y": 0,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 4,
                 "y": 0,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 5,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             }
         ]
@@ -247,36 +247,36 @@
             {
                 "x": 5,
                 "y": 1,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 1,
                 "y": 6,
-                "colorType": "Red",
+                "SpritType": "CowCat",
                 "isOccupied": true
             },
             {
                 "x": 6,
                 "y": 0,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             }, {
                 "x": 2,
                 "y": 4,
-                "colorType": "Green",
+                "SpritType": "Cat",
                 "isOccupied": true
             },
             {
                 "x": 6,
                 "y": 1,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             },
             {
                 "x": 5,
                 "y": 2,
-                "colorType": "Blue",
+                "SpritType": "Ball",
                 "isOccupied": true
             }
         ]

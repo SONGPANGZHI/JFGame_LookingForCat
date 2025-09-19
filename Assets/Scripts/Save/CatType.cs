@@ -109,7 +109,7 @@ public class SpecialCellData
 {
     public int x;
     public int y;
-    public string colorType;
+    public string SpritType;
     public bool isOccupied;
 }
 

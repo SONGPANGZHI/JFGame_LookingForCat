@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private NineSquareGridPuzzle NineSquareGridPuzzle;      // 九宫格 拼图
 
+    [SerializeField]
+    private SequenceButtonGame SequenceButtonGame;
+
 
     public TMP_Text foundCountText;
 
@@ -262,6 +265,14 @@ public class UIManager : MonoBehaviour
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(112);
         if (isCompleted) return;
         else NineSquareGridPuzzle.StartPlayPuzzle();
+    }
+
+    public void PlaySharkTeeth()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(85);
+        if (isCompleted) return;
+        else SequenceButtonGame.OpenSharkTeethPlane();
+
     }
 
 

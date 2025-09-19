@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // 组装拼图碎片
 public class AssemblePuzzlePiece : MonoBehaviour
@@ -15,6 +16,19 @@ public class AssemblePuzzlePiece : MonoBehaviour
     private Vector3 startScale;
     private Quaternion startRotation;
     private bool compele = false;
+
+    [Header("摄像机设置")]
+    public string cameraTag = "Camera"; // 可通过标签指定
+    private Transform cameraTransform;
+
+    private void Awake()
+    {
+        GameObject cameraObj = GameObject.FindWithTag(cameraTag);
+        if (cameraObj != null)
+        {
+            cameraTransform = cameraObj.transform;
+        }
+    }
 
     void Start()
     {
@@ -40,6 +54,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
             StartCoroutine(MoveToTarget());
         }
     }
+
 
     // 碎片移动到目标位置
     IEnumerator MoveToTarget()

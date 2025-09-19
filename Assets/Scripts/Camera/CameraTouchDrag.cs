@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraTouchDrag : MonoBehaviour
 {
@@ -16,6 +14,7 @@ public class CameraTouchDrag : MonoBehaviour
 
     private Vector3 dragOrigin;
     private Vector3 velocity = Vector3.zero;
+    private bool isDragging = false;
 
     [Header("缩放设置")]
     public float minZoom = 13f;             //最小缩放数
@@ -41,6 +40,7 @@ public class CameraTouchDrag : MonoBehaviour
 
     public void Update()
     {
+
         HandleDrag();
 
 #if UNITY_EDITOR
@@ -59,16 +59,28 @@ public class CameraTouchDrag : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             dragOrigin = GetMouseWorldPos();
+            isDragging = true;
+            velocity = Vector3.zero; // 重置速度
         }
 
         // 拖拽中
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && isDragging)
         {
+            Vector3 currentPos = GetMouseWorldPos();
             Vector3 difference = dragOrigin - GetMouseWorldPos();
             Vector3 targetPos = transform.position + difference * dragSpeed;
 
             // 平滑移动
             transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
+
+            // 更新拖拽起点，使连续拖拽更流畅
+            dragOrigin = currentPos;
+        }
+
+        // 结束拖拽
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
         }
 
         // 应用边界限制
@@ -163,6 +175,12 @@ public class CameraTouchDrag : MonoBehaviour
                 initialTouchDistance = currentDistance;
             }
         }
+    }
+
+    public void ResetDragState()
+    {
+        isDragging = false;
+        velocity = Vector3.zero;
     }
 
     //应用改变摄像机大小

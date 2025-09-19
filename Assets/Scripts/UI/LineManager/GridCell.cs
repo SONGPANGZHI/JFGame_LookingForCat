@@ -13,6 +13,9 @@ public class GridCell: MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
     public bool isStartPoint = false;
     public bool isEndPoint = false;
 
+    public Image icon;
+
+
     private Image image;
     private GridManager gridManager;
 
@@ -29,6 +32,30 @@ public class GridCell: MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
         y = gridY;
         name = $"Cell_{x}_{y}";
     }
+
+    public void InitSprite(Sprite _sprite,string _colorName)
+    {
+        icon.gameObject.SetActive(true);
+        icon.sprite = _sprite;
+        StringToColorType(_colorName);
+
+        SetColorType(colorType);
+    }
+
+    private ColorType StringToColorType(string colorString)
+    {
+        switch (colorString)
+        {
+            case "CowCat": return colorType = ColorType.Red;
+            case "Cat": return colorType = ColorType.Green;
+            case "Ball": return colorType = ColorType.Blue;
+
+            default: return colorType = ColorType.White;
+        }
+
+
+    }
+
 
     public void SetColorType(ColorType type)
     {
@@ -57,6 +84,8 @@ public class GridCell: MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
             cellColor = GetColorFromType(ColorType.White);
             isOccupied = false;
         }
+        icon.gameObject.SetActive(false);
+        icon.sprite = null;
         isPath = false;
         isStartPoint = false;
         isEndPoint = false;
@@ -83,7 +112,7 @@ public class GridCell: MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 
             if (isStartPoint || isEndPoint)
             {
-                image.transform.localScale = Vector3.one * 1.2f;
+                image.transform.localScale = Vector3.one * 1.1f;
                 // 为起点和终点添加边框效果
                 image.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
             }

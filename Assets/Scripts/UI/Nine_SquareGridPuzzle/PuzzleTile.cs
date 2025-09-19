@@ -33,11 +33,11 @@ public class PuzzleTile : MonoBehaviour
     {
         if (isSelected)
         {
-            tileImage.color = Color.yellow; // 选中状态
+            transform.localScale = Vector3.one * 0.95f;
         }
         else
         {
-            tileImage.color = Color.white; // 正常状态
+            transform.localScale = Vector3.one;
         }
     }
 
@@ -52,6 +52,6 @@ public class PuzzleTile : MonoBehaviour
 
     public void ResetAppearance()
     {
-        tileImage.color = Color.white;
+        transform.localScale = Vector3.one;
     }
 }
