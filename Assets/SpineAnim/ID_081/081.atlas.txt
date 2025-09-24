@@ -1,0 +1,48 @@
+
+081.png
+size: 386,227
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+081
+  rotate: false
+  xy: 2, 94
+  size: 142, 131
+  orig: 248, 132
+  offset: 1, 1
+  index: -1
+z1
+  rotate: false
+  xy: 2, 2
+  size: 80, 90
+  orig: 84, 92
+  offset: 1, 1
+  index: -1
+z2
+  rotate: false
+  xy: 146, 8
+  size: 94, 97
+  orig: 96, 100
+  offset: 1, 1
+  index: -1
+z3
+  rotate: false
+  xy: 270, 11
+  size: 102, 98
+  orig: 104, 100
+  offset: 1, 1
+  index: -1
+z4
+  rotate: false
+  xy: 270, 111
+  size: 114, 114
+  orig: 116, 116
+  offset: 1, 1
+  index: -1
+z5
+  rotate: false
+  xy: 146, 107
+  size: 122, 118
+  orig: 124, 120
+  offset: 1, 1
+  index: -1

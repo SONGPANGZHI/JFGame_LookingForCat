@@ -1,0 +1,48 @@
+
+090.png
+size: 295,159
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+090
+  rotate: true
+  xy: 2, 2
+  size: 155, 191
+  orig: 156, 192
+  offset: 0, 1
+  index: -1
+090y
+  rotate: false
+  xy: 195, 105
+  size: 88, 52
+  orig: 88, 52
+  offset: 0, 0
+  index: -1
+YF1
+  rotate: true
+  xy: 255, 57
+  size: 46, 38
+  orig: 48, 40
+  offset: 1, 1
+  index: -1
+YF2
+  rotate: false
+  xy: 195, 5
+  size: 50, 46
+  orig: 52, 48
+  offset: 1, 1
+  index: -1
+YF3
+  rotate: false
+  xy: 195, 53
+  size: 58, 50
+  orig: 60, 52
+  offset: 1, 1
+  index: -1
+YF4
+  rotate: false
+  xy: 247, 17
+  size: 30, 34
+  orig: 32, 36
+  offset: 1, 1
+  index: -1

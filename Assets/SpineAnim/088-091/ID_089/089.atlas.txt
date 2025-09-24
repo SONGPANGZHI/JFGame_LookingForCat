@@ -1,0 +1,48 @@
+
+089.png
+size: 290,226
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+089
+  rotate: false
+  xy: 2, 2
+  size: 234, 222
+  orig: 236, 224
+  offset: 0, 2
+  index: -1
+YF1
+  rotate: false
+  xy: 238, 78
+  size: 46, 38
+  orig: 48, 40
+  offset: 1, 1
+  index: -1
+YF2
+  rotate: false
+  xy: 238, 118
+  size: 50, 46
+  orig: 52, 48
+  offset: 1, 1
+  index: -1
+YF3
+  rotate: true
+  xy: 238, 166
+  size: 58, 50
+  orig: 60, 52
+  offset: 1, 1
+  index: -1
+YF4
+  rotate: false
+  xy: 238, 6
+  size: 30, 34
+  orig: 32, 36
+  offset: 1, 1
+  index: -1
+s089
+  rotate: false
+  xy: 238, 42
+  size: 33, 34
+  orig: 36, 36
+  offset: 2, 1
+  index: -1

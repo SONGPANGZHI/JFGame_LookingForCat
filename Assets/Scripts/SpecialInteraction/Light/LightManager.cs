@@ -10,22 +10,15 @@ public class LightManager : MonoBehaviour
 
     public List<LightController> lights;
 
-    public Color[] correctColors = new Color[]
-    {
-        Color.red,
-        new Color(1f, 0.5f, 0f), // 橙色
-        Color.yellow,
-        Color.green,
-        Color.cyan,
-        Color.blue,
-        new Color(0.5f, 0f, 0.5f) // 紫色
-    };
+    public Color[] correctColors;
+    
 
     public static bool isPuzzleSolved = false;
 
-    public List<SpriteRenderer> catList;
+    public List<SkeletonAnimation> catList;
 
     public SkeletonAnimation celebrationAnim;
+    public GameObject light_Sprite;
 
 
     private void Awake()
@@ -38,7 +31,10 @@ public class LightManager : MonoBehaviour
 
     void Start()
     {
-        InitializeLight();
+        if (!PlayerPrefs.HasKey("StageKey"))
+            InitializeLight();
+        else
+            PuzzleSolved();
     }
 
     void Update()
@@ -95,14 +91,20 @@ public class LightManager : MonoBehaviour
 
         // 所有灯闪烁庆祝 播放 spine 动画
         PlayCelebrationAnim();
+
+        PlayerPrefs.SetString("StageKey", "Stageunlock");
+        
     }
 
     
     // 打开猫猫
     public void OpenCat()
     {
+
+
         foreach (var item in catList)
         {
+            item.GetComponent<MeshRenderer>().enabled = true;
             item.enabled = true;
             item.GetComponent<Collider2D>().enabled = true;
         }
@@ -112,7 +114,9 @@ public class LightManager : MonoBehaviour
     // 播放庆祝动画
     public void PlayCelebrationAnim()
     {
-        celebrationAnim.state.SetAnimation(0,"",true);
+        light_Sprite.SetActive(false);
+        celebrationAnim.gameObject.SetActive(true);
+        celebrationAnim.state.SetAnimation(0, "Sports", true);
     }
 
     #endregion

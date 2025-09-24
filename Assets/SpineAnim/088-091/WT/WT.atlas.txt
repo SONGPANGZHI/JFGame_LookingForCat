@@ -1,0 +1,181 @@
+
+WT.png
+size: 714,421
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+DC1
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DC2
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DC3
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DC4
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DC5
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DC6
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DC7
+  rotate: false
+  xy: 646, 134
+  size: 30, 30
+  orig: 32, 32
+  offset: 1, 1
+  index: -1
+DENG1
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+DENG2
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+DENG3
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+DENG4
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+DENG5
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+DENG6
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+DENG7
+  rotate: false
+  xy: 646, 346
+  size: 66, 73
+  orig: 68, 76
+  offset: 1, 2
+  index: -1
+YF1
+  rotate: false
+  xy: 646, 202
+  size: 50, 42
+  orig: 52, 44
+  offset: 1, 1
+  index: -1
+YF2
+  rotate: false
+  xy: 646, 246
+  size: 50, 46
+  orig: 52, 48
+  offset: 1, 1
+  index: -1
+YF3
+  rotate: false
+  xy: 646, 294
+  size: 58, 50
+  orig: 60, 52
+  offset: 1, 1
+  index: -1
+YF4
+  rotate: false
+  xy: 646, 166
+  size: 30, 34
+  orig: 32, 36
+  offset: 1, 1
+  index: -1
+dengz1
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1
+dengz2
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1
+dengz3
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1
+dengz4
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1
+dengz5
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1
+dengz6
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1
+dengz7
+  rotate: true
+  xy: 2, 2
+  size: 417, 642
+  orig: 432, 660
+  offset: 12, 15
+  index: -1

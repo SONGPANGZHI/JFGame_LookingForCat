@@ -1,0 +1,48 @@
+
+091.png
+size: 178,273
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+091
+  rotate: false
+  xy: 2, 82
+  size: 174, 189
+  orig: 176, 192
+  offset: 1, 1
+  index: -1
+091s
+  rotate: false
+  xy: 114, 2
+  size: 40, 38
+  orig: 44, 40
+  offset: 3, 1
+  index: -1
+YF1
+  rotate: false
+  xy: 114, 42
+  size: 46, 38
+  orig: 48, 40
+  offset: 1, 1
+  index: -1
+YF2
+  rotate: false
+  xy: 62, 34
+  size: 50, 46
+  orig: 52, 48
+  offset: 1, 1
+  index: -1
+YF3
+  rotate: false
+  xy: 2, 30
+  size: 58, 50
+  orig: 60, 52
+  offset: 1, 1
+  index: -1
+YF4
+  rotate: true
+  xy: 62, 2
+  size: 30, 34
+  orig: 32, 36
+  offset: 1, 1
+  index: -1

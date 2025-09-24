@@ -117,21 +117,5 @@ public class AssemblePuzzleManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 在解谜完成时
-    /// </summary>
-    /// <param name="puzzleID"></param>
-    private void OnPuzzleCompleted(int puzzleID)
-    {
-        switch (puzzleID)
-        {
-            case 99:
-                // 特殊处理99号拼图
-                break;
-            case 17:
-                // 特殊处理17号拼图
-                break;
-        }
-    }
-
+   
 }

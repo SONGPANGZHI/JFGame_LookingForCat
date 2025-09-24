@@ -1,0 +1,55 @@
+
+088.png
+size: 382,228
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+088
+  rotate: false
+  xy: 2, 2
+  size: 304, 224
+  orig: 320, 224
+  offset: 0, 0
+  index: -1
+088s
+  rotate: true
+  xy: 308, 42
+  size: 24, 72
+  orig: 52, 76
+  offset: 24, 3
+  index: -1
+088s1
+  rotate: true
+  xy: 308, 5
+  size: 35, 68
+  orig: 36, 72
+  offset: 0, 3
+  index: -1
+YF1
+  rotate: true
+  xy: 308, 68
+  size: 46, 38
+  orig: 48, 40
+  offset: 1, 1
+  index: -1
+YF2
+  rotate: true
+  xy: 308, 116
+  size: 50, 46
+  orig: 52, 48
+  offset: 1, 1
+  index: -1
+YF3
+  rotate: true
+  xy: 308, 168
+  size: 58, 50
+  orig: 60, 52
+  offset: 1, 1
+  index: -1
+YF4
+  rotate: false
+  xy: 348, 80
+  size: 30, 34
+  orig: 32, 36
+  offset: 1, 1
+  index: -1
