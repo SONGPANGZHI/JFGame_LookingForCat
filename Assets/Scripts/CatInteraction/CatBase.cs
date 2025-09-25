@@ -22,11 +22,15 @@ public class CatBase : MonoBehaviour
         catSpecialActions = new Dictionary<int, Action>
         {
             // 可以继续添加其他猫的特殊行为
-            { 12, () => SevenSeasDeluxe.Instance.StartMove() },
+            { 12, ()=> SevenSeasDeluxe.Instance.StartMove() },
             { 43, ()=> CatBus.Instance.BusMove() },
-            { 82, () => SevenSeasDeluxe.Instance.PlayCatAnim_082()},        // 082 找到后播放彩灯
+            { 82, ()=> SevenSeasDeluxe.Instance.PlayCatAnim_082()},        // 082 找到后播放彩灯
             { 27, ()=> AmusementPark.Instance.CatMove_27()},
             { 28, ()=> AmusementPark.Instance.CatMove_28()},
+            { 113,()=> SevenSeasDeluxe.Instance.PlayCatAnim_113()},
+            { 31, ()=> SevenSeasDeluxe.Instance.ChangeCatColor()},
+            { 30, ()=> SevenSeasDeluxe.Instance.ChangeCatColor_30()},
+            { 62, ()=> SomeCatInteractionEvents.Instance.OpenCatID_51() },
         };
     }
 

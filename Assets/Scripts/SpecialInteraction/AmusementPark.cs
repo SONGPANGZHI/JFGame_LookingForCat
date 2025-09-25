@@ -42,6 +42,7 @@ public class AmusementPark : MonoBehaviour
             childrenSlide.state.SetAnimation(0, "Huati", true);
             for (int i = 0; i < otherCat.Count; i++)
             {
+                otherCat[i].GetComponent<Collider2D>().enabled = true;
                 Color color = otherCat[i].GetComponent<SpriteRenderer>().color;
                 color.a = 1;
                 otherCat[i].GetComponent<SpriteRenderer>().color = color;

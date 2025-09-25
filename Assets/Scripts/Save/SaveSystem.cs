@@ -47,8 +47,12 @@ public class SaveSystem : MonoBehaviour
                     cat.isFound = true;
                     if (cat.GetComponent<SpriteRenderer>() == null)
                     {
-                        cat.catAnim.Skeleton.SetColor(Color.gray);
-                        cat.PlayAnim(0, "Sports", cat.loopAnim);
+                        if (cat.catAnim != null)
+                        {
+                            cat.catAnim.Skeleton.SetColor(Color.gray);
+                            cat.PlayAnim(0, "Sports", cat.loopAnim);
+                        }
+                        
                     }
                     else
                     {

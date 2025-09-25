@@ -1,4 +1,6 @@
-﻿using Spine.Unity;
+﻿using Spine;
+using Spine.Unity;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -215,18 +217,19 @@ public class InteractiveCat : CatBase
     /// </summary>
     private void PlayCustomAnimation()
     {
-        //if (interactiveObjectAnimator != null)
+        //if (catAnim != null)
         //{
-        //    interactiveObjectAnimator.Play(objectAnimationName);
-        //    if (disableAfterInteraction)
-        //    {
-        //        StartCoroutine(DisableAfterAnimation(interactiveObjectAnimator));
-        //    }
+        //    TrackEntry trackEntry = catAnim.state.SetAnimation(0, "Sports", false);
+        //    // 添加完成事件监听
+        //    trackEntry.Complete += OnAnimationComplete;
+
         //}
-        //else if (disableAfterInteraction)
-        //{
-        //    SetInteractiveObjectActive(false);
-        //}
+     
+    }
+
+    private void OnAnimationComplete(TrackEntry trackEntry)
+    {
+        
     }
 
     /// <summary>

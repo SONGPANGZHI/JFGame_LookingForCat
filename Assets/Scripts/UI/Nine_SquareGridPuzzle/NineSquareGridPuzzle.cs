@@ -130,12 +130,11 @@ public class NineSquareGridPuzzle : MonoBehaviour
 
         // 所有格子都在正确位置
         isGameComplete = true;
-        Debug.Log("恭喜！拼图完成！");
 
         UIManager.Instance.OpenTipPlane(112);
 
         // 打开
-        Invoke("OpenSetParameters", 2f);
+        Invoke("OpenSetParameters", 1f);
         
 
 

@@ -197,12 +197,12 @@ public class UIManager : MonoBehaviour
         tipPlane.SetActive(true);
 
         if (catID == 0)
-            tip_TMP.text = "网球网修复成功~";
+            tip_TMP.text = "Good~";
         else
             tip_TMP.text = "恭喜解锁" + catID + "猫猫~";
 
         // 2s 关闭界面
-        Invoke("CloseTipPlane", 2f);
+        Invoke("CloseTipPlane", 1f);
     }
 
     /// <summary>

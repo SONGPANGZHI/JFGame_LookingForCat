@@ -33,8 +33,12 @@ public class SevenSeasDeluxe : MonoBehaviour
     [Header("ID_082")]
     public SkeletonAnimation lightAnim;
 
-    [Header("摄像机位置")]
-    public Transform cameraTargetPos;
+    [Header("ID_113")]
+    public SkeletonAnimation catlightAnim;
+
+    [Header("ID_073")]
+    public SkeletonAnimation cat_072;
+    public GameObject catTail;
 
     private void Awake()
     {
@@ -66,6 +70,18 @@ public class SevenSeasDeluxe : MonoBehaviour
 
         if (isCompleted_030)
             PlayCatAnim_031030();
+
+        if (GameManager.Instance.progressManager.IsCatFound(31))
+            ChangeCatColor();
+
+        if (GameManager.Instance.progressManager.IsCatFound(30))
+            ChangeCatColor_30();
+
+        if (GameManager.Instance.progressManager.IsCatFound(113))
+            PlayCatAnim_113();
+
+        if (GameManager.Instance.progressManager.IsCatFound(72))
+            ClickCat_072();
     }
 
     /// <summary>
@@ -170,6 +186,18 @@ public class SevenSeasDeluxe : MonoBehaviour
     }
 
     /// <summary>
+    /// 点击72号猫猫交互
+    /// </summary>
+    public void ClickCat_072()
+    {
+        catTail.SetActive(false);
+        cat_072.GetComponent<MeshRenderer>().enabled = true;
+        cat_072.GetComponent<SkeletonAnimation>().enabled = true;
+        cat_072.GetComponent<Collider2D>().enabled = true;
+    }
+
+
+    /// <summary>
     /// 显示38号猫猫
     /// </summary>
     public void ShowCat_038(bool _isAtive)
@@ -186,21 +214,33 @@ public class SevenSeasDeluxe : MonoBehaviour
     public void PlayCatAnim_082()
     {
         lightAnim.gameObject.SetActive(true);
-        lightAnim.state.SetAnimation(0,"",true);
+        lightAnim.state.SetAnimation(0, "Sports", true);
+    }
+
+    /// <summary>
+    /// 播放113猫猫 动画
+    /// </summary>
+    /// 
+    public void PlayCatAnim_113()
+    {
+        catlightAnim.gameObject.SetActive(true);
+        catlightAnim.state.SetAnimation(0,"Sports",true);
     }
 
     [Header("30-31猫猫")]
 
     public SkeletonAnimation cat_30;
     public SkeletonAnimation cat_31;        //钓鱼猫
+    private bool _startFinsh = false;
 
     /// <summary>
     /// 点击钓鱼动画
     /// </summary>
     public void ClickPlayFishAnim()
     {
-        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(12);
-        if (isCompleted) return;
+        _startFinsh = true;
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(30);
+        if (isCompleted && PlayerPrefs.HasKey("InteractiveFishKey")) return;
         else
         {
             // 设置动画并获取 TrackEntry
@@ -213,6 +253,7 @@ public class SevenSeasDeluxe : MonoBehaviour
 
     void OnAnimationComplete(TrackEntry trackEntry)
     {
+        
         // 移除事件监听，避免重复调用
         trackEntry.Complete -= OnAnimationComplete;
         PlayCatAnim_031030();
@@ -231,6 +272,17 @@ public class SevenSeasDeluxe : MonoBehaviour
         cat_30.GetComponent<BoxCollider2D>().enabled = true;
         cat_30.enabled = true;
         cat_30.state.SetAnimation(0, "Stay2", true);
+        PlayerPrefs.SetString("InteractiveFishKey", "InteractiveFish");
 
+    }
+
+    public void ChangeCatColor()
+    {
+        cat_31.Skeleton.SetColor(Color.gray);
+    }
+
+    public void ChangeCatColor_30()
+    {
+        cat_30.Skeleton.SetColor(Color.gray);
     }
 }
