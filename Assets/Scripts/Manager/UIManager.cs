@@ -268,7 +268,7 @@ public class UIManager : MonoBehaviour
     public void PlaySharkTeeth()
     {
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(85);
-        if (isCompleted) return;
+        if (isCompleted && PlayerPrefs.HasKey("ShaarkTeethKey")) return;
         else SequenceButtonGame.OpenSharkTeethPlane();
 
     }

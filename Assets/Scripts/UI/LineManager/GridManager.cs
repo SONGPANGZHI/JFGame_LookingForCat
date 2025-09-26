@@ -77,6 +77,7 @@ public class GridManager: MonoBehaviour
         {
             ShowCat();
         }
+
     }
 
     /// <summary>

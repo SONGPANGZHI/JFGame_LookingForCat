@@ -77,7 +77,6 @@ public class SequenceButtonGame : MonoBehaviour
         ResetGame();
         UIManager.Instance.OtherParameters(true);
         closeBG_BTN.SetActive(false);
-        CatSetParam();
     }
 
 
@@ -301,11 +300,13 @@ public class SequenceButtonGame : MonoBehaviour
         isFailed = false;
         feedbackText.text = "恭喜！顺序正确！";
         feedbackText.color = Color.green;
+        PlayerPrefs.SetString("ShaarkTeethKey", "ShaarkTeethUnlock");
 
         // 禁用所有按钮点击
         SetButtonsInteractable(false);
 
-        Invoke("ClosePlane", 2f); 
+        Invoke("ClosePlane", 1f);
+        CatSetParam();
     }
 
     void Fail()
