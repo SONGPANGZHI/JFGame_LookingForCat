@@ -20,6 +20,8 @@ public class LightManager : MonoBehaviour
     public SkeletonAnimation celebrationAnim;
     public GameObject light_Sprite;
 
+    public List<SkeletonAnimation> stageCat;
+
 
     private void Awake()
     {
@@ -35,6 +37,9 @@ public class LightManager : MonoBehaviour
             InitializeLight();
         else
             PuzzleSolved();
+
+        JuageSingsOpen();
+        JuageStageCatUnlck();
     }
 
     void Update()
@@ -42,6 +47,57 @@ public class LightManager : MonoBehaviour
         if (!isPuzzleSolved && CheckSolution())
         {
             PuzzleSolved();
+        }
+    }
+
+    public void JuageSingsOpen()
+    {
+        bool isCompleted_89 = GameManager.Instance.progressManager.IsCatFound(89);
+        bool isCompleted_88 = GameManager.Instance.progressManager.IsCatFound(88);
+        bool isCompleted_90 = GameManager.Instance.progressManager.IsCatFound(90);
+        bool isCompleted_91 = GameManager.Instance.progressManager.IsCatFound(91);
+
+        if (isCompleted_89 && isCompleted_88 && isCompleted_90 && isCompleted_91)
+            OpenStageCat();
+
+    }
+
+    /// <summary>
+    /// 判断舞池猫猫解锁
+    /// </summary>
+    public void JuageStageCatUnlck()
+    {
+        bool isCompleted_92 = GameManager.Instance.progressManager.IsCatFound(92);
+        bool isCompleted_93 = GameManager.Instance.progressManager.IsCatFound(93);
+
+        if (isCompleted_92 && isCompleted_93)
+            SwitchStageCatAnim();
+    }
+
+
+
+    /// <summary>
+    /// 打开舞台猫猫
+    /// </summary>
+    public void OpenStageCat()
+    {
+        for (int i = 0; i < stageCat.Count; i++)
+        {
+            stageCat[i].GetComponent<MeshRenderer>().enabled = true;
+            stageCat[i].enabled = true;
+            stageCat[i].GetComponent<Collider2D>().enabled = true;
+            stageCat[i].state.SetAnimation(0, "Stay", true);
+        }
+    }
+
+    /// <summary>
+    /// 切换舞台 猫猫 动画
+    /// </summary>
+    public void SwitchStageCatAnim()
+    {
+        for (int i = 0; i < stageCat.Count; i++)
+        {
+            stageCat[i].state.SetAnimation(0, "Sports", true);
         }
     }
 

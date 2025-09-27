@@ -1,8 +1,4 @@
-﻿using Spine;
-using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using Spine.Unity;
 using UnityEngine;
 
 public class SaveSystem : MonoBehaviour

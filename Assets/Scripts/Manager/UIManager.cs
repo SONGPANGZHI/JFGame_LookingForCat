@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     public Button BGM_BTN;
     public Button Set_BTN;
 
+    public GameObject setPlane;
+
     public Transform moveTrans;
     public Transform targetPosition;
 
@@ -185,6 +187,38 @@ public class UIManager : MonoBehaviour
         BGM_BTN.gameObject.SetActive(active);
     }
 
+    #endregion
+
+    #region 按ESC键 设置界面
+
+    /// <summary>
+    /// 打开设置界面
+    /// </summary>
+
+    public void OpenSettingPlane(int index)
+    {
+        if (index == 1)
+            setPlane.SetActive(true);
+        else
+        {
+            openIndex = 0;
+            setPlane.SetActive(false);
+        }
+            
+    }
+
+
+    int openIndex = 0;
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            openIndex += 1;
+            OpenSettingPlane(openIndex);
+        }
+    }
     #endregion
 
     #region 小游戏界面 提醒通关 摄像机参数

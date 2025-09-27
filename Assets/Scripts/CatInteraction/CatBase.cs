@@ -31,6 +31,12 @@ public class CatBase : MonoBehaviour
             { 31, ()=> SevenSeasDeluxe.Instance.ChangeCatColor()},
             { 30, ()=> SevenSeasDeluxe.Instance.ChangeCatColor_30()},
             { 62, ()=> SomeCatInteractionEvents.Instance.OpenCatID_51() },
+            { 88, ()=> LightManager.Instance.JuageSingsOpen()},
+            { 89, ()=> LightManager.Instance.JuageSingsOpen() },
+            { 90, ()=> LightManager.Instance.JuageSingsOpen()},
+            { 91, ()=> LightManager.Instance.JuageSingsOpen() },
+            { 92, ()=> LightManager.Instance.JuageStageCatUnlck()},
+            { 93, ()=> LightManager.Instance.JuageStageCatUnlck() },
         };
     }
 
@@ -61,11 +67,11 @@ public class CatBase : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0,13);
         MusicManager.Instance.PlaySFX(randomIndex);
 
-
-        ExecuteSpecialAction();
         UpdateUI();
         SaveProgress();
         CheckConditions();
+        SaveProgress();
+        ExecuteSpecialAction();
     }
 
     private void SetCatAppearance()
