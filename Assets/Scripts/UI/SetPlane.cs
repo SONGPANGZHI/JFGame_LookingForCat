@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,19 +30,23 @@ public class SetPlane : MonoBehaviour
     [Header("返回按钮")]
     public Button back_BTN;
 
-    private int BGM_Index = 0;
-    private int SFX_Index = 0;
+    private int BGM_Index;
+    private int SFX_Index;
 
+
+    private int start_X;
     private void Awake()
     {
-        //// BGM
+        // BGM
 
-        //BGM_Right_BTN.onClick.AddListener(Right_BGM);
-        //BGM_Left_BTN.onClick.AddListener(Left_BGM);
+        BGM_Right_BTN.onClick.AddListener(Right_BGM);
+        BGM_Left_BTN.onClick.AddListener(Left_BGM);
 
-        //// SFX
-        //SFX_Right_BTN.onClick.AddListener(Right_SFX);
-        //SFX_Left_BTN.onClick.AddListener(Left_SFX);
+        start_X = (int)BGM_Sdlider.localPosition.x;
+
+        // SFX
+        SFX_Right_BTN.onClick.AddListener(Right_SFX);
+        SFX_Left_BTN.onClick.AddListener(Left_SFX);
 
         // 语言
         Language_Right_BTN.onClick.AddListener(Right_Language);
@@ -57,37 +62,138 @@ public class SetPlane : MonoBehaviour
     {
         LoadSavedLanguage();
         InitLanguage();
+
+        InitBGM();
+        InitSFX();
     }
 
     #region BGM
+
+    public void InitBGM()
+    {
+
+        BGM_Index = PlayerPrefs.GetInt(MusicManager.BGMVolumeKey);
+
+        if (BGM_Index <= 0)
+        {
+            BGM_CloseBGM.SetActive(true);
+            BGM_Left_BTN.interactable = false;
+        }
+        else
+            BGM_CloseBGM.SetActive(false);
+        if (BGM_Index >= 10)
+            BGM_Right_BTN.interactable = false;
+        else
+            BGM_Right_BTN.interactable = true;
+
+        ChangeSliderBGM(BGM_Index);
+    }   
+
+
     private void Right_BGM()
     {
-        
+        BGM_Left_BTN.interactable = true;
+        BGM_Index += 1;
+
+        if(BGM_Index > 0)
+            BGM_CloseBGM.SetActive(false);
+        if (BGM_Index >= 10)
+            BGM_Right_BTN.interactable = false;
+
+        ChangeSliderBGM(BGM_Index);
+
+
     }
 
     private void Left_BGM()
     {
-       
+        BGM_Right_BTN.interactable = true;
+        BGM_Index -= 1;
+        if (BGM_Index <= 0)
+        {
+            BGM_CloseBGM.SetActive(true);
+            BGM_Left_BTN.interactable = false;
+        }
+        else
+            BGM_CloseBGM.SetActive(false);
+
+
+        ChangeSliderBGM(BGM_Index);
+
+    }
+
+
+    public void ChangeSliderBGM(int iNDEX)
+    {
+        int variate = iNDEX * 29;
+        BGM_Sdlider.localPosition = new Vector3(start_X + variate, BGM_Sdlider.localPosition.y,0);
+        MusicManager.Instance.SetVolume_BGM(iNDEX);
     }
 
     #endregion
 
     #region SFX
+
+    public void InitSFX()
+    {
+        SFX_Index = PlayerPrefs.GetInt(MusicManager.SFXVolumeKey);
+
+        if (SFX_Index <= 0)
+        {
+            SFX_CloseSFX.SetActive(true);
+            SFX_Left_BTN.interactable = false;
+        }
+        else
+            SFX_CloseSFX.SetActive(false);
+        if (SFX_Index >= 10)
+            SFX_Right_BTN.interactable = false;
+        else
+            SFX_Right_BTN.interactable = true;
+
+        ChangeSliderSFX(SFX_Index);
+    }
+
     private void Right_SFX()
     {
-        throw new NotImplementedException();
+        SFX_Left_BTN.interactable = true;
+        SFX_Index += 1;
+
+        if (SFX_Index > 0)
+            SFX_CloseSFX.SetActive(false);
+        if (SFX_Index >= 10)
+            SFX_Right_BTN.interactable = false;
+
+        ChangeSliderSFX(SFX_Index);
     }
 
     private void Left_SFX()
     {
-        throw new NotImplementedException();
+        SFX_Right_BTN.interactable = true;
+        SFX_Index -= 1;
+        if (SFX_Index <= 0)
+        {
+            SFX_CloseSFX.SetActive(true);
+            SFX_Left_BTN.interactable = false;
+        }
+        else
+            SFX_CloseSFX.SetActive(false);
+
+
+        ChangeSliderSFX(SFX_Index);
+    }
+
+    public void ChangeSliderSFX(int iNDEX)
+    {
+        int variate = iNDEX * 29;
+        SFX_Sdlider.localPosition = new Vector3(start_X + variate, SFX_Sdlider.localPosition.y, 0);
+        MusicManager.Instance.SetVolume_SFX(iNDEX);
     }
 
     #endregion
 
 
     #region 语言
-   
+
     /// <summary>
     /// 初始化 语言
     /// </summary>

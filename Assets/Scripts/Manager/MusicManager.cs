@@ -16,10 +16,22 @@ public class MusicManager : MonoBehaviour
     public static string BGMKey = "BGMVolume";      // 背景音乐音量键 0为打开 1为关闭
     public static string SFXKey = "SFXVolume";      // 音效音量键
     public static string ClickKey = "ClickVolume";  // 点击音效音量键
+
+    public static string BGMVolumeKey = "BGM";
+    public static string SFXVolumeKey = "SFX";
     private void Awake()
     {
         if(Instance == null)
             Instance = this;
+
+        if (!PlayerPrefs.HasKey(BGMVolumeKey))
+            PlayerPrefs.SetInt(BGMVolumeKey, 5); // 默认背景音乐音量为5
+
+        if (!PlayerPrefs.HasKey(SFXVolumeKey))
+            PlayerPrefs.SetInt(SFXVolumeKey, 5); // 默认音效音量为5
+
+        BGM.volume = PlayerPrefs.GetInt(BGMVolumeKey) * 0.1f;
+        SFX.volume = PlayerPrefs.GetInt(SFXVolumeKey) * 0.1f;
     }
 
     private void Start()
@@ -40,7 +52,10 @@ public class MusicManager : MonoBehaviour
 
         if (!PlayerPrefs.HasKey(ClickKey))
             PlayerPrefs.SetInt(ClickKey, 0); // 默认打开点击音效
+
+        
     }
+
 
     // 播放背景音乐
     public void PlayBGM(int index)
@@ -83,5 +98,20 @@ public class MusicManager : MonoBehaviour
     {
         if (index < 0 || index >= catClips.Length) return;
         SFX.PlayOneShot(catClips[index]);
+    }
+
+    /// <summary>
+    /// set 音量 BGM
+    /// </summary>
+    public void SetVolume_BGM(int index)
+    {
+        BGM.volume = index * 0.1f;
+        PlayerPrefs.SetInt(BGMVolumeKey, index);
+    }
+
+    public void SetVolume_SFX(int index)
+    {
+        SFX.volume = index * 0.1f;
+        PlayerPrefs.SetInt(SFXVolumeKey, index);
     }
 }
