@@ -314,15 +314,6 @@ public class KlotskiManager : MonoBehaviour
         catAnim_087.enabled = true;
         catAnim_087.state.SetAnimation(0, "Sports", true);
 
-        //ClickPlay.GetComponent<Collider2D>().enabled = false;
-        //klotskiPlane.SetActive(false);
-        //UIManager.Instance.OtherParameters(true);
-
-        //playerController.StartMove(catTrans, tragetPos, () =>
-        //{
-        //    catTrans.GetComponent<BoxCollider2D>().enabled = true;
-        //    catTrans.GetComponent<SpriteRenderer>().sortingOrder = 17;
-        //});
     }
 
     public void JudagCatUnlock()
@@ -336,18 +327,5 @@ public class KlotskiManager : MonoBehaviour
             catAnim_087.enabled = true;
             catAnim_087.state.SetAnimation(0, "Sports", true);
         }
-
-        //bool isCompleted = GameManager.Instance.progressManager.IsCatFound(112);
-        //if (isCompleted)
-        //{
-        //    ClickPlay.GetComponent<Collider2D>().enabled = false;
-        //    catTrans.position = tragetPos.position;
-        //    catTrans.GetComponent<SpriteRenderer>().sortingOrder = 17;
-        //}
-        //else
-        //{
-        //    if (PlayerPrefs.HasKey("KlotskiUnlockKey"))
-        //        ClickPlay.GetComponent<Collider2D>().enabled = true;
-        //}
     }
 }

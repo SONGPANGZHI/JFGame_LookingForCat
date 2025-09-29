@@ -198,10 +198,14 @@ public class UIManager : MonoBehaviour
     public void OpenSettingPlane(int index)
     {
         if (index == 1)
+        {
+            UIManager.Instance.OtherParameters(false);
             setPlane.SetActive(true);
+        }
         else
         {
             openIndex = 0;
+            UIManager.Instance.OtherParameters(true);
             setPlane.SetActive(false);
         }
             
