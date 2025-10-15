@@ -307,6 +307,8 @@ public class SequenceButtonGame : MonoBehaviour
 
         Invoke("ClosePlane", 1f);
         CatSetParam();
+
+        Debug.Log("恭喜！顺序正确！");
     }
 
     void Fail()

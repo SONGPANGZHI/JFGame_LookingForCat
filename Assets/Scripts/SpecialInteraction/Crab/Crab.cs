@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Crab : MonoBehaviour
 {
@@ -25,8 +23,11 @@ public class Crab : MonoBehaviour
     /// </summary>
     public void ClickCrab()
     { 
+        int currentCrabNum = PlayerPrefs.GetInt("SaveCrabAmount");
         gameObject.SetActive(false);
         PlayerPrefs.SetString("CrabKey_" + crabID, "Crab_"+ crabID);
+        // 改变螃蟹数量显示
+        CrabManager.Instance.UpdateCrabNum(currentCrabNum - 1);
     }
 
     /// <summary>
@@ -36,11 +37,21 @@ public class Crab : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("CrabKey_" + crabID))
         {
-            gameObject.SetActive(false);
+            if (crabID < 6)
+            {
+                this.transform.parent.GetComponent<Collider2D>().enabled = false;
+            }
+            else
+                gameObject.SetActive(false);
         }
         else
         {
-            gameObject.SetActive(true);
+            if (crabID < 6)
+            {
+                this.transform.parent.GetComponent<Collider2D>().enabled = true;
+            }
+            else
+                gameObject.SetActive(true);
         }
     }
  

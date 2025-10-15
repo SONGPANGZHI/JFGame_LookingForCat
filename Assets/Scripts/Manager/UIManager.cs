@@ -197,20 +197,21 @@ public class UIManager : MonoBehaviour
 
     public void OpenSettingPlane(int index)
     {
+        
         if (index == 1)
         {
-            UIManager.Instance.OtherParameters(false);
+            OtherParameters(false);
             setPlane.SetActive(true);
         }
         else
         {
             openIndex = 0;
-            UIManager.Instance.OtherParameters(true);
+            OtherParameters(true);
             setPlane.SetActive(false);
+            MusicManager.Instance.SetBackgroundMusicForPause(false);
         }
-            
+        Time.timeScale = 1f;
     }
-
 
     int openIndex = 0;
 
@@ -223,6 +224,16 @@ public class UIManager : MonoBehaviour
             OpenSettingPlane(openIndex);
         }
     }
+
+    /// <summary>
+    /// 在场景中调用
+    /// </summary>
+    public void SetPlaneClose()
+    {
+        openIndex += 1;
+        OpenSettingPlane(openIndex);
+    }
+
     #endregion
 
     #region 小游戏界面 提醒通关 摄像机参数

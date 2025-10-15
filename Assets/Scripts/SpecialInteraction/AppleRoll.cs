@@ -61,7 +61,6 @@ public class AppleRoll : MonoBehaviour
                 // 精确停在目标点
                 transform.position = targetPoint.position;
                 interactiveCat.OnObjectInteracted();
-                Debug.LogError("到达指定位置");
             }
         }
 

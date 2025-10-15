@@ -12,7 +12,7 @@ public class MusicManager : MonoBehaviour
     public AudioClip[] audioClips;      // 背景、音效、点击列表
     public AudioClip[] catClips;        // 猫猫叫声列表
 
-
+    private float originalVolume;
     public static string BGMKey = "BGMVolume";      // 背景音乐音量键 0为打开 1为关闭
     public static string SFXKey = "SFXVolume";      // 音效音量键
     public static string ClickKey = "ClickVolume";  // 点击音效音量键
@@ -32,6 +32,8 @@ public class MusicManager : MonoBehaviour
 
         BGM.volume = PlayerPrefs.GetInt(BGMVolumeKey) * 0.1f;
         SFX.volume = PlayerPrefs.GetInt(SFXVolumeKey) * 0.1f;
+
+        BGM.ignoreListenerPause = true;
     }
 
     private void Start()
@@ -106,6 +108,7 @@ public class MusicManager : MonoBehaviour
     public void SetVolume_BGM(int index)
     {
         BGM.volume = index * 0.1f;
+        originalVolume = BGM.volume; // 保存原始音量
         PlayerPrefs.SetInt(BGMVolumeKey, index);
     }
 
@@ -113,5 +116,21 @@ public class MusicManager : MonoBehaviour
     {
         SFX.volume = index * 0.1f;
         PlayerPrefs.SetInt(SFXVolumeKey, index);
+    }
+
+    // 专门用于设置界面的BGM控制
+    public void SetBackgroundMusicForPause(bool isPaused)
+    {
+        BGM.Play();
+        //if (isPaused)
+        //{
+        //    // 暂停时降低音量但不停止
+        //    BGM.volume = originalVolume * 0.5f; // 降低到一半音量
+        //}
+        //else
+        //{
+        //    // 恢复时回到原始音量
+        //    BGM.volume = originalVolume;
+        //}
     }
 }
