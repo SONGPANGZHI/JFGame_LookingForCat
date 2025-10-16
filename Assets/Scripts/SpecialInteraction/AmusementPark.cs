@@ -39,13 +39,7 @@ public class AmusementPark : MonoBehaviour
         // 显示滑梯小猫
         if (PlayerPrefs.HasKey("ChildrenSlideKey"))
         {
-            childrenSlide.state.SetAnimation(0, "Huati", true);
-            for (int i = 0; i < otherCat.Count; i++)
-            {
-                Color color = otherCat[i].GetComponent<SpriteRenderer>().color;
-                color.a = 1;
-                otherCat[i].GetComponent<SpriteRenderer>().color = color;
-            }
+            PlayChildrenSlideAnim();
         }
            
 
@@ -136,24 +130,17 @@ public class AmusementPark : MonoBehaviour
 
     public void PlayChildrenSlideAnim()
     {
-        //bool FindCat_022 = GameManager.Instance.progressManager.IsCatFound(22);
-        //bool FindCat_023 = GameManager.Instance.progressManager.IsCatFound(23);
-        //bool FindCat_024 = GameManager.Instance.progressManager.IsCatFound(24);
+        bool FindCat_022 = GameManager.Instance.progressManager.IsCatFound(22);
+        bool FindCat_023 = GameManager.Instance.progressManager.IsCatFound(23);
+        bool FindCat_024 = GameManager.Instance.progressManager.IsCatFound(24);
 
-        //if(FindCat_022)
-        //    otherCat[0].GetComponent<SpriteRenderer>().enabled = false;
-
-        //if (FindCat_023)
-        //    otherCat[1].GetComponent<SpriteRenderer>().enabled = false;
-
-        //if (FindCat_024)
-        //    otherCat[2].GetComponent<SpriteRenderer>().enabled = false;
-
-
-        //if (FindCat_022 && FindCat_023 && FindCat_024)
-        //{
-        //    childrenSlide.state.SetAnimation(0, "Sports", true);
-        //}
+        if (FindCat_022 && FindCat_023 && FindCat_024)
+        {
+            otherCat[0].GetComponent<SpriteRenderer>().enabled = false;
+            otherCat[1].GetComponent<SpriteRenderer>().enabled = false;
+            otherCat[2].GetComponent<SpriteRenderer>().enabled = false;
+            childrenSlide.state.SetAnimation(0, "Sports", true);
+        }
 
     }
 

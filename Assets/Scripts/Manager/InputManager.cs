@@ -26,12 +26,14 @@ public class InputManager : MonoBehaviour
         // 如果UI打开，不处理任何输入
         if (isUIOpen) return;
 
-        ProcessTouchInput();
+        //ProcessTouchInput();
+
+        ProcessMouseInput();
 
         // 编辑器测试
-#if UNITY_EDITOR
-        ProcessMouseInput();
-#endif
+        //#if UNITY_EDITOR
+        //        ProcessMouseInput();
+        //#endif
     }
 
     // 设置UI状态

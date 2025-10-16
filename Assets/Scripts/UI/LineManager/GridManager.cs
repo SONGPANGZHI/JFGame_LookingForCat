@@ -77,6 +77,7 @@ public class GridManager: MonoBehaviour
         {
             ShowCat();
         }
+
     }
 
     /// <summary>
@@ -118,7 +119,7 @@ public class GridManager: MonoBehaviour
     /// </summary>
     public void OpenTips()
     {
-        UIManager.Instance.OpenTipPlane(112);
+        UIManager.Instance.OpenTipPlane(0);
         Invoke("ShowCat",1f);
     }
 

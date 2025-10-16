@@ -22,11 +22,25 @@ public class CatBase : MonoBehaviour
         catSpecialActions = new Dictionary<int, Action>
         {
             // 可以继续添加其他猫的特殊行为
-            { 12, () => SevenSeasDeluxe.Instance.StartMove() },
+            { 12, ()=> SevenSeasDeluxe.Instance.StartMove() },
             { 43, ()=> CatBus.Instance.BusMove() },
-            { 82, () => SevenSeasDeluxe.Instance.PlayCatAnim_082()},        // 082 找到后播放彩灯
+            { 82, ()=> SevenSeasDeluxe.Instance.PlayCatAnim_082()},        // 082 找到后播放彩灯
             { 27, ()=> AmusementPark.Instance.CatMove_27()},
             { 28, ()=> AmusementPark.Instance.CatMove_28()},
+            { 113,()=> SevenSeasDeluxe.Instance.PlayCatAnim_113()},
+            { 31, ()=> SevenSeasDeluxe.Instance.ChangeCatColor()},
+            { 30, ()=> SevenSeasDeluxe.Instance.ChangeCatColor_30()},
+            { 62, ()=> SomeCatInteractionEvents.Instance.OpenCatID_51() },
+            { 88, ()=> LightManager.Instance.JuageSingsOpen()},
+            { 89, ()=> LightManager.Instance.JuageSingsOpen() },
+            { 90, ()=> LightManager.Instance.JuageSingsOpen()},
+            { 91, ()=> LightManager.Instance.JuageSingsOpen() },
+            { 92, ()=> LightManager.Instance.JuageStageCatUnlck()},
+            { 93, ()=> LightManager.Instance.JuageStageCatUnlck() },
+            { 22, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
+            { 23, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() }, 
+            { 24, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
+
         };
     }
 
@@ -57,11 +71,11 @@ public class CatBase : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0,13);
         MusicManager.Instance.PlaySFX(randomIndex);
 
-
-        ExecuteSpecialAction();
         UpdateUI();
         SaveProgress();
         CheckConditions();
+        SaveProgress();
+        ExecuteSpecialAction();
     }
 
     private void SetCatAppearance()

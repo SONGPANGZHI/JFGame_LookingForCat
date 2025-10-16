@@ -39,11 +39,21 @@ public class AssemblePuzzleManager : MonoBehaviour
     {
         foreach (var set in puzzleSets)
         {
-            bool isCompleted = GameManager.Instance.progressManager.IsCatFound(set.puzzleID);
-            set.isCompleted = isCompleted;
-            if (isCompleted)
-                TriggerPuzzleCompletion(set.puzzleID);
+            if (set.puzzleID != 0)
+            {
+                bool isCompleted = GameManager.Instance.progressManager.IsCatFound(set.puzzleID);
+                set.isCompleted = isCompleted;
+                if (isCompleted)
+                    TriggerPuzzleCompletion(set.puzzleID);
+            }
+            else
+            {
+                if (PlayerPrefs.HasKey("KlotskiUnlockKey"))
+                    TriggerPuzzleCompletion(0);
+            }
+
         }
+
     }
 
     /// <summary>
@@ -63,6 +73,11 @@ public class AssemblePuzzleManager : MonoBehaviour
         {
             cat.GetComponent<SpriteRenderer>().enabled = true;
             cat.GetComponent<Collider2D>().enabled = true;
+        }
+
+        if (set.puzzleID == 0)
+        {
+            SpecificAssembled();
         }
     }
 
@@ -101,7 +116,11 @@ public class AssemblePuzzleManager : MonoBehaviour
 
                 // 触发完成事件
                 set.isCompleted = true;
-                
+
+                if (set.puzzleID == 0)
+                {
+                    SpecificAssembled();
+                } 
                 foreach (var cat in set.catOBJ)
                 {
                     cat.GetComponent<SpriteRenderer>().enabled = true;
@@ -117,5 +136,13 @@ public class AssemblePuzzleManager : MonoBehaviour
 
     }
 
-   
+    public void SpecificAssembled()
+    {
+        if (!PlayerPrefs.HasKey("KlotskiUnlockKey"))
+        {
+            // 打开华容游戏界面
+            UIManager.Instance.Nine_SquareGridPuzzle();
+        }
+       
+    }
 }

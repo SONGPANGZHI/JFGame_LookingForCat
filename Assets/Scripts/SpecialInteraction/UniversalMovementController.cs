@@ -72,7 +72,6 @@ public class UniversalMovementController : MonoBehaviour
 
         // 确保最终位置准确
         moveTrans.transform.position = targetPosition.position;
-        moveTrans.GetComponent<CameraTouchDrag>().ResetDragState();
         isMoving = false;
     }
 

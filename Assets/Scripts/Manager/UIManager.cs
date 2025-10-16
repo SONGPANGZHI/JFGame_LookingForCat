@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,8 @@ public class UIManager : MonoBehaviour
     public Button BGM_BTN;
     public Button Set_BTN;
 
+    public GameObject setPlane;
+
     public Transform moveTrans;
     public Transform targetPosition;
 
@@ -35,7 +38,9 @@ public class UIManager : MonoBehaviour
     private Vector3 startPosition;
     private bool setOpen = false;
     private InputManager inputManager;
-     
+
+    [Header("胜利")]
+    public SkeletonGraphic winPlane;
 
     private void Awake()
     {
@@ -87,6 +92,7 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetInt(MusicManager.SFXKey, 0);
             SFX_BTN.transform.GetChild(0).gameObject.SetActive(false);
         }
+        MusicManager.Instance.StopSFX(PlayerPrefs.GetInt(MusicManager.SFXKey));
     }
 
     /// <summary>
@@ -99,6 +105,7 @@ public class UIManager : MonoBehaviour
             //关闭
             PlayerPrefs.SetInt(MusicManager.BGMKey, 1);
             BGM_BTN.transform.GetChild(0).gameObject.SetActive(true);
+            
         }
         else
         {
@@ -106,6 +113,8 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetInt(MusicManager.BGMKey, 0);
             BGM_BTN.transform.GetChild(0).gameObject.SetActive(false);
         }
+
+        MusicManager.Instance.StopBGM(PlayerPrefs.GetInt(MusicManager.BGMKey));
     }
 
     /// <summary>
@@ -187,6 +196,53 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
+    #region 按ESC键 设置界面
+
+    ///// <summary>
+    ///// 打开设置界面
+    ///// </summary>
+
+    //public void OpenSettingPlane(int index)
+    //{
+        
+    //    if (index == 1)
+    //    {
+    //        OtherParameters(false);
+    //        setPlane.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        openIndex = 0;
+    //        OtherParameters(true);
+    //        setPlane.SetActive(false);
+    //        MusicManager.Instance.SetBackgroundMusicForPause(false);
+    //    }
+    //    Time.timeScale = 1f;
+    //}
+
+    //int openIndex = 0;
+
+
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        openIndex += 1;
+    //        OpenSettingPlane(openIndex);
+    //    }
+    //}
+
+    ///// <summary>
+    ///// 在场景中调用
+    ///// </summary>
+    //public void SetPlaneClose()
+    //{
+    //    openIndex += 1;
+    //    OpenSettingPlane(openIndex);
+    //}
+
+    #endregion
+
     #region 小游戏界面 提醒通关 摄像机参数
 
     /// <summary>
@@ -197,12 +253,12 @@ public class UIManager : MonoBehaviour
         tipPlane.SetActive(true);
 
         if (catID == 0)
-            tip_TMP.text = "网球网修复成功~";
+            tip_TMP.text = "Good~";
         else
             tip_TMP.text = "恭喜解锁" + catID + "猫猫~";
 
         // 2s 关闭界面
-        Invoke("CloseTipPlane", 2f);
+        Invoke("CloseTipPlane", 1f);
     }
 
     /// <summary>
@@ -233,6 +289,13 @@ public class UIManager : MonoBehaviour
     public void UpdateProgressUI()
     {
         foundCountText.text = $"{GameManager.Instance.progressManager.FoundCatCount}/{GameManager.Instance.progressManager.TotalCatCount}";
+
+        if (GameManager.Instance.progressManager.FoundCatCount >= 120)
+        {
+            // 胜利
+            winPlane.gameObject.SetActive(true);
+            winPlane.AnimationState.SetAnimation(0, "animation", true);
+        }
     }
 
     // ID_87 开始拼图
@@ -268,7 +331,7 @@ public class UIManager : MonoBehaviour
     public void PlaySharkTeeth()
     {
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(85);
-        if (isCompleted) return;
+        if (isCompleted && PlayerPrefs.HasKey("ShaarkTeethKey")) return;
         else SequenceButtonGame.OpenSharkTeethPlane();
 
     }

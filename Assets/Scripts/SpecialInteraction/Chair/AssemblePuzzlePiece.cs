@@ -17,18 +17,6 @@ public class AssemblePuzzlePiece : MonoBehaviour
     private Quaternion startRotation;
     private bool compele = false;
 
-    [Header("摄像机设置")]
-    public string cameraTag = "Camera"; // 可通过标签指定
-    private Transform cameraTransform;
-
-    private void Awake()
-    {
-        GameObject cameraObj = GameObject.FindWithTag(cameraTag);
-        if (cameraObj != null)
-        {
-            cameraTransform = cameraObj.transform;
-        }
-    }
 
     void Start()
     {
@@ -44,6 +32,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
         compele = true;
         transform.position = targetPosition.position;
         transform.rotation = targetPosition.rotation;
+        transform.localScale = Vector3.one;
     }
 
     // 当点击
@@ -81,7 +70,11 @@ public class AssemblePuzzlePiece : MonoBehaviour
         transform.position = targetPosition.position;
         transform.rotation = targetPosition.rotation;
         transform.localScale = Vector3.one;
-        AssemblePuzzleManager.Instance.PieceAssembled(Cat_ID);
+
+        if(Cat_ID != 0)
+            AssemblePuzzleManager.Instance.PieceAssembled(Cat_ID);
+        else
+            AssemblePuzzleManager.Instance.PieceAssembled(Cat_ID);
         compele = true;
         isMoving = false;
     }

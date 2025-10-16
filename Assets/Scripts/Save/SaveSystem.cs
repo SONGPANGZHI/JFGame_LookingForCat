@@ -1,8 +1,4 @@
-﻿using Spine;
-using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using Spine.Unity;
 using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
@@ -47,8 +43,12 @@ public class SaveSystem : MonoBehaviour
                     cat.isFound = true;
                     if (cat.GetComponent<SpriteRenderer>() == null)
                     {
-                        cat.catAnim.Skeleton.SetColor(Color.gray);
-                        cat.PlayAnim(0, "Sports", cat.loopAnim);
+                        if (cat.catAnim != null)
+                        {
+                            cat.catAnim.Skeleton.SetColor(Color.gray);
+                            cat.PlayAnim(0, "Sports", cat.loopAnim);
+                        }
+                        
                     }
                     else
                     {

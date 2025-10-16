@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class NineSquareGridPuzzle : MonoBehaviour
 {
+    public UniversalMovementController playerController;
     public Transform gridParent;
     public VisibleCat catID_112;
+    public Transform tragetPos;
+    public GameObject ClickPlay;
 
     private List<PuzzleTile> tiles = new List<PuzzleTile>();
     private int[] correctOrder = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };     // 正确层级的顺序
@@ -14,6 +17,7 @@ public class NineSquareGridPuzzle : MonoBehaviour
     void Start()
     {
         InitializeTiles();
+        JuageCatUnlock();
     }
 
     /// <summary>
@@ -128,15 +132,15 @@ public class NineSquareGridPuzzle : MonoBehaviour
             }
         }
 
+        PlayerPrefs.SetString("KlotskiUnlockKey", "KlotskiUnlock");
+
         // 所有格子都在正确位置
         isGameComplete = true;
-        Debug.Log("恭喜！拼图完成！");
 
-        UIManager.Instance.OpenTipPlane(112);
 
         // 打开
-        Invoke("OpenSetParameters", 2f);
-        
+        Invoke("CatMove", 1f);
+
 
 
         // 可选：完成后的效果
@@ -163,9 +167,6 @@ public class NineSquareGridPuzzle : MonoBehaviour
     {
         transform.GetChild(0).gameObject.SetActive(false);
         UIManager.Instance.OtherParameters(true);
-
-        // 保存找到的猫猫 并刷新UI
-        catID_112.OnTapped();
     }
 
     /// <summary>
@@ -176,5 +177,32 @@ public class NineSquareGridPuzzle : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         UIManager.Instance.OtherParameters(true);
     }
-  
+
+    public void CatMove()
+    {
+        ClickPlay.GetComponent<Collider2D>().enabled = false;
+        transform.GetChild(0).gameObject.SetActive(false);
+        UIManager.Instance.OtherParameters(true);
+
+        playerController.StartMove(catID_112.transform, tragetPos, () =>
+        {
+            catID_112.GetComponent<BoxCollider2D>().enabled = true;
+            catID_112.GetComponent<SpriteRenderer>().sortingOrder = 17;
+        });
+    }
+
+    /// <summary>
+    /// 判断是否解锁猫猫
+    /// </summary>
+    public void JuageCatUnlock()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(112);
+
+        if (isCompleted)
+        {
+            catID_112.transform.position = tragetPos.position;
+            catID_112.GetComponent<SpriteRenderer>().sortingOrder = 17;
+            ClickPlay.GetComponent<Collider2D>().enabled = false;
+        }
+    }
 }
