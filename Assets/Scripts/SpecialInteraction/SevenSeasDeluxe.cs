@@ -233,8 +233,8 @@ public class SevenSeasDeluxe : MonoBehaviour
 
     [Header("30-31猫猫")]
 
-    public SkeletonAnimation cat_30;
-    public SkeletonAnimation cat_31;        //钓鱼猫
+    public VisibleCat cat_30;
+    public VisibleCat cat_31;        //钓鱼猫
 
     /// <summary>
     /// 点击钓鱼动画
@@ -247,7 +247,7 @@ public class SevenSeasDeluxe : MonoBehaviour
         else
         {
             // 设置动画并获取 TrackEntry
-            TrackEntry trackEntry = cat_31.state.SetAnimation(0, "Sports", false);
+            TrackEntry trackEntry = cat_31.GetComponent<SkeletonAnimation>().state.SetAnimation(0, "Sports", false);
 
             // 添加完成事件监听
             trackEntry.Complete += OnAnimationComplete;
@@ -268,23 +268,25 @@ public class SevenSeasDeluxe : MonoBehaviour
     public void PlayCatAnim_031030()
     {
         //切换钓鱼动画
-        cat_31.state.SetAnimation(0, "Stay", true);
+        cat_31.GetComponent<SkeletonAnimation>().state.SetAnimation(0, "Stay", true);
 
         //美人鱼猫猫显示
         cat_30.GetComponent<MeshRenderer>().enabled = true;
         cat_30.GetComponent<BoxCollider2D>().enabled = true;
-        cat_30.enabled = true;
-        cat_30.state.SetAnimation(0, "Stay2", true);
+        cat_30.GetComponent<SkeletonAnimation>().enabled = true;
+        cat_30.GetComponent<SkeletonAnimation>().state.SetAnimation(0, "Stay2", true);
 
     }
 
     public void ChangeCatColor()
     {
-        cat_31.Skeleton.SetColor(Color.gray);
+        cat_31.GetComponent<SkeletonAnimation>().Skeleton.SetColor(cat_31.RandomCatColor());
     }
 
     public void ChangeCatColor_30()
     {
-        cat_30.Skeleton.SetColor(Color.gray);
+        cat_30.GetComponent<SkeletonAnimation>().Skeleton.SetColor(cat_30.RandomCatColor());
     }
+
+
 }

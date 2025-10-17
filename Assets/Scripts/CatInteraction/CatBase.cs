@@ -13,8 +13,20 @@ public class CatBase : MonoBehaviour
 
     [Header("通用配置")]
     public ParticleSystem foundEffect;
+
     // 猫找到后的特殊行为字典
     private static Dictionary<int, Action> catSpecialActions;
+
+    private Color[] catColor = new Color[]
+    {
+        new Color(1f, 0.8f, 0.8f), // 浅粉色
+        new Color(0.8f, 1f, 0.8f), // 浅绿色
+        new Color(0.8f, 0.8f, 1f), // 浅蓝色
+        new Color(1f, 1f, 0.8f),   // 浅黄色
+        new Color(1f, 0.8f, 1f),   // 浅紫色
+        new Color(0.8f, 1f, 1f)    // 浅青色
+    };
+
 
     [RuntimeInitializeOnLoadMethod]
     private static void InitializeCatActions()
@@ -37,9 +49,11 @@ public class CatBase : MonoBehaviour
             { 91, ()=> LightManager.Instance.JuageSingsOpen() },
             { 92, ()=> LightManager.Instance.JuageStageCatUnlck()},
             { 93, ()=> LightManager.Instance.JuageStageCatUnlck() },
+            { 22, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
+            { 23, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
+            { 24, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
         };
     }
-
 
     public virtual void Initialize()
     {
@@ -78,13 +92,13 @@ public class CatBase : MonoBehaviour
     {
         if (catAnim != null)
         {
-            catAnim.Skeleton.SetColor(Color.gray);
+            catAnim.Skeleton.SetColor(RandomCatColor());
             PlayAnim(0, "Sports", loopAnim);
         }
 
         var spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
-            spriteRenderer.color = Color.gray;
+            spriteRenderer.color = RandomCatColor() ;
     }
 
     private void ExecuteSpecialAction()
@@ -126,4 +140,9 @@ public class CatBase : MonoBehaviour
         }
     }
 
+    public Color RandomCatColor()
+    { 
+        int index = UnityEngine.Random.Range(0, catColor.Length);
+        return catColor[index];
+    }
 }

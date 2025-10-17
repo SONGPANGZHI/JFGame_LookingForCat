@@ -99,6 +99,9 @@ public class LightManager : MonoBehaviour
         {
             stageCat[i].state.SetAnimation(0, "Sports", true);
         }
+
+        PlayerPrefs.SetString("SwitchBGKey", "SwitchBG");
+        MusicManager.Instance.PlayBGM(1);
     }
 
 

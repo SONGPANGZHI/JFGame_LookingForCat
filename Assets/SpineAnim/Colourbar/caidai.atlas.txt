@@ -1,0 +1,90 @@
+
+caidai.png
+size: 92,141
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+caidai0
+  rotate: false
+  xy: 61, 25
+  size: 26, 24
+  orig: 30, 28
+  offset: 2, 2
+  index: -1
+caidai1
+  rotate: false
+  xy: 32, 11
+  size: 27, 38
+  orig: 30, 38
+  offset: 0, 0
+  index: -1
+caidai11
+  rotate: true
+  xy: 2, 51
+  size: 30, 85
+  orig: 30, 85
+  offset: 0, 0
+  index: -1
+caidai13
+  rotate: true
+  xy: 77, 109
+  size: 30, 11
+  orig: 31, 13
+  offset: 0, 1
+  index: -1
+caidai2
+  rotate: true
+  xy: 47, 87
+  size: 14, 13
+  orig: 16, 16
+  offset: 1, 2
+  index: -1
+caidai22
+  rotate: true
+  xy: 2, 103
+  size: 36, 73
+  orig: 50, 73
+  offset: 9, 0
+  index: -1
+caidai3
+  rotate: false
+  xy: 77, 83
+  size: 13, 24
+  orig: 15, 26
+  offset: 0, 1
+  index: -1
+caidai4
+  rotate: false
+  xy: 2, 11
+  size: 28, 38
+  orig: 32, 42
+  offset: 2, 2
+  index: -1
+caidai5
+  rotate: false
+  xy: 61, 2
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+caidai6
+  rotate: false
+  xy: 2, 83
+  size: 27, 18
+  orig: 29, 20
+  offset: 1, 1
+  index: -1
+caidai7
+  rotate: false
+  xy: 62, 87
+  size: 13, 14
+  orig: 16, 16
+  offset: 1, 1
+  index: -1
+caidai9
+  rotate: true
+  xy: 31, 85
+  size: 16, 14
+  orig: 18, 17
+  offset: 1, 1
+  index: -1

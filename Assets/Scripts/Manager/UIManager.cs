@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,7 +38,9 @@ public class UIManager : MonoBehaviour
     private Vector3 startPosition;
     private bool setOpen = false;
     private InputManager inputManager;
-     
+
+    [Header("胜利")]
+    public SkeletonGraphic winPlane;
 
     private void Awake()
     {
@@ -282,6 +285,12 @@ public class UIManager : MonoBehaviour
     public void UpdateProgressUI()
     {
         foundCountText.text = $"{GameManager.Instance.progressManager.FoundCatCount}/{GameManager.Instance.progressManager.TotalCatCount}";
+        if (GameManager.Instance.progressManager.FoundCatCount >= 121)
+        {
+            // 胜利
+            winPlane.gameObject.SetActive(true);
+            winPlane.AnimationState.SetAnimation(0, "animation", true);
+        }
     }
 
     // ID_87 开始拼图
@@ -317,7 +326,11 @@ public class UIManager : MonoBehaviour
     public void PlaySharkTeeth()
     {
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(85);
-        if (isCompleted && PlayerPrefs.HasKey("ShaarkTeethKey")) return;
+
+        if (PlayerPrefs.HasKey("ShaarkTeethKey"))
+            return;
+
+        //if (isCompleted && PlayerPrefs.HasKey("ShaarkTeethKey")) return;
         else SequenceButtonGame.OpenSharkTeethPlane();
 
     }

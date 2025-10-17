@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-    public static string SAVE_KEY = "CatGameSaveData";
+    public static string SAVE_KEY = "CatGameSaveData_Steam";
 
     // 保存数据结构
     public void SaveGame()
@@ -45,14 +45,14 @@ public class SaveSystem : MonoBehaviour
                     {
                         if (cat.catAnim != null)
                         {
-                            cat.catAnim.Skeleton.SetColor(Color.gray);
+                            cat.catAnim.Skeleton.SetColor(cat.RandomCatColor());
                             cat.PlayAnim(0, "Sports", cat.loopAnim);
                         }
                         
                     }
                     else
                     {
-                        cat.GetComponent<SpriteRenderer>().color = Color.gray;
+                        cat.GetComponent<SpriteRenderer>().color = cat.RandomCatColor();
                     }
                     
                     cat.SpawnEffect();

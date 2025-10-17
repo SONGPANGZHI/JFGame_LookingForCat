@@ -45,8 +45,10 @@ public class SequenceButtonGame : MonoBehaviour
     {
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(85);
 
-        if (isCompleted)
+        if (PlayerPrefs.HasKey("ShaarkTeethKey"))
             CatSetParam();
+            //if (isCompleted)
+            //CatSetParam();
 
         InitializeGame();
     }

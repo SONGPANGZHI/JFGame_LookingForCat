@@ -39,7 +39,10 @@ public class MusicManager : MonoBehaviour
     private void Start()
     {
         // 播放背景音乐
-        PlayBGM(0);
+        if (PlayerPrefs.HasKey("SwitchBGKey"))
+            PlayBGM(1);
+        else
+            PlayBGM(0);
     }
 
     //初始化
@@ -62,10 +65,9 @@ public class MusicManager : MonoBehaviour
     // 播放背景音乐
     public void PlayBGM(int index)
     {
+        BGM.clip = audioClips[index];
         if (PlayerPrefs.GetInt(BGMKey) == 0)
         {
-            if (BGM.isPlaying) return; // 如果正在播放则不重复播放
-
             BGM.Play();
         }
         else

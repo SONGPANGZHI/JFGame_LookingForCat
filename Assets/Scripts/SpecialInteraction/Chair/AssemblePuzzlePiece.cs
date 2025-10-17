@@ -32,6 +32,7 @@ public class AssemblePuzzlePiece : MonoBehaviour
         compele = true;
         transform.position = targetPosition.position;
         transform.rotation = targetPosition.rotation;
+        transform.localScale = Vector3.one;
     }
 
     // 当点击
