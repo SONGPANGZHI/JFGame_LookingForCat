@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SlidingPuzzleManager : MonoBehaviour
 {
-
-
     [Header("拼图设置")]
     public int gridSize = 3; // 3x3 网格
     public float tileSpacing = 5f;

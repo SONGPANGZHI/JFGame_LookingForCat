@@ -40,6 +40,12 @@ public class SevenSeasDeluxe : MonoBehaviour
     public SkeletonAnimation cat_072;
     public GameObject catTail;
 
+    [Header("ID_94_97")]
+    public GameObject openSprite;
+    public GameObject closeSprite;
+    public SpriteRenderer cat_097;
+
+
     private void Awake()
     {
         if(Instance == null)
@@ -82,6 +88,9 @@ public class SevenSeasDeluxe : MonoBehaviour
 
         if (GameManager.Instance.progressManager.IsCatFound(72))
             ClickCat_072();
+
+        if (GameManager.Instance.progressManager.IsCatFound(97))
+            CheckCat_97();
     }
 
     /// <summary>
@@ -288,5 +297,31 @@ public class SevenSeasDeluxe : MonoBehaviour
         cat_30.GetComponent<SkeletonAnimation>().Skeleton.SetColor(cat_30.RandomCatColor());
     }
 
+    /// <summary>
+    /// 切换烧烤图
+    /// </summary>
 
+    public void SwitchSprite()
+    {
+        openSprite.SetActive(false);
+        closeSprite.SetActive(true);
+        Invoke("OpenCat_97", 1f);
+    }
+
+    /// <summary>
+    /// 1s 97号猫猫 开启
+    /// </summary>
+    public void OpenCat_97()
+    { 
+        cat_097.enabled = true;
+        cat_097.GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void CheckCat_97()
+    {
+        openSprite.SetActive(false);
+        closeSprite.SetActive(true);
+        cat_097.enabled = true;
+        cat_097.GetComponent<Collider2D>().enabled = true;
+    }
 }
