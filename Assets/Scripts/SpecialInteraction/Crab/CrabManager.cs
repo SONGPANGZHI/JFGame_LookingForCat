@@ -5,51 +5,168 @@ public class CrabManager : MonoBehaviour
 {
     public static CrabManager Instance;
 
-    public List<CrabNum> crabNumSprite;
+    public List<CollectibleItem> collectibleItems; // 所有可收集物品列表
 
-    public SpriteRenderer decadeSprite;             // 十位数精灵
-    public SpriteRenderer unitSprite;               // 个位数精灵
-
+    [Header("螃蟹相关")]
     public Collider2D crabCat;
+    public Collider2D loveCat;
+    public Collider2D catID_127;
+
+    public Collider2D earthwormCat;
+
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
 
-        if(!PlayerPrefs.HasKey("SaveCrabAmount"))
+        if (!PlayerPrefs.HasKey("SaveCrabAmount"))
             PlayerPrefs.SetInt("SaveCrabAmount", 20);
 
+        if (!PlayerPrefs.HasKey("SaveEarthwormAmount"))
+            PlayerPrefs.SetInt("SaveEarthwormAmount", 5);
+
+        if (!PlayerPrefs.HasKey("SaveLoveAmount"))
+            PlayerPrefs.SetInt("SaveLoveAmount", 10);
 
     }
-
     private void Start()
     {
-        LoadCrabNumInit();
+        LoadAllItems();
     }
 
     /// <summary>
-    /// 加载螃蟹数量初始化
+    /// 加载所有物品的显示
     /// </summary>
-    public void LoadCrabNumInit()
+    public void LoadAllItems()
     {
-        UpdateCrabNum(PlayerPrefs.GetInt("SaveCrabAmount"));
+        foreach (var item in collectibleItems)
+        {
+            LoadItemDisplay(item);
+        }
     }
 
     /// <summary>
-    /// 更新数字显示
+    /// 加载单个物品的显示
     /// </summary>
-    /// <param name="num"></param>
-    public void UpdateCrabNum(int num)
+    /// <param name="item">物品</param>
+    private void LoadItemDisplay(CollectibleItem item)
     {
-        // 每个CrabNum对象的numSprites列表中，第0个是个位数，第1个是十位数
-        decadeSprite.sprite = crabNumSprite[num].numSprites[0]; 
-        unitSprite.sprite = crabNumSprite[num].numSprites[1];
+        int currentAmount = PlayerPrefs.GetInt(item.saveKey, item.initialAmount);
+        UpdateItemDisplay(item, currentAmount);
+        Debug.Log($"加载 {item.itemName}: {currentAmount}");
+    }
 
-        if (num == 0)
-            OpenCarbCollider();
+    /// <summary>
+    /// 更新物品显示
+    /// </summary>
+    /// <param name="item">物品</param>
+    /// <param name="amount">数量</param>
+    public void UpdateItemDisplay(CollectibleItem item, int amount)
+    {
+        // 更新UI显示
+        if (item.decadeSprite != null && item.unitSprite != null && item.numberSprites != null)
+        {
+            UpdateNumberSprites(item, amount);
+        }
 
-        PlayerPrefs.SetInt("SaveCrabAmount", num);
+        // 检查是否达到目标数量
+        if (amount <= item.targetAmount)
+        {
+            OnItemTargetReached(item);
+        }
+    }
+
+    /// <summary>
+    /// 更新指定物品的数量
+    /// </summary>
+    /// <param name="itemType">物品类型</param>
+    /// <param name="amount">数量</param>
+    public void UpdateItemAmount(ItemType itemType, int amount)
+    {
+        CollectibleItem item = GetItemByType(itemType);
+        if (item != null)
+        {
+            // 确保数量在有效范围内
+            amount = Mathf.Clamp(amount, 0, item.maxAmount);
+
+            // 更新UI显示
+            if (item.decadeSprite != null && item.unitSprite != null)
+            {
+                UpdateNumberSprites(item, amount);
+            }
+
+            // 保存数据
+            PlayerPrefs.SetInt(item.saveKey, amount);
+
+            // 检查是否达到目标数量
+            if (amount <= item.targetAmount)
+            {
+                OnItemTargetReached(item);
+            }
+
+        }
+    }
+
+
+    /// <summary>
+    /// 更新数字精灵显示
+    /// </summary>
+    /// <param name="item">物品</param>
+    /// <param name="amount">数量</param>
+    public void UpdateNumberSprites(CollectibleItem item, int amount)
+    {
+        // 计算十位和个位
+        int decade = amount / 10;
+        int unit = amount % 10;
+
+        // 更新精灵显示
+        if (item.numberSprites != null && item.numberSprites.Count > 0)
+        {
+            // 假设numberSprites列表中包含0-9的数字精灵
+            if (decade < item.numberSprites.Count)
+                item.decadeSprite.sprite = item.numberSprites[decade];
+
+            if (unit < item.numberSprites.Count)
+                item.unitSprite.sprite = item.numberSprites[unit];
+        }
+    }
+
+    /// <summary>
+    /// 当物品达到目标数量时的处理
+    /// </summary>
+    /// <param name="item">物品</param>
+    private void OnItemTargetReached(CollectibleItem item)
+    {
+        Debug.Log($"{item.itemName} 已达到目标数量 {item.targetAmount}!");
+
+        // 触发相应的事件
+        switch (item.itemType)
+        {
+            case ItemType.Crab:
+                // 螃蟹特殊逻辑
+                OpenCarbCollider();
+                break;
+            case ItemType.Earthworm:
+                // 蚯蚓达到目标数量的逻辑
+                OpenEarthwormCollider();
+                break;
+            case ItemType.Love:
+                // 小爱心达到目标数量的逻辑
+                OpenLoveCollider();
+                break;
+        }
+
+    }
+
+    /// <summary>
+    /// 根据类型获取物品
+    /// </summary>
+    /// <param name="itemType">物品类型</param>
+    /// <returns>物品对象</returns>
+    private CollectibleItem GetItemByType(ItemType itemType)
+    {
+        return collectibleItems.Find(item => item.itemType == itemType);
     }
 
     /// <summary>
@@ -57,155 +174,89 @@ public class CrabManager : MonoBehaviour
     /// </summary>
     public void OpenCarbCollider()
     {
-        crabCat.enabled = true;
+        if (crabCat != null)
+        {
+            crabCat.transform.GetChild(0).gameObject.SetActive(false);
+            crabCat.enabled = true;
+        }
     }
 
-    //public static CrabManager instance;
+    public void OpenLoveCollider()
+    {
+        if (loveCat != null)
+        {
+            loveCat.transform.GetChild(0).gameObject.SetActive(false);
+            catID_127.GetComponent<SpriteRenderer>().enabled = true;
+            catID_127.enabled = true;
+            loveCat.enabled = true;
+        }
+    }
 
-    //// 存储所有已收集的螃蟹ID
-    //private HashSet<int> collectedCrabs = new HashSet<int>();
-    //private bool isDataLoaded = false;
+    public void OpenEarthwormCollider()
+    {
+        if (earthwormCat != null)
+        {
+            earthwormCat.transform.GetChild(0).gameObject.SetActive(false);
+            earthwormCat.enabled = true;
+        }
+    }
 
-    //private void Awake()
-    //{
-    //    if (instance == null)
-    //    {
-    //        instance = this;
-    //        LoadAllCrabData();
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
+    /// <summary>
+    /// 重置所有物品数量
+    /// </summary>
+    public void ResetAllItems()
+    {
+        foreach (var item in collectibleItems)
+        {
+            PlayerPrefs.SetInt(item.saveKey, item.initialAmount);
+            UpdateItemAmount(item.itemType, item.initialAmount);
+        }
+    }
 
-    ///// <summary>
-    ///// 加载所有螃蟹数据
-    ///// </summary>
-    //private void LoadAllCrabData()
-    //{
-    //    if (isDataLoaded) return;
-
-    //    collectedCrabs.Clear();
-
-    //    // 假设最多有20只螃蟹，可以根据实际情况调整
-    //    for (int i = 0; i < 20; i++)
-    //    {
-    //        string key = GetCrabKey(i);
-    //        if (PlayerPrefs.HasKey(key))
-    //        {
-    //            collectedCrabs.Add(i);
-    //        }
-    //    }
-
-    //    isDataLoaded = true;
-    //    Debug.Log($"螃蟹数据加载完成，已收集 {collectedCrabs.Count} 只螃蟹");
-    //}
-
-    ///// <summary>
-    ///// 获取螃蟹的存储Key
-    ///// </summary>
-    //private string GetCrabKey(int crabID)
-    //{
-    //    return $"CrabKey_{crabID}";
-    //}
-
-    ///// <summary>
-    ///// 检查螃蟹是否已被收集
-    ///// </summary>
-    //public bool IsCrabCollected(int crabID)
-    //{
-    //    return collectedCrabs.Contains(crabID);
-    //}
-
-    ///// <summary>
-    ///// 收集螃蟹
-    ///// </summary>
-    //public void CollectCrab(int crabID)
-    //{
-    //    if (!collectedCrabs.Contains(crabID))
-    //    {
-    //        collectedCrabs.Add(crabID);
-    //        SaveCrabData(crabID);
-    //        Debug.Log($"螃蟹 {crabID} 已收集");
-    //    }
-    //}
-
-    ///// <summary>
-    ///// 保存螃蟹数据
-    ///// </summary>
-    //private void SaveCrabData(int crabID)
-    //{
-    //    string key = GetCrabKey(crabID);
-    //    PlayerPrefs.SetString(key, $"Crab_{crabID}");
-    //    PlayerPrefs.Save();
-    //}
-
-    ///// <summary>
-    ///// 获取已收集的螃蟹数量
-    ///// </summary>
-    //public int GetCollectedCrabCount()
-    //{
-    //    return collectedCrabs.Count;
-    //}
-
-    ///// <summary>
-    ///// 获取所有已收集的螃蟹ID
-    ///// </summary>
-    //public List<int> GetAllCollectedCrabIDs()
-    //{
-    //    return new List<int>(collectedCrabs);
-    //}
-
-    ///// <summary>
-    ///// 重置指定螃蟹的状态
-    ///// </summary>
-    //public void ResetCrab(int crabID)
-    //{
-    //    if (collectedCrabs.Contains(crabID))
-    //    {
-    //        collectedCrabs.Remove(crabID);
-    //        string key = GetCrabKey(crabID);
-    //        PlayerPrefs.DeleteKey(key);
-    //        PlayerPrefs.Save();
-    //        Debug.Log($"螃蟹 {crabID} 状态已重置");
-    //    }
-    //}
-
-    ///// <summary>
-    ///// 重置所有螃蟹状态
-    ///// </summary>
-    //public void ResetAllCrabs()
-    //{
-    //    collectedCrabs.Clear();
-
-    //    for (int i = 0; i < 20; i++)
-    //    {
-    //        string key = GetCrabKey(i);
-    //        if (PlayerPrefs.HasKey(key))
-    //        {
-    //            PlayerPrefs.DeleteKey(key);
-    //        }
-    //    }
-
-    //    PlayerPrefs.Save();
-    //    isDataLoaded = false;
-    //    Debug.Log("所有螃蟹状态已重置");
-    //}
-
-    ///// <summary>
-    ///// 重新加载数据（用于调试或数据同步）
-    ///// </summary>
-    //public void ReloadData()
-    //{
-    //    isDataLoaded = false;
-    //    LoadAllCrabData();
-    //}
+    /// <summary>
+    /// 重置指定物品数量
+    /// </summary>
+    /// <param name="itemType">物品类型</param>
+    public void ResetItem(ItemType itemType)
+    {
+        CollectibleItem item = GetItemByType(itemType);
+        if (item != null)
+        {
+            PlayerPrefs.SetInt(item.saveKey, item.initialAmount);
+            UpdateItemAmount(itemType, item.initialAmount);
+        }
+    }
 }
 
+
 [System.Serializable]
-public class CrabNum
+public class CollectibleItem
 {
-    public int ID;
-    public List<Sprite> numSprites;
+    [Header("基础设置")]
+    public ItemType itemType;           // 物品类型
+    public string itemName;             // 物品名称
+    public string saveKey;              // 保存键值
+
+    [Header("数量设置")]
+    public int initialAmount = 0;       // 初始数量
+    public int targetAmount = 10;       // 目标数量
+    public int maxAmount = 99;          // 最大数量
+
+    [Header("UI显示")]
+    public SpriteRenderer decadeSprite; // 十位数精灵
+    public SpriteRenderer unitSprite;   // 个位数精灵
+    public List<Sprite> numberSprites;  // 数字精灵列表 (0-9)
+
+}
+
+/// <summary>
+/// 物品类型枚举
+/// </summary>
+public enum ItemType
+{
+    Crab,       // 螃蟹
+    Earthworm,  // 香蕉
+    Love,       // 小爱心
+
+    // 可以继续添加其他类型
 }

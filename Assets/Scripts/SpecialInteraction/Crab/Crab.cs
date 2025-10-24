@@ -4,6 +4,7 @@ public class Crab : MonoBehaviour
 {
     public int crabID;
 
+    private ItemType itemType = ItemType.Crab;
     private void Awake()
     {
         JuageCrabState();
@@ -27,7 +28,8 @@ public class Crab : MonoBehaviour
         gameObject.SetActive(false);
         PlayerPrefs.SetString("CrabKey_" + crabID, "Crab_"+ crabID);
         // 改变螃蟹数量显示
-        CrabManager.Instance.UpdateCrabNum(currentCrabNum - 1);
+        CrabManager.Instance.UpdateItemAmount(itemType, currentCrabNum - 1);
+        PlayerPrefs.SetInt("SaveCrabAmount", currentCrabNum - 1);
     }
 
     /// <summary>

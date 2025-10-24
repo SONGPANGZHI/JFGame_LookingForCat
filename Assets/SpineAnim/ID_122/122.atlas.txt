@@ -1,0 +1,20 @@
+
+122.png
+size: 162,94
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+122
+  rotate: false
+  xy: 2, 2
+  size: 86, 90
+  orig: 88, 92
+  offset: 1, 1
+  index: -1
+niao
+  rotate: false
+  xy: 90, 2
+  size: 70, 90
+  orig: 76, 92
+  offset: 1, 1
+  index: -1

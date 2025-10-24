@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SlidingPuzzleManager : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class SlidingPuzzleManager : MonoBehaviour
     public Transform puzzleGrid;
     public GameObject tilePrefab;
 
+    public GameObject puzzlePlane;
+    public SpriteRenderer catID_122;
+    
+
+
     private SlidingPuzzleTile[,] tiles;
     private Vector2Int emptyTilePos;
     private bool isMoving = false;
@@ -24,18 +30,57 @@ public class SlidingPuzzleManager : MonoBehaviour
     {
         InitializeCorrectIndices();
         InitializePuzzle();
-    }
-
-    void Start()
-    {
         ShufflePuzzle();
     }
 
+    private void Start()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(122);
+        if (isCompleted)
+            UnlockCat_122();
+    }
 
     // 打开拼图界面
-    public void OpenPuzzle()
-    { 
-        
+    public void OpenPuzzlePlane()
+    {
+        bool isCompleted = GameManager.Instance.progressManager.IsCatFound(122);
+
+        if (isCompleted)
+            return;
+        else
+        {
+            UIManager.Instance.OtherParameters(false);
+            puzzlePlane.SetActive(true);
+        }
+
+    }
+
+    /// <summary>
+    /// 关闭拼图界面
+    /// </summary>
+    public void ClosePuzzlePlane()
+    {
+        // 在这里处理拼图界面关闭时的逻辑
+        UIManager.Instance.OtherParameters(true);
+        puzzlePlane.SetActive(false);
+        RestartGame();
+    }
+
+    /// <summary>
+    /// 胜利逻辑
+    /// </summary>
+    public void WinPuzzle()
+    {
+        UIManager.Instance.OtherParameters(true);
+        puzzlePlane.SetActive(false);
+        catID_122.enabled = true;
+        catID_122.GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void UnlockCat_122()
+    {
+        catID_122.enabled = true;
+        catID_122.GetComponent<Collider2D>().enabled = true;
     }
 
 
@@ -48,10 +93,11 @@ public class SlidingPuzzleManager : MonoBehaviour
         {
             for (int x = 0; x < gridSize; x++)
             {
-                if (x == gridSize - 1 && y == gridSize - 1)
+                // 第八个位置（索引7）是空白，对应坐标(1,2)或(2,1)取决于行列顺序
+                // 按照您的需求，第八个位置在3x3网格中应该是(2,2)
+                if (x == 2 && y == 2) // 第八个位置（从1开始数）
                 {
-                    // 最后一个位置是空的，没有图片索引
-                    correctTileIndices[x, y] = -1;
+                    correctTileIndices[x, y] = -1; // 空白位置标记为-1
                 }
                 else
                 {
@@ -78,8 +124,8 @@ public class SlidingPuzzleManager : MonoBehaviour
         {
             for (int x = 0; x < gridSize; x++)
             {
-                // 最后一个位置是空的
-                if (x == gridSize - 1 && y == gridSize - 1)
+                // 第八个位置是空的（坐标2,2）
+                if (x == 2 && y == 2)
                 {
                     emptyTilePos = new Vector2Int(x, y);
                     continue;
@@ -87,6 +133,7 @@ public class SlidingPuzzleManager : MonoBehaviour
 
                 GameObject tileObj = Instantiate(tilePrefab, puzzleGrid);
                 SlidingPuzzleTile tile = tileObj.GetComponent<SlidingPuzzleTile>();
+                tile.Init();
 
                 // 设置图片和初始位置
                 if (spriteIndex < puzzleSprites.Length)
@@ -109,15 +156,22 @@ public class SlidingPuzzleManager : MonoBehaviour
 
     void ShufflePuzzle()
     {
-        // 简单打乱算法
-        for (int i = 0; i < 100; i++)
+        // 简单打乱算法 - 确保打乱后拼图有解
+        int shuffleCount = 0;
+        int maxShuffles = 1000;
+
+        while (shuffleCount < maxShuffles)
         {
             List<Vector2Int> possibleMoves = GetPossibleMoves();
             if (possibleMoves.Count > 0)
             {
                 Vector2Int randomMove = possibleMoves[Random.Range(0, possibleMoves.Count)];
                 MoveTile(randomMove);
+                shuffleCount++;
             }
+
+            // 确保不会无限循环
+            if (shuffleCount >= 100) break;
         }
     }
 
@@ -216,43 +270,74 @@ public class SlidingPuzzleManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        // 检查所有拼图块是否在正确的位置并且显示正确的图片
+        // 首先检查空白格是否在正确的位置（第八个位置，即2,2）
+        if (emptyTilePos.x != 2 || emptyTilePos.y != 2)
+        {
+            return; // 空白格不在正确位置，直接返回
+        }
+
+        // 然后检查所有非空白位置的拼图块
         for (int y = 0; y < gridSize; y++)
         {
             for (int x = 0; x < gridSize; x++)
             {
-                // 跳过空格位置
-                if (x == emptyTilePos.x && y == emptyTilePos.y)
-                {
-                    // 检查空格是否在正确的位置（右下角）
-                    if (x != gridSize - 1 || y != gridSize - 1)
-                    {
-                        return; // 空格不在正确位置
-                    }
+                // 跳过空白位置
+                if (x == 2 && y == 2)
                     continue;
-                }
 
                 SlidingPuzzleTile tile = tiles[x, y];
+
+                // 检查拼图块是否存在
                 if (tile == null)
                 {
-                    return; // 不应该有空的位置（除了空格）
+                    Debug.Log($"位置({x},{y})缺少拼图块");
+                    return;
                 }
 
-                // 检查拼图块是否在正确的位置并且有正确的图片索引
+                // 检查拼图块是否在正确的位置
                 if (tile.currentPos.x != x || tile.currentPos.y != y)
                 {
-                    return; // 位置不正确
+                    Debug.Log($"位置({x},{y})的拼图块位置不正确");
+                    return;
                 }
 
                 // 检查这个位置上的拼图块是否有正确的图片索引
                 int correctIndex = correctTileIndices[x, y];
                 if (tile.spriteIndex != correctIndex)
                 {
-                    return; // 图片不正确
+                    Debug.Log($"位置({x},{y})的图片索引不正确: 当前{tile.spriteIndex}, 应该{correctIndex}");
+                    return;
                 }
             }
         }
 
         Debug.Log("恭喜！拼图完成！");
+        Invoke("WinPuzzle", 2f);
+    }
+
+    // 辅助方法：重新开始游戏
+    public void RestartGame()
+    {
+        // 重置所有图块到初始位置
+        InitializePuzzle();
+        ShufflePuzzle();
+    }
+
+    // 辅助方法：显示当前拼图状态（调试用）
+    void DebugPuzzleState()
+    {
+        string state = "当前拼图状态:\n";
+        for (int y = 0; y < gridSize; y++)
+        {
+            for (int x = 0; x < gridSize; x++)
+            {
+                if (tiles[x, y] == null)
+                    state += "空 ";
+                else
+                    state += tiles[x, y].spriteIndex + " ";
+            }
+            state += "\n";
+        }
+        Debug.Log(state);
     }
 }

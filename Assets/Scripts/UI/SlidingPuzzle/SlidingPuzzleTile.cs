@@ -14,7 +14,13 @@ public class SlidingPuzzleTile : MonoBehaviour
     private Image tileImage;
     private SlidingPuzzleManager puzzleManager;
 
-    void Awake()
+    //void Awake()
+    //{
+    //    tileImage = GetComponent<Image>();
+    //    puzzleManager = FindObjectOfType<SlidingPuzzleManager>();
+    //}
+
+    public void Init()
     {
         tileImage = GetComponent<Image>();
         puzzleManager = FindObjectOfType<SlidingPuzzleManager>();

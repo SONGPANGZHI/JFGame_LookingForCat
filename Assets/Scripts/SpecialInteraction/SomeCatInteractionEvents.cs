@@ -27,6 +27,14 @@ public class SomeCatInteractionEvents : MonoBehaviour
     public Collider2D catID_62;
     private int balloonIndex = 0;
 
+    [Header("垃圾桶切图")]
+    public Sprite bin_Sprite;
+    public List<SpriteRenderer> binList;
+
+    [Header("ID_125")]
+    public SpriteRenderer catID_125;
+
+
     private void Awake()
     {
         if(Instance == null)
@@ -40,6 +48,8 @@ public class SomeCatInteractionEvents : MonoBehaviour
     {
         CheckCatUnlock_063();
         JuageCatIDUnlock_62();
+        CheckBinCatSprite();
+        CheckCatID_125();
     }
 
     #region ID_063
@@ -167,7 +177,69 @@ public class SomeCatInteractionEvents : MonoBehaviour
             SwitchBalloon(3);
             OpenCatID_51();
         }
-    }   
+    }
+
+    #endregion
+
+    #region 垃圾桶切换图片
+
+    /// <summary>
+    /// 切换垃圾桶图片
+    /// </summary>
+    /// <param name="ID"></param>
+    public void SwitchBinSprite(int ID)
+    {
+        binList[ID].GetComponent<SpriteRenderer>().sprite = bin_Sprite;
+        PlayerPrefs.SetInt("BinCat_" + ID.ToString(), ID);
+    }
+
+    /// <summary>
+    /// 检查垃圾桶
+    /// </summary>
+    public void CheckBinCatSprite()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int savedID = PlayerPrefs.GetInt("BinCat_" + i.ToString());
+
+            if (savedID == i)
+            {
+                binList[i].GetComponent<SpriteRenderer>().sprite = bin_Sprite;
+            }
+        }
+    }
+
+    #endregion
+
+    #region ID_125
+
+    /// <summary>
+    /// 点击木板子
+    /// </summary>
+    public void ClickPlank()
+    {
+        if (PlayerPrefs.HasKey("CrabKey_12"))
+        {
+            Invoke("OpenCatID_125",0.2f); 
+        }
+        else
+            return;
+    }
+
+    public void OpenCatID_125()
+    {
+        catID_125.enabled = true;
+        catID_125.GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void CheckCatID_125()
+    {
+        bool isCompleted_125 = GameManager.Instance.progressManager.IsCatFound(125);
+        if (isCompleted_125)
+        {
+            OpenCatID_125();
+        }
+    }
 
     #endregion
 }
