@@ -1,0 +1,27 @@
+
+0138.png
+size: 270,102
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0138
+  rotate: true
+  xy: 2, 2
+  size: 98, 120
+  orig: 100, 124
+  offset: 1, 2
+  index: -1
+S1
+  rotate: false
+  xy: 124, 53
+  size: 144, 47
+  orig: 148, 56
+  offset: 2, 1
+  index: -1
+S2
+  rotate: false
+  xy: 124, 2
+  size: 142, 49
+  orig: 144, 52
+  offset: 1, 1
+  index: -1

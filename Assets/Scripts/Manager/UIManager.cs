@@ -42,6 +42,9 @@ public class UIManager : MonoBehaviour
     [Header("胜利")]
     public SkeletonGraphic winPlane;
 
+    [SerializeField]
+    private int catAllNumber = 150;
+
     private void Awake()
     {
         if (Instance == null)
@@ -226,6 +229,11 @@ public class UIManager : MonoBehaviour
             openIndex += 1;
             OpenSettingPlane(openIndex);
         }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            winPlane.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -285,7 +293,7 @@ public class UIManager : MonoBehaviour
     public void UpdateProgressUI()
     {
         foundCountText.text = $"{GameManager.Instance.progressManager.FoundCatCount}/{GameManager.Instance.progressManager.TotalCatCount}";
-        if (GameManager.Instance.progressManager.FoundCatCount >= 121)
+        if (GameManager.Instance.progressManager.FoundCatCount >= catAllNumber)
         {
             // 胜利
             winPlane.gameObject.SetActive(true);

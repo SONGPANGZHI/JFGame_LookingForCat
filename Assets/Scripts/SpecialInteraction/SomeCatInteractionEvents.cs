@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Spine;
+using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -50,6 +52,7 @@ public class SomeCatInteractionEvents : MonoBehaviour
         JuageCatIDUnlock_62();
         CheckBinCatSprite();
         CheckCatID_125();
+        CheckCatID_146();
     }
 
     #region ID_063
@@ -242,4 +245,51 @@ public class SomeCatInteractionEvents : MonoBehaviour
     }
 
     #endregion
+
+    #region 水神
+
+    public SkeletonAnimation goods_146;
+    public SkeletonAnimation catID_146;
+
+    /// <summary>
+    /// 点击交互物品 146 号猫
+    /// </summary>
+    public void ClickGoods_146()
+    {
+
+        // 设置动画并获取 TrackEntry
+        TrackEntry trackEntry = goods_146.state.SetAnimation(0, "Stay", false);
+        // 添加完成事件监听
+        trackEntry.Complete += OnAnimationComplete;
+
+
+    }
+
+    void OnAnimationComplete(TrackEntry trackEntry)
+    {
+        // 移除事件监听，避免重复调用
+        trackEntry.Complete -= OnAnimationComplete;
+        goods_146.GetComponent<BoxCollider2D>().enabled = false;
+        goods_146.gameObject.SetActive(false);
+
+        catID_146.GetComponent<MeshRenderer>().enabled = true;
+        catID_146.GetComponent<SkeletonAnimation>().enabled = true;
+        catID_146.GetComponent<Collider2D>().enabled = true;
+        //StartCoroutine(GraduallyDisplayOtherCat());
+    }
+
+    public void CheckCatID_146()
+    {
+        bool isCompleted_146 = GameManager.Instance.progressManager.IsCatFound(146);
+        if (isCompleted_146)
+        {
+            goods_146.gameObject.SetActive(false);
+            catID_146.GetComponent<MeshRenderer>().enabled = true;
+            catID_146.GetComponent<SkeletonAnimation>().enabled = true;
+            catID_146.GetComponent<Collider2D>().enabled = true;
+        }
+    }
+
+    #endregion
+
 }

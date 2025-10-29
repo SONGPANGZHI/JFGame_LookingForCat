@@ -22,6 +22,7 @@ public class LightManager : MonoBehaviour
 
     public List<SkeletonAnimation> stageCat;
 
+    public List<Collider2D> catID_141_142;
 
     private void Awake()
     {
@@ -89,6 +90,8 @@ public class LightManager : MonoBehaviour
             stageCat[i].state.SetAnimation(0, "Stay", true);
         }
     }
+
+
 
     /// <summary>
     /// 切换舞台 猫猫 动画
@@ -159,13 +162,18 @@ public class LightManager : MonoBehaviour
     // 打开猫猫
     public void OpenCat()
     {
-
-
         foreach (var item in catList)
         {
             item.GetComponent<MeshRenderer>().enabled = true;
             item.enabled = true;
             item.GetComponent<Collider2D>().enabled = true;
+
+        }
+
+        for (int j = 0; j < catID_141_142.Count; j++)
+        {
+            catID_141_142[j].enabled = true;
+            catID_141_142[j].GetComponent<SpriteRenderer>().enabled = true;
         }
 
     }

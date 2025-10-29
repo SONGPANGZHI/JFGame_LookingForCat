@@ -72,7 +72,7 @@ public class AmusementPark : MonoBehaviour
         trackEntry.Complete -= OnAnimationComplete;
         valvaOBJ.GetComponent<BoxCollider2D>().enabled = false;
 
-        childrenSlide.state.SetAnimation(0, "Huati", true);
+        childrenSlide.state.SetAnimation(0, "huati", true);
         StartCoroutine(GraduallyDisplayOtherCat());
     }
 
