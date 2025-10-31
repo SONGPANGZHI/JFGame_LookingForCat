@@ -22,7 +22,6 @@ public class LightManager : MonoBehaviour
 
     public List<SkeletonAnimation> stageCat;
 
-    public List<Collider2D> catID_141_142;
 
     private void Awake()
     {
@@ -170,11 +169,6 @@ public class LightManager : MonoBehaviour
 
         }
 
-        for (int j = 0; j < catID_141_142.Count; j++)
-        {
-            catID_141_142[j].enabled = true;
-            catID_141_142[j].GetComponent<SpriteRenderer>().enabled = true;
-        }
 
     }
 

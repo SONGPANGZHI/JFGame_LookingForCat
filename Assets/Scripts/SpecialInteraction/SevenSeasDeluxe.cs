@@ -3,6 +3,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// ID_10_12_11_116 猫猫 海盗船逻辑  082
@@ -91,6 +92,8 @@ public class SevenSeasDeluxe : MonoBehaviour
 
         if (GameManager.Instance.progressManager.IsCatFound(97))
             CheckCat_97();
+
+        JudgeLoveCatShow();
     }
 
     /// <summary>
@@ -190,9 +193,96 @@ public class SevenSeasDeluxe : MonoBehaviour
 
         ID_010_Cat.GetComponent<SpriteRenderer>().enabled = true;
         ID_010_Cat.GetComponent<BoxCollider2D>().enabled = true;
-        //ID_011_Cat.GetComponent<SpriteRenderer>().enabled = true;
-        //ID_011_Cat.GetComponent<BoxCollider2D>().enabled = true;
+
+        ShowLoveCat();
     }
+
+
+    #region ID_129_150 爱心猫
+
+    public List<Transform> loveCat;
+    public List<Transform> tragetPos;
+    public List<Sprite> changeLoveCat_Sprite;
+
+    public GameObject love_Obect;
+
+    private bool isMovingCat = false;
+    public void ShowLoveCat()
+    {
+        for (int i = 0; i < loveCat.Count; i++)
+        {
+            loveCat[i].GetComponent<Collider2D>().enabled = true;
+            loveCat[i].GetComponent<SpriteRenderer>().enabled = true;
+        }
+    }
+
+
+    public void JudgeLoveCatMove()
+    {
+        bool isCompleted_129 = GameManager.Instance.progressManager.IsCatFound(129);
+        bool isCompleted_150 = GameManager.Instance.progressManager.IsCatFound(150);
+    
+        if (isCompleted_129 && isCompleted_150)
+        {
+            if (!isMovingCat)
+                StartCoroutine(MoveToTarget(loveCat[0], loveCat[1], tragetPos[0], tragetPos[1]));
+
+        }
+    }
+
+    IEnumerator MoveToTarget(Transform move_a,Transform move_b,Transform target_a,Transform target_b)
+    {
+        isMovingCat = true;
+        float progress = 0f;
+        Vector3 startPosition_a = move_a.transform.position;
+        Vector3 startPosition_b = move_b.transform.position;
+
+        // 移动过程
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * moveSpeed;
+
+            move_a.transform.position = Vector3.Lerp(startPosition_a, target_a.position, progress);
+            move_b.transform.position = Vector3.Lerp(startPosition_b, target_b.position, progress);
+
+            yield return null;
+        }
+
+        // 确保最终位置准确
+        move_a.transform.position = target_a.position;
+        move_b.transform.position = target_b.position;
+        ShowLoveObject();
+        isMovingCat = false;
+    }
+
+    /// <summary>
+    /// 显示爱心物体
+    /// </summary>
+    public void ShowLoveObject()
+    {
+        for (int i = 0; i < changeLoveCat_Sprite.Count; i++)
+        {
+            loveCat[i].GetComponent<SpriteRenderer>().sprite = changeLoveCat_Sprite[i];
+        }
+        love_Obect.SetActive(true);
+    }
+
+    public void JudgeLoveCatShow()
+    {
+        bool isCompleted_129 = GameManager.Instance.progressManager.IsCatFound(129);
+        bool isCompleted_150 = GameManager.Instance.progressManager.IsCatFound(150);
+
+        if (isCompleted_129 && isCompleted_150)
+        {
+            loveCat[0].transform.position = tragetPos[0].position;
+            loveCat[1].transform.position = tragetPos[1].position;
+            loveCat[0].GetComponent<SpriteRenderer>().sprite = changeLoveCat_Sprite[0];
+            loveCat[1].GetComponent<SpriteRenderer>().sprite = changeLoveCat_Sprite[1];
+        }
+    }
+
+    #endregion
+
 
     /// <summary>
     /// 点击72号猫猫交互

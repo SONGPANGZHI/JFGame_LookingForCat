@@ -53,6 +53,8 @@ public class SomeCatInteractionEvents : MonoBehaviour
         CheckBinCatSprite();
         CheckCatID_125();
         CheckCatID_146();
+        UnlockCatID_138();
+        CheckCatID_139();
     }
 
     #region ID_063
@@ -201,6 +203,9 @@ public class SomeCatInteractionEvents : MonoBehaviour
     /// </summary>
     public void CheckBinCatSprite()
     {
+        if (!PlayerPrefs.HasKey("BinCat_0"))
+            PlayerPrefs.SetInt("BinCat_0", -1);
+
         for (int i = 0; i < 3; i++)
         {
             int savedID = PlayerPrefs.GetInt("BinCat_" + i.ToString());
@@ -291,5 +296,83 @@ public class SomeCatInteractionEvents : MonoBehaviour
     }
 
     #endregion
+
+    #region 乌云
+
+    public List<Transform> cloudTargetPos;
+
+    public Collider2D goods_138;
+    public Collider2D catID_138;
+
+    private int cloudIndex = 0;
+
+    public void ClickMovePos()
+    {
+        goods_138.enabled = false;
+
+        if (cloudIndex >= 2)
+        {
+            moveController.StartMove(goods_138.transform,cloudTargetPos[cloudIndex], () =>
+            {
+                goods_138.gameObject.SetActive(false);
+                catID_138.enabled = true;
+                catID_138.GetComponent<MeshRenderer>().enabled = true;
+                catID_138.GetComponent<SkeletonAnimation>().enabled = true;
+            });
+
+        }
+        else
+        {
+            moveController.StartMove(goods_138.transform, cloudTargetPos[cloudIndex], () =>
+            {
+                cloudIndex += 1;
+                goods_138.enabled = true;
+            });
+
+        }
+    }
+
+
+    public void UnlockCatID_138()
+    {
+        bool isCompleted_138 = GameManager.Instance.progressManager.IsCatFound(138);
+
+        if (isCompleted_138)
+        {
+            goods_138.gameObject.SetActive(false);
+            catID_138.enabled = true;
+            catID_138.GetComponent<MeshRenderer>().enabled = true;
+            catID_138.GetComponent<SkeletonAnimation>().enabled = true;
+        } 
+    }
+
+    #endregion
+
+    #region 矿工猫
+
+    public Collider2D catID_139;
+    public SkeletonAnimation goods_139;
+
+    public void OpenCatID_139()
+    {
+        goods_139.state.SetAnimation(0, "animation", false);
+        catID_139.enabled = true;
+        catID_139.GetComponent<SpriteRenderer>().enabled = true;
+        goods_139.GetComponent<Collider2D>().enabled = false;
+    }
+
+    public void CheckCatID_139()
+    {
+        bool isCompleted_139 = GameManager.Instance.progressManager.IsCatFound(139);
+        if (isCompleted_139)
+        {
+            goods_139.GetComponent<Collider2D>().enabled = false;
+            catID_139.enabled = true;
+            catID_139.GetComponent<SpriteRenderer>().enabled = true;
+        }
+    }
+
+    #endregion
+
 
 }

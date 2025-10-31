@@ -14,6 +14,7 @@ public class CrabManager : MonoBehaviour
 
     public Collider2D earthwormCat;
 
+    public Sprite loveCat_Sprite;
 
     private void Awake()
     {
@@ -188,6 +189,8 @@ public class CrabManager : MonoBehaviour
             loveCat.transform.GetChild(0).gameObject.SetActive(false);
             catID_127.GetComponent<SpriteRenderer>().enabled = true;
             catID_127.enabled = true;
+
+            loveCat.GetComponent<SpriteRenderer>().sprite = loveCat_Sprite;
             loveCat.enabled = true;
         }
     }

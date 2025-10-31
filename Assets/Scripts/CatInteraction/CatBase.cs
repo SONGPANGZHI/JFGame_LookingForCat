@@ -52,6 +52,8 @@ public class CatBase : MonoBehaviour
             { 22, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
             { 23, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
             { 24, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
+            { 129, ()=>SevenSeasDeluxe.Instance.JudgeLoveCatMove() },
+            { 150, ()=>SevenSeasDeluxe.Instance.JudgeLoveCatMove() },
         };
     }
 

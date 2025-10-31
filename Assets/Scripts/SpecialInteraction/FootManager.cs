@@ -14,7 +14,7 @@ public class FootManager : MonoBehaviour
 
     void Start()
     {
-        bool complete = GameManager.Instance.progressManager.IsCatFound(129);
+        bool complete = GameManager.Instance.progressManager.IsCatFound(39);
         if (complete)
         {
             // 初始化：只显示第一张图片，其他隐藏
