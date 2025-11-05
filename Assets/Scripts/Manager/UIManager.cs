@@ -32,8 +32,6 @@ public class UIManager : MonoBehaviour
 
     [Header("提醒界面")]
     public CameraTouchDrag cameraOBJ;
-    public GameObject tipPlane;
-    public TMP_Text tip_TMP;
 
     private Vector3 startPosition;
     private bool setOpen = false;
@@ -203,7 +201,6 @@ public class UIManager : MonoBehaviour
 
     public void OpenSettingPlane(int index)
     {
-        
         if (index == 1)
         {
             OtherParameters(false);
@@ -216,6 +213,7 @@ public class UIManager : MonoBehaviour
             setPlane.SetActive(false);
             MusicManager.Instance.SetBackgroundMusicForPause(false);
         }
+
         Time.timeScale = 1f;
     }
 
@@ -249,31 +247,7 @@ public class UIManager : MonoBehaviour
 
     #region 小游戏界面 提醒通关 摄像机参数
 
-    /// <summary>
-    /// 打开提醒界面
-    /// </summary>
-    public void OpenTipPlane(int catID = 0)
-    {
-        tipPlane.SetActive(true);
-
-        if (catID == 0)
-            tip_TMP.text = "Good~";
-        else
-            tip_TMP.text = "恭喜解锁" + catID + "猫猫~";
-
-        // 2s 关闭界面
-        Invoke("CloseTipPlane", 1f);
-    }
-
-    /// <summary>
-    /// 关闭
-    /// </summary>
-    public void CloseTipPlane()
-    {
-        tipPlane.SetActive(false);
-
-    }
-
+   
     /// <summary>
     /// 其他参数 摄像机 可以点击
     /// </summary>

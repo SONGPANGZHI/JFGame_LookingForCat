@@ -15,13 +15,13 @@ public class LanguageData : ScriptableObject
     [System.Serializable]
     public class Language
     {
-        public SystemLanguage language;
+        public LanguageType language;
         public List<LanguageItem> items = new List<LanguageItem>();
     }
 
     public List<Language> languages = new List<Language>();
 
-    public string GetText(SystemLanguage lang, string key)
+    public string GetText(LanguageType lang, string key)
     {
         foreach (var language in languages)
         {

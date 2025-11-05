@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LanguageData
   m_EditorClassIdentifier: 
   languages:
-  - language: 6
+  - language: 0
     items:
     - key: Set
       value: "\u8BBE\u7F6E"
@@ -23,21 +23,101 @@ MonoBehaviour:
       value: "\u97F3\u6548"
     - key: Back
       value: "\u8FD4\u56DE"
-    - key: UI_Close
-      value: "\u70B9\u51FB\u4EFB\u610F\u5904\u5173\u95ED"
     - key: SwitchKey
       value: "\u6362\u4E00\u7EC4"
-  - language: 10
+  - language: 1
     items:
     - key: Set
-      value: Set
+      value: Settings
     - key: BGM
       value: BGM
     - key: SFX
       value: SFX
     - key: Back
       value: Back
-    - key: UI_Close
-      value: Click anywhere to close
     - key: SwitchKey
-      value: Change the group
+      value: Switch
+  - language: 2
+    items:
+    - key: Set
+      value: "Param\xE8tres"
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: Retour
+    - key: SwitchKey
+      value: Changer
+  - language: 3
+    items:
+    - key: Set
+      value: Einstellungen
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: "Zur\xFCck"
+    - key: SwitchKey
+      value: Wechseln
+  - language: 4
+    items:
+    - key: Set
+      value: "\u8A2D\u5B9A"
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: "\u623B\u308B"
+    - key: SwitchKey
+      value: "\u5207\u308A\u66FF\u3048"
+  - language: 5
+    items:
+    - key: Set
+      value: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: "\u041D\u0430\u0437\u0430\u0434"
+    - key: SwitchKey
+      value: "\u041F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0438\u0442\u044C"
+  - language: 6
+    items:
+    - key: Set
+      value: "\uC124\uC815"
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: "\uB4A4\uB85C\uAC00\uAE30"
+    - key: SwitchKey
+      value: "\uC804\uD658"
+  - language: 7
+    items:
+    - key: Set
+      value: "Configura\xE7\xF5es"
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: Voltar
+    - key: SwitchKey
+      value: Alternar
+  - language: 8
+    items:
+    - key: Set
+      value: "Configuraci\xF3n"
+    - key: BGM
+      value: BGM
+    - key: SFX
+      value: SFX
+    - key: Back
+      value: "Atr\xE1s"
+    - key: SwitchKey
+      value: Cambiar

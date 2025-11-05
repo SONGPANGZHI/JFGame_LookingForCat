@@ -7,6 +7,7 @@ public class CrabDisplacement : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform crab;
     [SerializeField] private Transform target;
+    [SerializeField] private Sprite crabSprite;
 
     [Header("Settings")]
     [SerializeField] private float scaleAnimationDuration = 3f;
@@ -37,12 +38,14 @@ public class CrabDisplacement : MonoBehaviour
     private IEnumerator CrabAnimationSequence()
     {
         _isMoving = true;
+        CloseCrab();
 
         yield return CrabChangeSize();
         yield return MoveCrabToTarget();
 
         _isMoving = false;
         _currentCoroutine = null;
+
     }
 
     /// <summary>
@@ -76,11 +79,6 @@ public class CrabDisplacement : MonoBehaviour
         Debug.Log("螃蟹已移动到目标位置");
     }
 
-
-    public void ShowCrabC()
-    {
-        //crab.GetComponent<Collider2D>().enabled = true;
-    }
 
     /// <summary>
     /// 通用的变换动画方法
@@ -125,5 +123,11 @@ public class CrabDisplacement : MonoBehaviour
         crab.localScale = Vector3.one;
         crab.position = target.position;
         _isMoving = false;
+    }
+
+    public void CloseCrab()
+    {
+        transform.GetComponent<Collider2D>().enabled = false;
+        transform.GetComponent<SpriteRenderer>().sprite = crabSprite;
     }
 }

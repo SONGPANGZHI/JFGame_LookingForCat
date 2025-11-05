@@ -7,24 +7,23 @@ public class LocalizedText : MonoBehaviour
     [SerializeField] private string textKey;
 
     private TMP_Text uiText;
-    private TextMeshProUGUI tmpText;
 
     private void Awake()
     {
         uiText = GetComponent<TMP_Text>();
-        tmpText = GetComponent<TextMeshProUGUI>();
 
-        if (string.IsNullOrEmpty(textKey) && uiText != null)
-        {
+        // 如果没有指定 key，默认用原始文本内容
+        if (string.IsNullOrEmpty(textKey))
             textKey = uiText.text;
-        }
-
-        UpdateText();
     }
 
     private void OnEnable()
     {
-        LanguageManager.Instance.OnLanguageChanged.AddListener(OnLanguageChanged);
+        if (LanguageManager.Instance != null)
+        {
+            LanguageManager.Instance.OnLanguageChanged.AddListener(OnLanguageChanged);
+            UpdateText(); // 确保新打开的界面立即更新
+        }
     }
 
     private void OnDisable()
@@ -33,20 +32,17 @@ public class LocalizedText : MonoBehaviour
             LanguageManager.Instance.OnLanguageChanged.RemoveListener(OnLanguageChanged);
     }
 
-    private void OnLanguageChanged(SystemLanguage language)
+    private void OnLanguageChanged(LanguageType language)
     {
         UpdateText();
     }
 
-    private void UpdateText()
+    public void UpdateText()
     {
+        if (LanguageManager.Instance == null) return;
+
         string localizedText = LanguageManager.Instance.GetText(textKey);
-
-        if (uiText != null)
-            uiText.text = localizedText;
-
-        if (tmpText != null)
-            tmpText.text = localizedText;
+        uiText.text = localizedText;
     }
 
     public void SetTextKey(string newKey)

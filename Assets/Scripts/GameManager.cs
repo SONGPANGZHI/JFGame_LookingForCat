@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(!PlayerPrefs.HasKey(SaveSystem.SAVE_KEY))
-            saveSystem.SaveGame();
+        saveSystem.JudgeVersionNumber();
+
 
         Initialize();
     }

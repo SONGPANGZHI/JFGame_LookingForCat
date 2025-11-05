@@ -41,7 +41,7 @@ public class Crab : MonoBehaviour
         {
             if (crabID < 6)
             {
-                this.transform.parent.GetComponent<Collider2D>().enabled = false;
+                this.transform.parent.GetComponent<CrabDisplacement>().CloseCrab();
             }
             else
                 gameObject.SetActive(false);

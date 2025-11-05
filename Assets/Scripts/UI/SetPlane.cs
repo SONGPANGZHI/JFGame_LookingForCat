@@ -7,20 +7,19 @@ using UnityEngine.UI;
 
 public class SetPlane : MonoBehaviour
 {
-    public List<Sprite> Language_SpriteListl;       // 0 英文 1 中文
-
+    public List<Sprite> Language_SpriteList;       // 按LanguageType枚举顺序对应
 
     [Header("BGM")]
     public Button BGM_Right_BTN;
     public Button BGM_Left_BTN;
     public GameObject BGM_CloseBGM;
-    public Transform BGM_Sdlider;
+    public Transform BGM_Slider;
 
     [Header("SFX")]
     public Button SFX_Right_BTN;
     public Button SFX_Left_BTN;
     public GameObject SFX_CloseSFX;
-    public Transform SFX_Sdlider;
+    public Transform SFX_Slider;
 
     [Header("语言")]
     public Button Language_Right_BTN;
@@ -32,17 +31,17 @@ public class SetPlane : MonoBehaviour
 
     private int BGM_Index;
     private int SFX_Index;
-
+    private int currentLanguageIndex;
 
     private int start_X;
+
     private void Awake()
     {
         // BGM
-
         BGM_Right_BTN.onClick.AddListener(Right_BGM);
         BGM_Left_BTN.onClick.AddListener(Left_BGM);
 
-        start_X = (int)BGM_Sdlider.localPosition.x;
+        start_X = (int)BGM_Slider.localPosition.x;
 
         // SFX
         SFX_Right_BTN.onClick.AddListener(Right_SFX);
@@ -53,16 +52,12 @@ public class SetPlane : MonoBehaviour
         Language_Left_BTN.onClick.AddListener(Left_Language);
 
         // 返回按钮
-
-
         //back_BTN.onClick.AddListener(BackClick);
     }
 
     private void Start()
     {
         LoadSavedLanguage();
-        InitLanguage();
-
         InitBGM();
         InitSFX();
     }
@@ -71,8 +66,7 @@ public class SetPlane : MonoBehaviour
 
     public void InitBGM()
     {
-
-        BGM_Index = PlayerPrefs.GetInt(MusicManager.BGMVolumeKey);
+        BGM_Index = PlayerPrefs.GetInt(MusicManager.BGMVolumeKey, 5); // 默认值5
 
         if (BGM_Index <= 0)
         {
@@ -80,29 +74,30 @@ public class SetPlane : MonoBehaviour
             BGM_Left_BTN.interactable = false;
         }
         else
+        {
             BGM_CloseBGM.SetActive(false);
+            BGM_Left_BTN.interactable = true;
+        }
+
         if (BGM_Index >= 10)
             BGM_Right_BTN.interactable = false;
         else
             BGM_Right_BTN.interactable = true;
 
         ChangeSliderBGM(BGM_Index);
-    }   
-
+    }
 
     private void Right_BGM()
     {
         BGM_Left_BTN.interactable = true;
         BGM_Index += 1;
 
-        if(BGM_Index > 0)
+        if (BGM_Index > 0)
             BGM_CloseBGM.SetActive(false);
         if (BGM_Index >= 10)
             BGM_Right_BTN.interactable = false;
 
         ChangeSliderBGM(BGM_Index);
-
-
     }
 
     private void Left_BGM()
@@ -117,17 +112,14 @@ public class SetPlane : MonoBehaviour
         else
             BGM_CloseBGM.SetActive(false);
 
-
         ChangeSliderBGM(BGM_Index);
-
     }
 
-
-    public void ChangeSliderBGM(int iNDEX)
+    public void ChangeSliderBGM(int index)
     {
-        int variate = iNDEX * 29;
-        BGM_Sdlider.localPosition = new Vector3(start_X + variate, BGM_Sdlider.localPosition.y,0);
-        MusicManager.Instance.SetVolume_BGM(iNDEX);
+        int variate = index * 29;
+        BGM_Slider.localPosition = new Vector3(start_X + variate, BGM_Slider.localPosition.y, 0);
+        MusicManager.Instance.SetVolume_BGM(index);
     }
 
     #endregion
@@ -136,7 +128,7 @@ public class SetPlane : MonoBehaviour
 
     public void InitSFX()
     {
-        SFX_Index = PlayerPrefs.GetInt(MusicManager.SFXVolumeKey);
+        SFX_Index = PlayerPrefs.GetInt(MusicManager.SFXVolumeKey, 5); // 默认值5
 
         if (SFX_Index <= 0)
         {
@@ -144,7 +136,11 @@ public class SetPlane : MonoBehaviour
             SFX_Left_BTN.interactable = false;
         }
         else
+        {
             SFX_CloseSFX.SetActive(false);
+            SFX_Left_BTN.interactable = true;
+        }
+
         if (SFX_Index >= 10)
             SFX_Right_BTN.interactable = false;
         else
@@ -178,94 +174,99 @@ public class SetPlane : MonoBehaviour
         else
             SFX_CloseSFX.SetActive(false);
 
-
         ChangeSliderSFX(SFX_Index);
     }
 
-    public void ChangeSliderSFX(int iNDEX)
+    public void ChangeSliderSFX(int index)
     {
-        int variate = iNDEX * 29;
-        SFX_Sdlider.localPosition = new Vector3(start_X + variate, SFX_Sdlider.localPosition.y, 0);
-        MusicManager.Instance.SetVolume_SFX(iNDEX);
+        int variate = index * 29;
+        SFX_Slider.localPosition = new Vector3(start_X + variate, SFX_Slider.localPosition.y, 0);
+        MusicManager.Instance.SetVolume_SFX(index);
     }
 
     #endregion
 
-
     #region 语言
-
     /// <summary>
-    /// 初始化 语言
+    /// 初始化语言
     /// </summary>
-    public void InitLanguage()
+    private void InitLanguage()
     {
-        if (LanguageManager.Instance.CurrentLanguage == SystemLanguage.Chinese)
-        {
-            Language_Left_BTN.interactable = false;
-            Language_Img.sprite = Language_SpriteListl[1];
-        }
-        else
-            Language_Left_BTN.interactable = true;
-
-        if (LanguageManager.Instance.CurrentLanguage == SystemLanguage.English)
-        {
-            Language_Right_BTN.interactable = false;
-            Language_Img.sprite = Language_SpriteListl[0];
-        }
-        else
-            Language_Right_BTN.interactable = true; 
-
+        UpdateLanguageDisplay();
+        UpdateLanguageButtons();
     }
-
-
 
     private void Right_Language()
     {
-        LanguageManager.Instance.SetLanguage(SystemLanguage.English);
-        Language_Img.sprite = Language_SpriteListl[0];
-        if (LanguageManager.Instance.CurrentLanguage == SystemLanguage.English)
+        if (currentLanguageIndex < Enum.GetValues(typeof(LanguageType)).Length - 1)
         {
-            Language_Right_BTN.interactable = false;
-            Language_Left_BTN.interactable = true;
+            currentLanguageIndex++;
+            ChangeLanguage(currentLanguageIndex);
         }
-        else
-            Language_Right_BTN.interactable = true;
     }
 
     private void Left_Language()
     {
-        LanguageManager.Instance.SetLanguage(SystemLanguage.Chinese);
-        Language_Img.sprite = Language_SpriteListl[1];
-        if (LanguageManager.Instance.CurrentLanguage == SystemLanguage.Chinese)
+        if (currentLanguageIndex > 0)
         {
-            Language_Left_BTN.interactable = false;
-            Language_Right_BTN.interactable = true;
+            currentLanguageIndex--;
+            ChangeLanguage(currentLanguageIndex);
         }
-        else
-            Language_Left_BTN.interactable = true;
     }
 
+    private void ChangeLanguage(int languageIndex)
+    {
+        LanguageType newLanguage = (LanguageType)languageIndex;
+        LanguageManager.Instance.SetLanguage(newLanguage);
 
+        UpdateLanguageDisplay();
+        UpdateLanguageButtons();
+
+        // 保存语言设置
+        PlayerPrefs.SetString("SelectedLanguage", newLanguage.ToString());
+        PlayerPrefs.Save();
+    }
+
+    private void UpdateLanguageDisplay()
+    {
+        if (Language_SpriteList != null && Language_SpriteList.Count > currentLanguageIndex)
+        {
+            Language_Img.sprite = Language_SpriteList[currentLanguageIndex];
+        }
+        else
+        {
+            Debug.LogWarning($"Language sprite list配置错误: 列表长度{Language_SpriteList?.Count}, 需要索引{currentLanguageIndex}");
+        }
+    }
+
+    private void UpdateLanguageButtons()
+    {
+        // 更新左右按钮的交互状态
+        Language_Left_BTN.interactable = currentLanguageIndex > 0;
+        Language_Right_BTN.interactable = currentLanguageIndex < Enum.GetValues(typeof(LanguageType)).Length - 1;
+    }
 
     private void LoadSavedLanguage()
     {
-        string savedLanguage = PlayerPrefs.GetString("SelectedLanguage", SystemLanguage.English.ToString());
+        string savedLanguage = PlayerPrefs.GetString("SelectedLanguage", LanguageType.Chinese.ToString());
 
-        if (System.Enum.TryParse(savedLanguage, out SystemLanguage language))
+        if (System.Enum.TryParse(savedLanguage, out LanguageType language))
         {
-            LanguageManager.Instance.SetLanguage(language);
+            currentLanguageIndex = (int)language;
+            // 只设置索引，不重复调用LanguageManager.Instance.SetLanguage
+        }
+        else
+        {
+            // 如果解析失败，使用默认语言
+            currentLanguageIndex = (int)LanguageType.Chinese;
         }
 
+        // 初始化语言显示
+        InitLanguage();
+
+        // 确保LanguageManager使用正确的语言
+        LanguageManager.Instance.SetLanguage((LanguageType)currentLanguageIndex);
     }
-
-    
-
     #endregion
 
-
-
-    private void BackClick()
-    {
-        throw new NotImplementedException();
-    }
 }
