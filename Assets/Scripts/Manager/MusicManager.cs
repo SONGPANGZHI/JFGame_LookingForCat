@@ -12,7 +12,7 @@ public class MusicManager : MonoBehaviour
     public AudioClip[] audioClips;      // 背景、音效、点击列表
     public AudioClip[] catClips;        // 猫猫叫声列表
 
-    private float originalVolume;
+
     public static string BGMKey = "BGMVolume";      // 背景音乐音量键 0为打开 1为关闭
     public static string SFXKey = "SFXVolume";      // 音效音量键
     public static string ClickKey = "ClickVolume";  // 点击音效音量键
@@ -110,7 +110,6 @@ public class MusicManager : MonoBehaviour
     public void SetVolume_BGM(int index)
     {
         BGM.volume = index * 0.1f;
-        originalVolume = BGM.volume; // 保存原始音量
         PlayerPrefs.SetInt(BGMVolumeKey, index);
     }
 

@@ -112,6 +112,7 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetInt(MusicManager.BGMKey, 0);
             BGM_BTN.transform.GetChild(0).gameObject.SetActive(false);
         }
+        MusicManager.Instance.PlayBGM(PlayerPrefs.GetInt(MusicManager.BGMKey));
     }
 
     /// <summary>
@@ -199,49 +200,49 @@ public class UIManager : MonoBehaviour
     /// 打开设置界面
     /// </summary>
 
-    public void OpenSettingPlane(int index)
-    {
-        if (index == 1)
-        {
-            OtherParameters(false);
-            setPlane.SetActive(true);
-        }
-        else
-        {
-            openIndex = 0;
-            OtherParameters(true);
-            setPlane.SetActive(false);
-            MusicManager.Instance.SetBackgroundMusicForPause(false);
-        }
+    //public void OpenSettingPlane(int index)
+    //{
+    //    if (index == 1)
+    //    {
+    //        OtherParameters(false);
+    //        setPlane.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        openIndex = 0;
+    //        OtherParameters(true);
+    //        setPlane.SetActive(false);
+    //        MusicManager.Instance.SetBackgroundMusicForPause(false);
+    //    }
 
-        Time.timeScale = 1f;
-    }
+    //    Time.timeScale = 1f;
+    //}
 
-    int openIndex = 0;
+    //int openIndex = 0;
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            openIndex += 1;
-            OpenSettingPlane(openIndex);
-        }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        openIndex += 1;
+    //        OpenSettingPlane(openIndex);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            winPlane.gameObject.SetActive(false);
-        }
-    }
+    //    if (Input.GetKeyDown(KeyCode.W))
+    //    {
+    //        winPlane.gameObject.SetActive(false);
+    //    }
+    //}
 
-    /// <summary>
-    /// 在场景中调用
-    /// </summary>
-    public void SetPlaneClose()
-    {
-        openIndex += 1;
-        OpenSettingPlane(openIndex);
-    }
+    ///// <summary>
+    ///// 在场景中调用
+    ///// </summary>
+    //public void SetPlaneClose()
+    //{
+    //    openIndex += 1;
+    //    OpenSettingPlane(openIndex);
+    //}
 
     #endregion
 
