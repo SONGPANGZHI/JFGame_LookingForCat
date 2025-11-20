@@ -96,22 +96,25 @@ public class GridManager: MonoBehaviour
 
     }
 
+    private bool tennisGameBool = false;
+
     /// <summary>
     /// 开始网球游戏
     /// </summary>
     public void StartPlay()
     {
-        startPaly = true;
-        UIManager.Instance.OtherParameters(false);
-        transform.GetChild(0).gameObject.SetActive(true);
-        if (gridContainer.childCount > 0) return;
-        else
+        if(!tennisGameBool)
         {
-            InitializeGrid();
-            PlacePoints();
+            startPaly = true;
+            UIManager.Instance.OtherParameters(false);
+            transform.GetChild(0).gameObject.SetActive(true);
+            if (gridContainer.childCount > 0) return;
+            else
+            {
+                InitializeGrid();
+                PlacePoints();
+            }
         }
-
-        
     }
 
     /// <summary>
@@ -413,6 +416,7 @@ public class GridManager: MonoBehaviour
         if (completedPairs >= pointColorTypes.Length)
         {
             OpenTips();
+            tennisGameBool = true;
             Debug.Log("游戏完成！");
         }
 

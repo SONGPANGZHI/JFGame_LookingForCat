@@ -17,11 +17,14 @@ public class CatBus : MonoBehaviour
 
     public GameObject CAT_42;
     public GameObject CAT_41;
+    public GameObject CAT_133;
+
 
     [Header("ID_53")]
     public GameObject carClose;
     public GameObject carOpen;
     public GameObject catCat;
+    public SpriteRenderer cat_53;
 
     private void Awake()
     {
@@ -32,15 +35,21 @@ public class CatBus : MonoBehaviour
     private void Start()
     {
         bool isCompleted = GameManager.Instance.progressManager.IsCatFound(43);
+        bool isCompleted_53 = GameManager.Instance.progressManager.IsCatFound(53);
         if (isCompleted)
         {
             moveOBJ.position = targetPos.position;
+            CAT_133.GetComponent<SpriteRenderer>().enabled = true;
+            CAT_133.GetComponent<BoxCollider2D>().enabled = true;
         }
         else
         {
             CAT_42.GetComponent<BoxCollider2D>().enabled = false;
             CAT_41.GetComponent<BoxCollider2D>().enabled = false;
+
         }
+        if(isCompleted_53)
+            JuageCat_53();
     }
 
 
@@ -59,6 +68,8 @@ public class CatBus : MonoBehaviour
     {
         CAT_42.GetComponent<BoxCollider2D>().enabled = true;
         CAT_41.GetComponent<BoxCollider2D>().enabled = true;
+        CAT_133.GetComponent<SpriteRenderer>().enabled = true;
+        CAT_133.GetComponent<BoxCollider2D>().enabled = true;
     }
 
 
@@ -77,13 +88,22 @@ public class CatBus : MonoBehaviour
     public void BoxClick()
     {
         carOpen.SetActive(false);
-        catCat.GetComponent<SpriteRenderer>().enabled = true;
+        catCat.SetActive(true);
+        cat_53.enabled = true;
         StartCoroutine(DelayOpenCat());
     }
 
     IEnumerator DelayOpenCat()
     {
         yield return new WaitForSeconds(1);
-        catCat.GetComponent<BoxCollider2D>().enabled = true;
+        cat_53.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    public void JuageCat_53()
+    {
+        carClose.SetActive(false);
+        carOpen.SetActive(false);
+        catCat.SetActive(true);
+        cat_53.enabled = true;
     }
 }

@@ -18,7 +18,9 @@ public enum InteractionMode
     None,
     ReplaceSprite,   // 替换精灵
     EnableCollider,  // 启用碰撞体
+    ReplaceGoodsSprite, // 替换物品精灵
     Both             // 两者都执行
+
 }
 
 /// <summary>

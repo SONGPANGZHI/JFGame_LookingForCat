@@ -20,6 +20,9 @@ public class InteractiveCat : CatBase
     public Sprite replacementSprite;     // 替换后的猫猫精灵
     private Sprite originalSprite;       // 原始猫猫精灵
 
+    [Header("交互物精灵替换设置")]
+    public Sprite replacementGoodsSprite; // 替换后的交互物精灵
+    private Sprite originalGoodsSprite;   // 原始交互物精灵
 
     [Header("交互模式设置")]
     public InteractionMode interactionMode = InteractionMode.None;
@@ -111,7 +114,8 @@ public class InteractiveCat : CatBase
     {
         SetCatVisible(true);
 
-        if (interactiveObject != null)
+        // ReplaceGoodsSprite模式下，交互物保持显示
+        if (interactiveObject != null && interactionMode != InteractionMode.ReplaceGoodsSprite)
         {
             interactiveObject.SetActive(false);
         }
@@ -120,6 +124,14 @@ public class InteractiveCat : CatBase
         {
             case InteractionMode.ReplaceSprite:
                 ReplaceCatSprite(replacementSprite);
+                break;
+            case InteractionMode.ReplaceGoodsSprite:
+                ReplaceGoodsSprite(replacementGoodsSprite);
+                // 在已解锁状态下也要禁用碰撞体
+                if (interactiveObjectCollider != null)
+                {
+                    interactiveObjectCollider.enabled = false;
+                }
                 break;
         }
 
@@ -206,7 +218,8 @@ public class InteractiveCat : CatBase
     /// </summary>
     private void HandleNoneAnimation()
     {
-        if (disableAfterInteraction)
+        // ReplaceGoodsSprite模式下不隐藏交互物
+        if (disableAfterInteraction && interactionMode != InteractionMode.ReplaceGoodsSprite)
         {
             SetInteractiveObjectActive(false);
         }
@@ -424,7 +437,8 @@ public class InteractiveCat : CatBase
     {
         isRevealed = true;
 
-        if (!IsObstructionDisplayed && interactiveObject != null) 
+        // ReplaceGoodsSprite模式下不隐藏交互物
+        if (!IsObstructionDisplayed && interactiveObject != null && interactionMode != InteractionMode.ReplaceGoodsSprite)
             interactiveObject.SetActive(false);
 
         // 直接设置可见
@@ -440,10 +454,44 @@ public class InteractiveCat : CatBase
                 EnableCatCollider();
                 break;
 
+            case InteractionMode.ReplaceGoodsSprite:
+                ReplaceGoodsSpriteIfAvailable();
+                break;
+
             case InteractionMode.Both:
                 ReplaceCatSpriteIfAvailable();
                 EnableCatCollider();
                 break;
+        }
+
+        // 对于ReplaceGoodsSprite模式，特殊处理交互物体
+        if (interactionMode == InteractionMode.ReplaceGoodsSprite)
+        {
+            HandleReplaceGoodsSpriteInteraction();
+        }
+    }
+
+    /// <summary>
+    /// 处理ReplaceGoodsSprite模式的交互
+    /// </summary>
+    private void HandleReplaceGoodsSpriteInteraction()
+    {
+        if (interactiveObject != null)
+        {
+            // 确保交互物保持显示状态
+            if (interactiveObjectSpriteRenderer != null)
+            {
+                interactiveObjectSpriteRenderer.enabled = true;
+            }
+
+            // 替换交互物体精灵
+            ReplaceGoodsSpriteIfAvailable();
+
+            // 禁用交互物体的碰撞体，使其无法再次点击
+            if (interactiveObjectCollider != null)
+            {
+                interactiveObjectCollider.enabled = false;
+            }
         }
     }
 
@@ -455,6 +503,17 @@ public class InteractiveCat : CatBase
         if (replacementSprite != null)
         {
             ReplaceCatSprite(replacementSprite);
+        }
+    }
+
+    /// <summary>
+    /// 替换交互物体精灵
+    /// </summary>
+    private void ReplaceGoodsSpriteIfAvailable()
+    {
+        if (replacementGoodsSprite != null && interactiveObjectSpriteRenderer != null)
+        {
+            ReplaceGoodsSprite(replacementGoodsSprite);
         }
     }
 
@@ -523,6 +582,29 @@ public class InteractiveCat : CatBase
         {
             spriteRenderer.sprite = newSprite;
             //spriteRenderer.color = Color.gray;
+        }
+    }
+
+    /// <summary>
+    /// 替换交互物体精灵
+    /// </summary>
+    /// <param name="newSprite">新图</param>
+    private void ReplaceGoodsSprite(Sprite newSprite)
+    {
+        if (interactiveObjectSpriteRenderer != null)
+        {
+            interactiveObjectSpriteRenderer.sprite = newSprite;
+        }
+    }
+
+    /// <summary>
+    /// 恢复交互物体原始精灵
+    /// </summary>
+    private void RestoreGoodsSprite()
+    {
+        if (interactiveObjectSpriteRenderer != null && originalGoodsSprite != null)
+        {
+            interactiveObjectSpriteRenderer.sprite = originalGoodsSprite;
         }
     }
 
