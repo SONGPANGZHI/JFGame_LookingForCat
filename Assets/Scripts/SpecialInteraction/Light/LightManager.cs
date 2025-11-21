@@ -22,6 +22,8 @@ public class LightManager : MonoBehaviour
 
     public List<SkeletonAnimation> stageCat;
 
+    public GameObject npc;
+    public GameObject musical;
 
     private void Awake()
     {
@@ -81,6 +83,8 @@ public class LightManager : MonoBehaviour
     /// </summary>
     public void OpenStageCat()
     {
+        npc.SetActive(false);
+
         for (int i = 0; i < stageCat.Count; i++)
         {
             stageCat[i].GetComponent<MeshRenderer>().enabled = true;
@@ -147,6 +151,8 @@ public class LightManager : MonoBehaviour
     {
         isPuzzleSolved = true;
 
+        musical.SetActive(false);
+        
         // 打开所以猫猫
         OpenCat();
 
@@ -179,6 +185,42 @@ public class LightManager : MonoBehaviour
         celebrationAnim.gameObject.SetActive(true);
         celebrationAnim.state.SetAnimation(0, "Sports", true);
     }
+
+
+    //IEnumerator CloseNpcSprite()
+    //{
+    //    foreach (var item in otherNpc)
+    //    {
+    //        yield return StartCoroutine(FadeInCat(item));
+    //    }
+
+       
+    //}
+
+    //[SerializeField] private float fadeDuration = 0.5f; // 渐显持续时间
+    //IEnumerator FadeInCat(GameObject catSprite)
+    //{
+    //    float elapsedTime = 0f;
+    //    Color color = catSprite.GetComponent<SpriteRenderer>().color;
+
+    //    while (elapsedTime < fadeDuration)
+    //    {
+    //        // 计算当前的透明度（从0到1）
+    //        color.a = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+    //        catSprite.GetComponent<SpriteRenderer>().color = color;
+
+    //        elapsedTime += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //    // 确保最终完全显示
+    //    color.a = 0f;
+    //    catSprite.GetComponent<SpriteRenderer>().color = color;
+
+    //    // 打开所以猫猫
+    //    OpenCat();
+
+    //}
 
     #endregion
 

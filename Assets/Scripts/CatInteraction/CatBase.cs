@@ -11,9 +11,6 @@ public class CatBase : MonoBehaviour
     public SkeletonAnimation catAnim;
     public bool loopAnim = true;
 
-    [Header("通用配置")]
-    public ParticleSystem foundEffect;
-
     // 猫找到后的特殊行为字典
     private static Dictionary<int, Action> catSpecialActions;
 
@@ -79,7 +76,6 @@ public class CatBase : MonoBehaviour
         isFound = true;
         SetCatAppearance();
 
-        SpawnEffect();
         int randomIndex = UnityEngine.Random.Range(0,13);
         MusicManager.Instance.PlaySFX(randomIndex);
 
@@ -130,16 +126,6 @@ public class CatBase : MonoBehaviour
     public void PlayAnim(int layer, string animName, bool loop)
     {
         catAnim.state.SetAnimation(layer, animName, loop);
-    }
-
-    public void SpawnEffect()
-    {
-        if (foundEffect != null)
-        {
-            ParticleSystem effect = Instantiate(foundEffect, transform);
-            //effect.layer = layerIndex
-            effect.Play();
-        }
     }
 
     public Color RandomCatColor()

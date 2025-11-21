@@ -79,6 +79,9 @@ public class AssemblePuzzleManager : MonoBehaviour
         {
             SpecificAssembled();
         }
+
+        if (set.spriteReple != null)
+            set.spriteReple.enabled = true;
     }
 
     /// <summary>
@@ -127,6 +130,8 @@ public class AssemblePuzzleManager : MonoBehaviour
                     cat.GetComponent<Collider2D>().enabled = true;
                 }
 
+                if (set.spriteReple != null)
+                    set.spriteReple.enabled = true;
             }
             else
             {

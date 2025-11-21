@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using static SyllableGame;
 
 /// <summary>
 /// 音节小游戏
@@ -18,6 +16,7 @@ public class SyllableGame : MonoBehaviour
         public Collider2D clickCollider;         // 2D碰撞器
         public string clickAnimation = "stay";
         public Transform targetPosition;      // 音符移动的目标位置（可选）
+        public Vector3 originalNotePosition;  // 音符原始位置
     }
 
     [Header("2D Spine按钮设置")]
@@ -31,6 +30,7 @@ public class SyllableGame : MonoBehaviour
     public bool enableHints = true;
     public float noteScaleDuration = 0.5f;    // 音符缩放动画时长
     public float noteMoveDuration = 0.8f;     // 音符移动动画时长
+    public float wrongNoteDisplayTime = 0.5f; // 错误音符显示时间
     public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
@@ -68,9 +68,10 @@ public class SyllableGame : MonoBehaviour
             colliderToIndexMap[spineButton.clickCollider] = buttonIndex;
             indexToSpineButtonMap[buttonIndex] = spineButton;
 
-            // 初始化音符状态
+            // 保存音符原始位置
             if (spineButton.noteSprite != null)
             {
+                spineButton.originalNotePosition = spineButton.noteSprite.transform.position;
                 spineButton.noteSprite.SetActive(false);
                 spineButton.noteSprite.transform.localScale = Vector3.zero;
             }
@@ -137,7 +138,7 @@ public class SyllableGame : MonoBehaviour
         else
         {
             // 错误点击
-            StartCoroutine(HandleWrongClick2D());
+            StartCoroutine(HandleWrongClick2D(spineButton, buttonIndex));
         }
     }
 
@@ -207,7 +208,7 @@ public class SyllableGame : MonoBehaviour
         }
     }
 
-    IEnumerator HandleWrongClick2D()
+    IEnumerator HandleWrongClick2D(SpineButton2D clickedSpineButton, int clickedButtonIndex)
     {
         // 先停止所有正在运行的音符动画
         foreach (var coroutine in activeCoroutines.Values)
@@ -219,22 +220,85 @@ public class SyllableGame : MonoBehaviour
         }
         activeCoroutines.Clear();
 
+        // 为点击的错误按钮播放错误音符显示效果
+        if (clickedSpineButton.noteSprite != null)
+        {
+            yield return StartCoroutine(PlayWrongNoteEffect(clickedSpineButton));
+        }
+
         // 设置错误颜色
         foreach (var spineButton in spineButtons)
         {
             ChangeSpineColor(spineButton, spineColors[1]);
-
-            // 立即隐藏音符（不需要动画）
-            if (spineButton.noteSprite != null)
-            {
-                spineButton.noteSprite.SetActive(false);
-                spineButton.noteSprite.transform.localScale = Vector3.zero;
-            }
         }
 
         yield return new WaitForSeconds(resetDelay);
 
         ResetAllSpineButtons();
+    }
+
+    IEnumerator PlayWrongNoteEffect(SpineButton2D spineButton)
+    {
+        if (spineButton.noteSprite == null) yield break;
+
+        // 激活音符
+        spineButton.noteSprite.SetActive(true);
+
+        Vector3 startPosition = spineButton.originalNotePosition;
+        Vector3 targetPosition = spineButton.targetPosition != null ?
+            spineButton.targetPosition.position : startPosition;
+
+        Vector3 startScale = Vector3.zero;
+        Vector3 targetScale = Vector3.one;
+
+        float timer = 0f;
+
+        // 播放出现动画
+        while (timer < noteScaleDuration)
+        {
+            timer += Time.deltaTime;
+            float scaleProgress = timer / noteScaleDuration;
+            float scaleValue = scaleCurve.Evaluate(scaleProgress);
+            spineButton.noteSprite.transform.localScale = Vector3.Lerp(startScale, targetScale, scaleValue);
+
+            // 同时移动
+            if (timer <= noteMoveDuration)
+            {
+                float moveProgress = timer / noteMoveDuration;
+                float moveValue = moveCurve.Evaluate(moveProgress);
+                spineButton.noteSprite.transform.position = Vector3.Lerp(startPosition, targetPosition, moveValue);
+            }
+
+            yield return null;
+        }
+
+        // 确保最终状态
+        spineButton.noteSprite.transform.localScale = targetScale;
+        spineButton.noteSprite.transform.position = targetPosition;
+
+        // 等待一段时间
+        yield return new WaitForSeconds(wrongNoteDisplayTime);
+
+        // 播放消失动画（反向缩放）
+        timer = 0f;
+        Vector3 disappearStartScale = spineButton.noteSprite.transform.localScale;
+        Vector3 disappearEndScale = Vector3.zero;
+
+        while (timer < noteScaleDuration)
+        {
+            timer += Time.deltaTime;
+            float scaleProgress = timer / noteScaleDuration;
+            float scaleValue = scaleCurve.Evaluate(scaleProgress);
+            spineButton.noteSprite.transform.localScale = Vector3.Lerp(disappearStartScale, disappearEndScale, scaleValue);
+            yield return null;
+        }
+
+        // 确保最终状态
+        spineButton.noteSprite.transform.localScale = Vector3.zero;
+        spineButton.noteSprite.SetActive(false);
+
+        // 重置音符位置到原始位置
+        spineButton.noteSprite.transform.position = spineButton.originalNotePosition;
     }
 
     bool CheckCurrentSequence()
@@ -274,9 +338,7 @@ public class SyllableGame : MonoBehaviour
             {
                 spineButton.noteSprite.SetActive(false);
                 spineButton.noteSprite.transform.localScale = Vector3.zero;
-
-                // 重置位置到原始位置（如果需要）
-                // 注意：这里需要保存原始位置或者在SpineButton2D中添加startPosition字段
+                spineButton.noteSprite.transform.position = spineButton.originalNotePosition;
             }
         }
 
@@ -331,7 +393,6 @@ public class SyllableGame : MonoBehaviour
         Debug.Log("任务完成！");
 
         ShowCat();
-
     }
 
     /// <summary>
@@ -348,14 +409,12 @@ public class SyllableGame : MonoBehaviour
             {
                 spineButtons[i].clickCollider.gameObject.SetActive(false);
             }
-
         }
 
         catID_136.GetComponent<MeshRenderer>().enabled = true;
         catID_136.GetComponent<SkeletonAnimation>().enabled = true;
         catID_136.enabled = true;
     }
-
 
     IEnumerator PlayCelebrationEffect(Transform noteTransform)
     {
@@ -391,5 +450,4 @@ public class SyllableGame : MonoBehaviour
         }
     }
 
-    
 }

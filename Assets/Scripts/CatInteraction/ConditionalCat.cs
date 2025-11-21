@@ -18,7 +18,6 @@ public class ConditionalCat : CatBase
     private void Start()
     {
         Initialize();
-        SetHiddenState(true);
 
         if (GameManager.Instance.progressManager.IsCatFound(47))
         {
@@ -30,7 +29,7 @@ public class ConditionalCat : CatBase
     public void CheckCondition()
     {
         if (isFound) return;
-
+       
         bool conditionMet = false;
 
         switch (conditionType)
@@ -51,6 +50,7 @@ public class ConditionalCat : CatBase
 
         if (conditionMet)
         {
+            Debug.LogError("-------");
             SetHiddenState(false);
         }
     }

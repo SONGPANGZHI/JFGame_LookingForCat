@@ -228,10 +228,6 @@ public class UIManager : MonoBehaviour
             OpenSettingPlane(openIndex);
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            winPlane.gameObject.SetActive(false);
-        }
     }
 
     /// <summary>
@@ -272,7 +268,14 @@ public class UIManager : MonoBehaviour
             // 胜利
             winPlane.gameObject.SetActive(true);
             winPlane.AnimationState.SetAnimation(0, "animation", true);
+
+            Invoke("CloseWinObject",5f);
         }
+    }
+
+    public void CloseWinObject()
+    {
+        winPlane.gameObject.SetActive(false);
     }
 
     // ID_87 开始拼图

@@ -64,6 +64,7 @@ public class PuzzleSet
 {
     public int puzzleID;
     public bool isCompleted;
+    public SpriteRenderer spriteReple;
     public List<GameObject> catOBJ; // 对应的猫猫对象
     public AssemblePuzzlePiece[] pieces;
 

@@ -147,7 +147,6 @@ public class SaveSystem : MonoBehaviour
                     cat.GetComponent<SpriteRenderer>().color = cat.RandomCatColor();
                 }
 
-                cat.SpawnEffect();
             }
         }
 

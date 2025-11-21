@@ -368,7 +368,7 @@ public class SevenSeasDeluxe : MonoBehaviour
     {
         //切换钓鱼动画
         cat_31.GetComponent<SkeletonAnimation>().state.SetAnimation(0, "Stay", true);
-
+        cat_31.GetComponent<Collider2D>().enabled = true;
         //美人鱼猫猫显示
         cat_30.GetComponent<MeshRenderer>().enabled = true;
         cat_30.GetComponent<BoxCollider2D>().enabled = true;
@@ -384,6 +384,7 @@ public class SevenSeasDeluxe : MonoBehaviour
 
     public void ChangeCatColor_30()
     {
+        cat_31.GetComponent<Collider2D>().enabled = true;
         cat_30.GetComponent<SkeletonAnimation>().Skeleton.SetColor(cat_30.RandomCatColor());
     }
 
