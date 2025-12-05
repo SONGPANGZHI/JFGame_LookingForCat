@@ -26,13 +26,11 @@ public class FindEarthworm : MonoBehaviour
     /// </summary>
     public void ClickEarthwormObject()
     {
-        int currentLoveNum = PlayerPrefs.GetInt("SaveEarthwormAmount");
+        // 改变小爱心数量显示
+        CrabManager.Instance.ClickItem(itemType);
+
         gameObject.SetActive(false);
         PlayerPrefs.SetString("EarthwormKey_" + earthwormID, "Earthworm_" + earthwormID);
-
-        // 改变小爱心数量显示
-        CrabManager.Instance.UpdateItemAmount(itemType, currentLoveNum - 1);
-        PlayerPrefs.SetInt("SaveEarthwormAmount", currentLoveNum - 1);
     }
 
     /// <summary>

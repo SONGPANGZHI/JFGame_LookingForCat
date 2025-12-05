@@ -11,7 +11,7 @@ public class SlidingPuzzleTile : MonoBehaviour
     [HideInInspector]
     public int spriteIndex; // 这个拼图块对应的图片索引
 
-    private Image tileImage;
+    public Image tileImage;
     private SlidingPuzzleManager puzzleManager;
 
     //void Awake()

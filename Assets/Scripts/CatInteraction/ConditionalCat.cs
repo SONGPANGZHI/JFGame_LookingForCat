@@ -50,7 +50,6 @@ public class ConditionalCat : CatBase
 
         if (conditionMet)
         {
-            Debug.LogError("-------");
             SetHiddenState(false);
         }
     }
@@ -74,6 +73,7 @@ public class ConditionalCat : CatBase
         foreach (var obj in hiddenObjects)
         {
             obj.SetActive(!hidden);
+            this.GetComponent<Collider2D>().enabled = !hidden;
         }
 
         foreach (var item in defaultHiddenObjects)

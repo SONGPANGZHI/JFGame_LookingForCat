@@ -1,6 +1,10 @@
 ﻿using Spine.Unity;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,6 +46,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private int catAllNumber = 150;
+
+    [SerializeField] private SpriteRenderer coloring;
 
     private void Awake()
     {
@@ -227,7 +233,6 @@ public class UIManager : MonoBehaviour
             openIndex += 1;
             OpenSettingPlane(openIndex);
         }
-
     }
 
     /// <summary>
@@ -262,13 +267,20 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void UpdateProgressUI()
     {
-        foundCountText.text = $"{GameManager.Instance.progressManager.FoundCatCount}/{GameManager.Instance.progressManager.TotalCatCount}";
-        if (GameManager.Instance.progressManager.FoundCatCount >= catAllNumber)
+        int catCount = GameManager.Instance.progressManager.FoundCatCount;
+        foundCountText.text = $"{catCount}/{GameManager.Instance.progressManager.TotalCatCount}";
+
+        if (catCount >= catAllNumber)
         {
+            //添加Steam 成就
+            AchievementManager.Instance.UnlockAchievement("ACH_FINDALLCATS");
+
+            inputManager.SetUIOpenState(true);
+
             // 胜利
             winPlane.gameObject.SetActive(true);
             winPlane.AnimationState.SetAnimation(0, "animation", true);
-
+            StartCoroutine(FadeIn());
             Invoke("CloseWinObject",5f);
         }
     }
@@ -276,6 +288,28 @@ public class UIManager : MonoBehaviour
     public void CloseWinObject()
     {
         winPlane.gameObject.SetActive(false);
+    }
+
+    public float duration = 5f;
+    IEnumerator FadeIn()
+    {
+        coloring.gameObject.SetActive(true);
+        Color c = coloring.color;
+        c.a = 0;
+        coloring.color = c;
+
+        float t = 0;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            c.a = Mathf.Lerp(0, 1, t / duration);
+            coloring.color = c;
+            yield return null;
+        }
+
+        // 保证最终完全显示
+        c.a = 1;
+        coloring.color = c;
     }
 
     // ID_87 开始拼图
@@ -320,11 +354,26 @@ public class UIManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 寻找小游戏 小猫
+    /// </summary>
+    public void FindSmallGameCat()
+    {
+        bool isCompleted_112 = GameManager.Instance.progressManager.IsCatFound(112);
+        bool isCompleted_122 = GameManager.Instance.progressManager.IsCatFound(122);
+        bool isCompleted_87 = GameManager.Instance.progressManager.IsCatFound(87);
+        bool isCompleted_85 = GameManager.Instance.progressManager.IsCatFound(85);
+
+        //添加Steam 成就
+        if (isCompleted_112 && isCompleted_122 && isCompleted_87 && isCompleted_85)
+            AchievementManager.Instance.UnlockAchievement("ACH_SMALLGAMECAT");
+    }
+
 
     public void ShowCatFoundPopup(CatBase cat)
     {
         Debug.Log($"猫猫 #{cat.catID} 被找到");
     }
 
-
+    
 }

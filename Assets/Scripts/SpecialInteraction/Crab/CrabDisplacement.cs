@@ -76,7 +76,6 @@ public class CrabDisplacement : MonoBehaviour
             animationCurve: moveCurve
         );
 
-        Debug.Log("螃蟹已移动到目标位置");
     }
 
 

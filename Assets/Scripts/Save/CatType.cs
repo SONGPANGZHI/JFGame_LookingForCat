@@ -56,6 +56,10 @@ public class SaveData
 {
     public int[] foundCatIDs;
     public int itemCount;
+
+    public int crabAmount = 20;
+    public int earthwormAmount = 5;
+    public int loveAmount = 10;
 }
 
 [System.Serializable]

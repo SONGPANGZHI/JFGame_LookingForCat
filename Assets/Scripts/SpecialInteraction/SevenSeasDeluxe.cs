@@ -149,6 +149,8 @@ public class SevenSeasDeluxe : MonoBehaviour
         otherCat.SetActive(true);
         ShowCat_038(true);
 
+        //添加Steam 成就
+        AchievementManager.Instance.UnlockAchievement("ACH_SEAFARECAT");
         if (!isMoving)
         {
             //UniversalMovementController.Instance.CameraMove(cameraTargetPos);

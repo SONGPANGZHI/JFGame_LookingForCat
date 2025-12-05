@@ -51,6 +51,14 @@ public class CatBase : MonoBehaviour
             { 24, ()=>AmusementPark.Instance.PlayChildrenSlideAnim() },
             { 129, ()=>SevenSeasDeluxe.Instance.JudgeLoveCatMove() },
             { 150, ()=>SevenSeasDeluxe.Instance.JudgeLoveCatMove() },
+            { 149, ()=>AchievementManager.Instance.UnlockAchievement("ACH_FAIRYCAT") },
+            { 117, ()=>AchievementManager.Instance.UnlockAchievement("ACH_CRABCAT") },
+            { 112, ()=>UIManager.Instance.FindSmallGameCat() },
+            { 122, ()=>UIManager.Instance.FindSmallGameCat() },
+            { 87, ()=>UIManager.Instance.FindSmallGameCat() },
+            { 85, ()=>UIManager.Instance.FindSmallGameCat() }
+
+
         };
     }
 

@@ -31,16 +31,19 @@ public class LightManager : MonoBehaviour
         {
             Instance = this;
         }
+
     }
 
     void Start()
     {
+        JuageSingsOpen();
+
         if (!PlayerPrefs.HasKey("StageKey"))
             InitializeLight();
         else
             PuzzleSolved();
 
-        JuageSingsOpen();
+        
         JuageStageCatUnlck();
     }
 
@@ -84,7 +87,6 @@ public class LightManager : MonoBehaviour
     public void OpenStageCat()
     {
         npc.SetActive(false);
-
         for (int i = 0; i < stageCat.Count; i++)
         {
             stageCat[i].GetComponent<MeshRenderer>().enabled = true;
@@ -106,8 +108,11 @@ public class LightManager : MonoBehaviour
             stageCat[i].state.SetAnimation(0, "Sports", true);
         }
 
+        //添加Steam 成就
+        AchievementManager.Instance.UnlockAchievement("ACH_STAGECAT");
         PlayerPrefs.SetString("SwitchBGKey", "SwitchBG");
         MusicManager.Instance.PlayBGM(1);
+
     }
 
 
@@ -131,6 +136,13 @@ public class LightManager : MonoBehaviour
                 light.SetColor(Color.black);
             }
         }
+
+        // 确保初始状态不是解谜成功状态
+        if (CheckSolution())
+        {
+            // 把任意一个灯设置成不是正确颜色
+            lights[0].SetColor(Color.black);
+        }
     }
 
     // 检查灯光是否匹配
@@ -143,6 +155,7 @@ public class LightManager : MonoBehaviour
                 return false;
             }
         }
+
         return true;
     }
 
@@ -160,6 +173,8 @@ public class LightManager : MonoBehaviour
         PlayCelebrationAnim();
 
         PlayerPrefs.SetString("StageKey", "Stageunlock");
+
+
         
     }
 
@@ -187,41 +202,7 @@ public class LightManager : MonoBehaviour
     }
 
 
-    //IEnumerator CloseNpcSprite()
-    //{
-    //    foreach (var item in otherNpc)
-    //    {
-    //        yield return StartCoroutine(FadeInCat(item));
-    //    }
-
-       
-    //}
-
-    //[SerializeField] private float fadeDuration = 0.5f; // 渐显持续时间
-    //IEnumerator FadeInCat(GameObject catSprite)
-    //{
-    //    float elapsedTime = 0f;
-    //    Color color = catSprite.GetComponent<SpriteRenderer>().color;
-
-    //    while (elapsedTime < fadeDuration)
-    //    {
-    //        // 计算当前的透明度（从0到1）
-    //        color.a = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-    //        catSprite.GetComponent<SpriteRenderer>().color = color;
-
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    // 确保最终完全显示
-    //    color.a = 0f;
-    //    catSprite.GetComponent<SpriteRenderer>().color = color;
-
-    //    // 打开所以猫猫
-    //    OpenCat();
-
-    //}
-
+   
     #endregion
 
 

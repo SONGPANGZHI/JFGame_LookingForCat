@@ -26,13 +26,11 @@ public class FindLove : MonoBehaviour
     /// </summary>
     public void ClickLoveObject()
     {
-        int currentLoveNum = PlayerPrefs.GetInt("SaveLoveAmount");
+        // 改变小爱心数量显示
+        CrabManager.Instance.ClickItem(itemType);
+
         gameObject.SetActive(false);
         PlayerPrefs.SetString("LoveKey_" + loveID, "Love_" + loveID);
-
-        // 改变小爱心数量显示
-        CrabManager.Instance.UpdateItemAmount(itemType, currentLoveNum - 1);
-        PlayerPrefs.SetInt("SaveLoveAmount", currentLoveNum - 1);
     }
 
     /// <summary>

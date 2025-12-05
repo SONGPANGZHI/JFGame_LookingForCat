@@ -73,8 +73,7 @@ public class SlidingPuzzleManager : MonoBehaviour
     {
         UIManager.Instance.OtherParameters(true);
         puzzlePlane.SetActive(false);
-        catID_122.enabled = true;
-        catID_122.GetComponent<Collider2D>().enabled = true;
+        UnlockCat_122();
     }
 
     public void UnlockCat_122()
@@ -270,43 +269,28 @@ public class SlidingPuzzleManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        // 首先检查空白格是否在正确的位置（第八个位置，即2,2）
-        if (emptyTilePos.x != 2 || emptyTilePos.y != 2)
-        {
-            return; // 空白格不在正确位置，直接返回
-        }
-
-        // 然后检查所有非空白位置的拼图块
         for (int y = 0; y < gridSize; y++)
         {
             for (int x = 0; x < gridSize; x++)
             {
-                // 跳过空白位置
-                if (x == 2 && y == 2)
-                    continue;
-
-                SlidingPuzzleTile tile = tiles[x, y];
-
-                // 检查拼图块是否存在
-                if (tile == null)
-                {
-                    Debug.Log($"位置({x},{y})缺少拼图块");
-                    return;
-                }
-
-                // 检查拼图块是否在正确的位置
-                if (tile.currentPos.x != x || tile.currentPos.y != y)
-                {
-                    Debug.Log($"位置({x},{y})的拼图块位置不正确");
-                    return;
-                }
-
-                // 检查这个位置上的拼图块是否有正确的图片索引
                 int correctIndex = correctTileIndices[x, y];
-                if (tile.spriteIndex != correctIndex)
+
+                if (correctIndex == -1)
                 {
-                    Debug.Log($"位置({x},{y})的图片索引不正确: 当前{tile.spriteIndex}, 应该{correctIndex}");
-                    return;
+                    // 这一格应该是空白
+                    if (tiles[x, y] != null)
+                        return;
+                }
+                else
+                {
+                    // 这一格应该有 tile
+                    SlidingPuzzleTile tile = tiles[x, y];
+                    if (tile == null) return;
+
+                    if (tile.spriteIndex != correctIndex)
+                    {
+                        return;
+                    }
                 }
             }
         }

@@ -60,6 +60,9 @@ public class SaveSystem : MonoBehaviour
         {
             foundCatIDs = GameManager.Instance.progressManager.GetFoundCatIDs(),
             itemCount = GameManager.Instance.progressManager.ItemCount,
+            crabAmount = GameManager.Instance.progressManager.CrabAmount,
+            earthwormAmount = GameManager.Instance.progressManager.EarthwormAmount,
+            loveAmount = GameManager.Instance.progressManager.LoveAmount
         };
 
         SaveDataToFile(data);
@@ -72,7 +75,10 @@ public class SaveSystem : MonoBehaviour
         SaveData data = new SaveData
         {
             foundCatIDs = new int[0],
-            itemCount = 0
+            itemCount = 0,
+            crabAmount = 20,
+            earthwormAmount = 5,
+            loveAmount = 10
         };
 
         SaveDataToFile(data);
@@ -126,7 +132,7 @@ public class SaveSystem : MonoBehaviour
         }
 
         // 恢复游戏进度
-        GameManager.Instance.progressManager.LoadProgress(data.foundCatIDs, data.itemCount);
+        GameManager.Instance.progressManager.LoadProgress(data.foundCatIDs, data.itemCount,data.crabAmount,data.earthwormAmount,data.loveAmount);
 
         foreach (int catID in data.foundCatIDs)
         {

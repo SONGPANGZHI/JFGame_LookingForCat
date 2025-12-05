@@ -10,7 +10,6 @@ public class AssemblePuzzlePiece : MonoBehaviour
 
 
     private float moveSpeed = 5f;     // 移动速度
-    private float rotationSpeed = 5f;
     private bool isMoving = false;
     private Vector3 startPosition;
     private Vector3 startScale;
